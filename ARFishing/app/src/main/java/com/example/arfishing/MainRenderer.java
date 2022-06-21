@@ -25,6 +25,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     CameraPreView mCamera;
     ObjRenderer fishingRod, point, fish, water;
 
+    boolean drawRod, drawPoint, drawFish, drawWater;
+
     MainRenderer(RenderCallBack myCallBack, Context context){
         this.myCallBack = myCallBack;
         this.context = context;
@@ -63,16 +65,21 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera.draw();
         GLES30.glDepthMask(true);
 
-        fishingRod.draw();
-        point.draw();
-
-        if(fish != null){
+        if(drawRod) {
+            fishingRod.draw();
+        }
+        if(drawPoint) {
+            point.draw();
+        }
+        if(fish != null && drawFish){
             if(!fish.isInit){
                 fish.init();
             }
             fish.draw();
         }
-        water.draw();
+        if(drawWater) {
+            water.draw();
+        }
     }
 
     void onDisplayChanged(){

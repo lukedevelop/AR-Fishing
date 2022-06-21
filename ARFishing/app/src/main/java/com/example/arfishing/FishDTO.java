@@ -3,7 +3,7 @@ package com.example.arfishing;
 public class FishDTO {
 
     int fish_id;
-    String fish_name, fish_area, fish_scale, fish_rotation;
+    String fish_name, fish_area, fish_scale, fish_rotation, fish_explain;
 
     @Override
     public String toString() {

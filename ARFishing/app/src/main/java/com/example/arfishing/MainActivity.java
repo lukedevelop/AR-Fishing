@@ -223,7 +223,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (castingBtn.getText().toString().equals("완료")) {
                     if (!setRod) {
-                        setRod = true;
+
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
                         castingBtn.setText("캐스팅");
 
@@ -261,6 +261,7 @@ public class MainActivity extends FragmentActivity {
                     Matrix.translateM(fishMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
                     Matrix.scaleM(pointMatrix, 0, 1.5f, 1.5f, 1.5f);
                     mRenderer.point.setModelMatrix(pointMatrix);
+                    mRenderer.drawPoint = true;
 
 //                    Matrix.translateM(waterMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
 //                    Matrix.translateM(waterMatrix, 0, -398f, -14850f, 2362f);
@@ -341,6 +342,7 @@ public class MainActivity extends FragmentActivity {
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
+                            mRenderer.drawRod = true;
 
                             waterMatrix = new float[16];
                             pose.toMatrix(waterMatrix, 0);
@@ -348,6 +350,7 @@ public class MainActivity extends FragmentActivity {
                             Matrix.translateM(waterMatrix, 0, 0, -20f, -40f);
                             Matrix.scaleM(waterMatrix, 0, 0.001f, 0.001f, 0.001f);
                             mRenderer.water.setModelMatrix(waterMatrix);
+                            mRenderer.drawWater = true;
 
                             runOnUiThread(new Runnable() {
                                 @Override
