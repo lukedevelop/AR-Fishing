@@ -96,7 +96,7 @@ public class Inventory_fish_Fragment extends Fragment {
                 adapter.addItem(new BaitItem(
                         inventoryDTO.item_name,
                         inventoryDTO.item_explain,
-                        0,
+                        inventoryDTO.item_price,
                         inventoryDTO.item_amount,
                         choiceImg(inventoryDTO.item_id)));
             }
@@ -169,8 +169,35 @@ public class Inventory_fish_Fragment extends Fragment {
         int num = R.drawable.bait_gunsaewoo;
         switch(id) {
             case 1:
-                num = R.drawable.boongu;
-                // TODO- 물고기들 이미지 넣기
+                num = R.drawable.img_bass;
+                break;
+            case 2:
+                num = R.drawable.img_boosiri;
+                break;
+            case 3:
+                num = R.drawable.img_fishbones;
+                break;
+            case 4:
+                num = R.drawable.img_goldfish;
+                break;
+            case 5:
+                num = R.drawable.img_jellyfish;
+                break;
+            case 6:
+                num = R.drawable.img_nimo;
+                break;
+            case 7:
+                num = R.drawable.img_rock;
+                break;
+            case 8:
+                num = R.drawable.img_samsik;
+                break;
+            case 9:
+                num = R.drawable.img_spongebob;
+                break;
+            case 10:
+                num = R.drawable.img_turtle;
+                break;
         }
 
         return num;

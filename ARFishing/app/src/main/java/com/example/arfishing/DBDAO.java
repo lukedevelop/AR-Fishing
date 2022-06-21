@@ -47,6 +47,29 @@ public class DBDAO {
         return informationDTO;
     }
 
+    int select_money_MemberDB() {
+        int money = 0;
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select money from member",null);
+        while(cursor.moveToNext()) {
+            money = cursor.getInt(0);
+        }
+
+        db.close();
+
+        return money;
+    }
+
+    void update_money_MemberDB(int money) {
+        db = myDB.getReadableDatabase();
+        db.execSQL("update member set money = " +
+                money +
+                " where id = 1"
+        );
+
+        db.close();
+    }
+
     void updateMemberDB(String which,String nickName, int catchFish, int hasFish, int money) {
         db = myDB.getWritableDatabase();
         switch (which) {
@@ -85,6 +108,31 @@ public class DBDAO {
         }
 
         db.close();
+    }
+
+    int select_Inventory_amount_DB(String type, String itemName) {
+        int amount = 0;
+        // 지금 가지고 있는 양 가져오기
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery( "select " + type + "_amount from inventory_" + type + " where " + type + "_name = '" + itemName + "'"
+                ,null);
+        while(cursor.moveToNext()) {
+            amount = cursor.getInt(0);
+        }
+        return amount;
+    }
+
+    void update_Inventory_amount_DB(String type, String itemName, int itemAmount) {
+        db = myDB.getReadableDatabase();
+        db.execSQL("update inventory_"+ type +
+                " set " + type+"_amount = " + itemAmount +
+                " where " + type + "_name = '" +
+                itemName + "'"
+        );
+
+        db.close();
+
+
     }
 
     ArrayList<InventoryDTO> selectInventory(String name) {
@@ -131,6 +179,8 @@ public class DBDAO {
 
 
     }
+
+
 
     class MyDB extends SQLiteOpenHelper {
 

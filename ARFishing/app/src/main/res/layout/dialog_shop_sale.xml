@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="판매"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/dialog_shop_sale_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="부시리 몇 마리를 판매하시겠습니까?"
+        />
+    <TextView
+        android:id="@+id/dialog_shop_sale_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:text="0"
+        />
+    <SeekBar
+        android:id="@+id/seekBar_shop_sale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/dialog_shop_sale_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Cancel"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:padding="5dp"
+            />
+        <TextView
+            android:id="@+id/dialog_shop_sale_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="OK"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:padding="5dp"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
