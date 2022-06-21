@@ -127,8 +127,28 @@ public class DBDAO {
         db.close();
 
         return questDTO_arr;
+    }
 
+    FishDTO getFishInfo(String name){
+        FishDTO fishDTO = new FishDTO();
 
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from fish where fish_name = '"+name+"'", null);
+        while(cursor.moveToNext()){
+            fishDTO.fish_id = cursor.getInt(0);
+            fishDTO.fish_name = cursor.getString(1);
+            fishDTO.fish_area = cursor.getString(3);
+            fishDTO.fish_scale = cursor.getString(4);
+            fishDTO.fish_rotation = cursor.getString(5);
+        }
+        db.close();
+
+        return fishDTO;
+    }
+
+    void plusFishInventory(String name){
+        db = myDB.getWritableDatabase();
+        
     }
 
     class MyDB extends SQLiteOpenHelper {
