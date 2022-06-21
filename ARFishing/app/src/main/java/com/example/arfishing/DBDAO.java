@@ -197,7 +197,12 @@ public class DBDAO {
 
     void plusFishInventory(String name){
         db = myDB.getWritableDatabase();
-        
+        System.out.println("update inventory_fish set fish_amount = " +
+                "(select fish_amount from inventory_fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
+        db.execSQL("update inventory_fish set fish_amount = " +
+                "(select fish_amount from inventory_fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
+        db.close();
+
     }
 
 

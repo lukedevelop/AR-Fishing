@@ -105,6 +105,7 @@ public class CatchFish extends Thread{
 
 
         //고기가 잡히면 찌 사라지고 고기로 바뀜
+        //todo 찬욱) 물고기 잡히는 부분
         if(isCaught) {
 
             int ranNum = (int) (Math.random()*100)+1;
@@ -141,6 +142,8 @@ public class CatchFish extends Thread{
                 }
             });
 
+            new DBDAO(mainActivity).plusFishInventory(fishName);
+
 
             //다시 30초 타이머 시작
             //시간이 다 흐르면 타이머 스탑, 고기도 놓침
@@ -175,7 +178,6 @@ public class CatchFish extends Thread{
 
 
             //시간 안에 이미지를 찍으면 타이머는 멈추고 고기는 포획됨
-            //todo 찬욱) 물고기 잡히는 부분
             new Thread() {
                 @Override
                 public void run() {
