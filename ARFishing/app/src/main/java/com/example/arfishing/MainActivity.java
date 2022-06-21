@@ -57,6 +57,7 @@ public class MainActivity extends FragmentActivity {
     boolean mTouched = false, setRod = false, casting = false;
     boolean imageCatched = false;
 
+
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
@@ -375,7 +376,10 @@ public class MainActivity extends FragmentActivity {
                 camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100f);
                 camera.getViewMatrix(viewMatrix, 0);
 
-                drawImages(frame);
+
+                    drawImages(frame);
+
+
 //                System.out.println(drawImages(frame));
 
                 mRenderer.updateProjMatrix(projMatrix);
@@ -497,23 +501,26 @@ public class MainActivity extends FragmentActivity {
 
     void drawImages(Frame frame){
         Collection<AugmentedImage> agImgs = frame.getUpdatedTrackables(AugmentedImage.class);
-
+        Log.d("상점1", "ㅁㅁ");
         for (AugmentedImage img : agImgs) {
-            if (img.getTrackingState() == TrackingState.TRACKING) {
-                Log.d("야호", "ㅁㅁ");
+            Log.d("상점2", "ㅁㅁ");
+            if (img.getTrackingState() == TrackingState.TRACKING
+                    ) {
+                Log.d("상점3", "ㅁㅁ");
                 switch (img.getName()) {
 
                     case "shop_npc":
+                        Log.d("상점4", "ㅁㅁ");
                         if(!isShopInit) {
                             isShopInit = true;
-                            Log.d("야호", "ㅁㅁ");
+
                             showCustomDialog();
                         }
-
+                        Log.d("상점", "ㅁㅁ");
                         break;
 
                     case "bucket":
-                        imageCatched = true;
+                        Log.d("양동이", "ㅁㅁ");
                         break;
                 }
             }
@@ -595,8 +602,10 @@ public class MainActivity extends FragmentActivity {
                                 .replace(R.id.frameLayout_menu, shop_fragment,"shop")
                                 .commit();
 
+//                        imageCatched = false;
+
                         // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야 백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라1
-//                isShopInit = false;
+                        isShopInit = false;
                     }
                 });
                 TextView tv_cancel = (TextView) customDialog.findViewById(R.id.tv_cancel);
@@ -605,10 +614,12 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
+                        isShopInit = false;
 
+//                        imageCatched = false;
 
                         // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야   백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라2
-//                isShopInit = false;
+//                        isShopInit = false;
                     }
                 });
 

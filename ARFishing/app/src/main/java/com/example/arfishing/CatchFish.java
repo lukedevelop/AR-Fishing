@@ -146,6 +146,7 @@ public class CatchFish extends Thread{
             new DBDAO(mainActivity).plusFishInventory(fishName);
 
 
+
             //다시 30초 타이머 시작
             //시간이 다 흐르면 타이머 스탑, 고기도 놓침
             //todo 찬욱) 시간 스레드2 >> 여기가 시간이 늘어나면 고기 잡고 나서 양동이 사진 찍기까지 시간이 널널해짐
@@ -247,4 +248,33 @@ public class CatchFish extends Thread{
                 //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
         }
     }
+
+    void check_quest_DB() {
+        //
+        new DBDAO(mainActivity).update_quest_now_DB(0);
+        new DBDAO(mainActivity).update_quest_complete_DB();
+        // count 와 now 검사 후 complete 체크
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

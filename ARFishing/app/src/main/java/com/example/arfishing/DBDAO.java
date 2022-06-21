@@ -207,6 +207,76 @@ public class DBDAO {
 
 
 
+//    ArrayList<Integer> select_quest_count_DB(int id) {
+//        db = myDB.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("select questCount from quest where questFishId = "+ id, null);
+//
+//        ArrayList<Integer> questCount_arr = new ArrayList<>();
+//        while(cursor.moveToNext()){
+//            questCount_arr.add(cursor.getInt(0));
+//        }
+//
+//        Cursor cursorA = db.rawQuery("select questCount from quest where questFishId = "+ 0, null);
+//        while(cursorA.moveToNext()){
+//            questCount_arr.add(cursorA.getInt(0));
+//        }
+//
+//        return questCount_arr;
+//
+//    }
+//
+//    ArrayList<Integer> select_quest_now_DB(int id) {
+//        db = myDB.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("select questNow from quest where questFishId = "+ id, null);
+//
+//        ArrayList<Integer> questNow_arr = new ArrayList<>();
+//        while(cursor.moveToNext()){
+//            questNow_arr.add(cursor.getInt(0));
+//        }
+//
+//        Cursor cursorA = db.rawQuery("select questNow from quest where questFishId = "+ 0, null);
+//        while(cursorA.moveToNext()){
+//            questNow_arr.add(cursorA.getInt(0));
+//        }
+//
+//        return questNow_arr;
+//    }
+
+    int select_quest_now_DB() {
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select questNow from quest where questFishId = 0" , null);
+        int num = 0;
+        while(cursor.moveToNext()){
+            num = cursor.getInt(0);
+        }
+
+        return num;
+    }
+
+    void update_quest_now_DB(int id) {
+        db = myDB.getWritableDatabase();
+        db.execSQL("update quest set questNow = "+
+                (select_quest_now_DB()+1)+
+                " where questFishId = 0");
+        db.close();
+
+    }
+
+    void update_quest_complete_DB() {
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select questCount, questNow, questId from quest" , null);
+        while(cursor.moveToNext()){
+            if(cursor.getInt(0) <= cursor.getInt(1)) {
+                db.execSQL("update quest set questComplete = 1 where questId = "+ cursor.getInt(2)) ;
+            }
+        }
+        db.close();
+
+    }
+
+
+
+
     class MyDB extends SQLiteOpenHelper {
 
         public MyDB(@Nullable Context context) {
