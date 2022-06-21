@@ -504,7 +504,8 @@ public class MainActivity extends FragmentActivity {
         Log.d("상점1", "ㅁㅁ");
         for (AugmentedImage img : agImgs) {
             Log.d("상점2", "ㅁㅁ");
-            if (img.getTrackingState() == TrackingState.TRACKING
+            if (img.getTrackingState() == TrackingState.TRACKING &&
+                    img.getTrackingMethod() == AugmentedImage.TrackingMethod.FULL_TRACKING
                     ) {
                 Log.d("상점3", "ㅁㅁ");
                 switch (img.getName()) {
