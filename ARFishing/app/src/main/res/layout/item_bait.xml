@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    >
+    <ImageView
+        android:id="@+id/img_bait"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_launcher"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        >
+        <TextView
+            android:id="@+id/tv_baitName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="갯지렁이"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/tv_baitExplain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="잡기 확률 40% +"
+            android:textSize="15dp"
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="right">
+            <TextView
+                android:id="@+id/tv_baitPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="가격: 10"
+                />
+            <TextView
+                android:id="@+id/tv_hasBaitAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="보유 개수: 100"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <Button
+                android:id="@+id/btn_baitPurchase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="갯지렁이 구매" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

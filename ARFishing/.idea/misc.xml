@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/activity_main.xml" value="0.2980072463768116" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/dialog_custom.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/fragment_information.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/fragment_inventory_bait.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/fragment_quest.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/item_bait.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/quest_list.xml" value="0.2526041666666667" />
       </map>
     </option>
   </component>

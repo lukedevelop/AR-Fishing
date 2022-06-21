@@ -132,8 +132,10 @@ public class CatchFish extends Thread{
                 @Override
                 public void run() {
                     while (intime2) {
-//                        System.out.println(mainActivity.drawImages(mainActivity.frame));
-                        if (mainActivity.frame != null && mainActivity.drawImages(mainActivity.frame)) {
+                        if(mainActivity.frame != null){
+                            mainActivity.drawImages(mainActivity.frame);
+                        }
+                        if (mainActivity.imageCatched) {
                             isCaptured = true;
                             intime2 = false;
                             System.out.println("2)" + intime2);
@@ -142,10 +144,13 @@ public class CatchFish extends Thread{
                                 public void run() {
                                     Toast.makeText(mainActivity.getApplicationContext(), "안디를 잡았습니다!", Toast.LENGTH_SHORT).show();
                                     dlg.show();
+                                    mainActivity.setRod = false;
+                                    mainActivity.casting = false;
+                                    mainActivity.mRenderer.point.init();
+                                    mainActivity.castingBtn.setText("완료");
+                                    mainActivity.castingBtn.callOnClick();
                                 }
                             });
-//                            System.out.println("이미지를 찍었다!!");
-
                         }
                     }
                 }
@@ -166,6 +171,11 @@ public class CatchFish extends Thread{
                     @Override
                     public void run() {
                         Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
+                        mainActivity.setRod = false;
+                        mainActivity.casting = false;
+                        mainActivity.mRenderer.point.init();
+                        mainActivity.castingBtn.setText("완료");
+                        mainActivity.castingBtn.callOnClick();
                     }
                 });
 
@@ -176,8 +186,14 @@ public class CatchFish extends Thread{
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
+                    mainActivity.setRod = false;
+                    mainActivity.casting = false;
+                    mainActivity.mRenderer.point.init();
+                    mainActivity.castingBtn.setText("완료");
+                    mainActivity.castingBtn.callOnClick();
                 }
             });
+
         }
     }
 }

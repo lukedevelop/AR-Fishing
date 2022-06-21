@@ -1,43 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/glSsurfaceview"
+    >
+
+    <FrameLayout
+        android:id="@+id/mainFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.opengl.GLSurfaceView>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="284dp"
-        android:layout_gravity="bottom">
+        android:layout_height="match_parent"
+        >
+        <android.opengl.GLSurfaceView
+            android:id="@+id/glSsurfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.opengl.GLSurfaceView>
 
         <Button
-            android:id="@+id/castingBtn"
+            android:id="@+id/btn_showMenuFrameLayout"
             android:layout_width="wrap_content"
-            android:layout_height="82dp"
-            android:layout_margin="50dp"
-            android:text="완료"
-            android:textSize="30sp"></Button>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            android:text="메뉴"
+            />
 
-    <SeekBar
-        android:id="@+id/castingSeekbar"
-        android:layout_width="196dp"
-        android:layout_height="285dp"
-        android:layout_gravity="bottom|right"
-        android:max="60"
-        android:rotation="270"
-        android:visibility="invisible"></SeekBar>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="284dp"
+            android:layout_gravity="bottom">
 
-    <TextView
-        android:id="@+id/timerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="@color/white"></TextView>
+            <Button
+                android:id="@+id/castingBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="82dp"
+                android:layout_margin="50dp"
+                android:text="완료"
+                android:textSize="30sp"
+                android:enabled="false"
+                ></Button>
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/castingSeekbar"
+            android:layout_width="196dp"
+            android:layout_height="285dp"
+            android:layout_gravity="bottom|right"
+            android:max="60"
+            android:rotation="270"
+            android:visibility="invisible"></SeekBar>
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/white"></TextView>
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/subFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:clickable="false"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <FrameLayout
+                android:id="@+id/frameLayout_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="11"
+                >
+
+
+            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <Button
+                    android:id="@+id/btn_showMainFrameLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="버튼" />
+                <Button
+                    android:id="@+id/btn_showInformationFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="정보" />
+                <Button
+                    android:id="@+id/btn_showInventoryFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="인벤토리" />
+                <Button
+                    android:id="@+id/btn_showQuestFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="퀘스트" />
+                <Button
+                    android:id="@+id/btn_showDogamFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="도감" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
 </FrameLayout>

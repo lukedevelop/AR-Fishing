@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/btn_inventory_fish_fishFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="물고기"
+            />
+        <Button
+            android:id="@+id/btn_inventory_bait_fishFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="미끼"
+            />
+
+        <Button
+            android:id="@+id/btn_inventory_interior_fishFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="꾸미기"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        >
+
+        <ListView
+            android:id="@+id/list_inventory_fish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+    </LinearLayout>
+</LinearLayout>

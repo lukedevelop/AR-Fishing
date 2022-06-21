@@ -1,25 +1,30 @@
 package com.example.arfishing;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.hardware.display.DisplayManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.ar.core.ArCoreApk;
@@ -33,9 +38,13 @@ import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 import com.google.ar.core.TrackingState;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
+import com.ramotion.paperonboarding.PaperOnboardingFragment;
+import com.ramotion.paperonboarding.PaperOnboardingPage;
+import com.ramotion.paperonboarding.listeners.PaperOnboardingOnRightOutListener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -46,12 +55,41 @@ public class MainActivity extends FragmentActivity {
     MainRenderer mRenderer;
     float displayX, displayY;
     boolean mTouched = false, setRod = false, casting = false;
+    boolean imageCatched = false;
+
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
     float[] pointMatrix;
     int btnClickCnt;
     Frame frame;
+
+    // 송찬욱--
+    FrameLayout mainFrameLayout;
+    FrameLayout subFrameLayout;
+
+    Button btn_showMainFrameLayout;
+    Button btn_showMenuFrameLayout;
+
+    Button btn_showInformationFragment;
+    Button btn_showInventoryFragment;
+    Button btn_showQuestFragment;
+    Button btn_showDogamFragment;
+
+
+    Fragment main_fragment;
+    Fragment information_fragment;
+    Fragment inventory_bait_fragment;
+    Fragment inventory_fish_fragment;
+    Fragment inventory_interior_fragment;
+    Fragment quest_fragment;
+
+    Fragment shop_fragment;
+
+    boolean isShopInit = false;
+    Dialog customDialog;
+    // -- 송찬욱
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +102,114 @@ public class MainActivity extends FragmentActivity {
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
 
-        // zo--------
-        // -----------zo
+
+        // 찬욱--
+        // ------------연결 시작
+
+        mainFrameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
+        subFrameLayout = (FrameLayout) findViewById(R.id.subFrameLayout);
+        btn_showMenuFrameLayout = (Button) findViewById(R.id.btn_showMenuFrameLayout);
+        btn_showMainFrameLayout = (Button) findViewById(R.id.btn_showMainFrameLayout);
+
+        btn_showInformationFragment = (Button) findViewById(R.id.btn_showInformationFragment);
+        btn_showInventoryFragment = (Button) findViewById(R.id.btn_showInventoryFragment);
+        btn_showQuestFragment = (Button) findViewById(R.id.btn_showQuestFragment);
+        btn_showDogamFragment = (Button) findViewById(R.id.btn_showDogamFragment);
+
+
+        information_fragment = new InformationFragment();
+        inventory_fish_fragment = new Inventory_fish_Fragment();
+        inventory_bait_fragment = new Inventory_bait_Fragment();
+        inventory_interior_fragment = new Inventory_interior_Fragment();
+
+        shop_fragment = new ShopFragment();
+        quest_fragment = new QuestFragment();
+        // TODO 나중연결 후 추가 - 퀘스트, 도감 프래그먼트 추가 요망
+
+        // 온보딩 생성 나중에 살리기
+//        showOnBoarding();
+
+        btn_showMenuFrameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mainFrameLayout.setVisibility(View.INVISIBLE);
+                mainFrameLayout.setClickable(false);
+                subFrameLayout.setVisibility(View.VISIBLE);
+                subFrameLayout.setClickable(true);
+
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout_menu, information_fragment,"information")
+                        .commit();
+
+//                // 정보 업데이트
+//                if(getSupportFragmentManager().findFragmentByTag("information") != null) {
+//                    ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
+//                }
+            }
+        });
+
+        btn_showMainFrameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mainFrameLayout.setClickable(true);
+                subFrameLayout.setVisibility(View.INVISIBLE);
+                subFrameLayout.setClickable(false);
+
+//                DBDAO dbDAO = new DBDAO(MainActivity.this);
+//                dbDAO.updateMemberDB("nickName","송찬욱",1,1,0);
+
+            }
+        });
+
+        btn_showInformationFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout_menu, information_fragment,"information")
+                        .commit();
+            }
+        });
+
+        btn_showInventoryFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout_menu, inventory_fish_fragment,"inventory")
+                        .commit();
+            }
+        });
+
+        btn_showQuestFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout_menu, quest_fragment,"quest") // 수정 필
+                        .commit();
+            }
+        });
+//
+//        btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.frameLayout_menu, information_fragment,"dogam")// 수정 필
+//                        .commit();
+//            }
+//        });
+
+
+
+
+
+
+        // --찬욱
+
+
+
+        // 지은 --
         castingSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -183,14 +327,15 @@ public class MainActivity extends FragmentActivity {
 
                 mRenderer.mCamera.transformDisplayGeometry(frame);
 
-
+                Log.d("111111","ㅇㅇ");
                 if (mTouched) {
                     List<HitResult> results = frame.hitTest(displayX, displayY);
                     System.out.println(displayX + ", " + displayY);
                     System.out.println(results.size());
+                    Log.d("22222",results.size()+"");
                     for (HitResult hr : results) {
                         Pose pose = hr.getHitPose();
-
+                        Log.d("333333",results.size()+"");
 //                        if(!setBucket) {
 //                            float[] bucketMatrix = new float[16];
 //                            pose.toMatrix(bucketMatrix, 0);
@@ -205,6 +350,13 @@ public class MainActivity extends FragmentActivity {
                             Matrix.scaleM(rodMatrix, 0, 0.005f, 0.005f, 0.005f);
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    castingBtn.setEnabled(true);
+                                }
+                            });
 
                             pointMatrix = new float[16];
                             pose.toMatrix(pointMatrix, 0);
@@ -222,6 +374,7 @@ public class MainActivity extends FragmentActivity {
                 camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100f);
                 camera.getViewMatrix(viewMatrix, 0);
 
+                drawImages(frame);
 //                System.out.println(drawImages(frame));
 
                 mRenderer.updateProjMatrix(projMatrix);
@@ -304,7 +457,7 @@ public class MainActivity extends FragmentActivity {
 
         displayX = event.getX();
         displayY = event.getY();
-
+        Log.d("555",displayX+","+displayY);
         mTouched = true;
 
         return true;
@@ -319,27 +472,149 @@ public class MainActivity extends FragmentActivity {
 
             imgDB.addImage("bucket", bitmap);
             is.close();
+
+            is = getAssets().open("shop_npc.jpeg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("shop_npc",bitmap);
+            is.close();
+
+            is = getAssets().open("sea.jpeg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("sea",bitmap);
+            is.close();
+
+            is = getAssets().open("aquarium.jpeg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("aquarium",bitmap);
+            is.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         mConfig.setAugmentedImageDatabase(imgDB);
     }
 
-    boolean drawImages(Frame frame){
-//        System.out.println(frame);
+    void drawImages(Frame frame){
         Collection<AugmentedImage> agImgs = frame.getUpdatedTrackables(AugmentedImage.class);
-        boolean res = false;
 
         for (AugmentedImage img : agImgs) {
             if (img.getTrackingState() == TrackingState.TRACKING) {
+                Log.d("야호", "ㅁㅁ");
                 switch (img.getName()) {
-                    case "bucket":
-                        res = true;
+
+                    case "shop_npc":
+                        if(!isShopInit) {
+                            isShopInit = true;
+                            Log.d("야호", "ㅁㅁ");
+                            showCustomDialog();
+                        }
+
                         break;
+
                 }
             }
         }
-        return res;
     }
+
+    void showOnBoarding() {
+
+        mainFrameLayout.setVisibility(View.INVISIBLE);
+        mainFrameLayout.setClickable(false);
+        subFrameLayout.setVisibility(View.VISIBLE);
+        subFrameLayout.setClickable(true);
+
+        // onboarding 온보딩
+        PaperOnboardingPage scr1 = new PaperOnboardingPage(
+                "Hotel",
+                "All hotel",
+                Color.parseColor("#678FB4"), R.drawable.bait_gunsaewoo,
+                R.drawable.bait_gunsaewoo
+        );
+        PaperOnboardingPage scr2 = new PaperOnboardingPage(
+                "Hotel",
+                "All hotel",
+                Color.parseColor("#65B0B4"), R.drawable.bait_kingworm,
+                R.drawable.bait_gunsaewoo
+        );
+        PaperOnboardingPage scr3 = new PaperOnboardingPage(
+                "Hotel",
+                "All hotel",
+                Color.parseColor("#9B90BC"), R.drawable.bait_earthworm,
+                R.drawable.bait_gunsaewoo
+        );
+
+        ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
+        elements.add(scr1);
+        elements.add(scr2);
+        elements.add(scr3);
+
+        PaperOnboardingFragment onBoardingFragment = PaperOnboardingFragment.newInstance(elements);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.subFrameLayout, onBoardingFragment)
+                .commit();
+
+        onBoardingFragment.setOnRightOutListener(new PaperOnboardingOnRightOutListener() {
+            @Override
+            public void onRightOut() {
+                main_fragment = new MainFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.subFrameLayout, main_fragment)
+                        .commit();
+
+            }
+        });
+
+
+    }
+
+
+    void showCustomDialog() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                customDialog = new Dialog(MainActivity.this);
+                customDialog.setContentView(R.layout.dialog_custom);
+                TextView tv_ok = (TextView) customDialog.findViewById(R.id.tv_ok);
+                tv_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "클릭 ok", Toast.LENGTH_SHORT).show();
+                        customDialog.dismiss();
+
+                        mainFrameLayout.setVisibility(View.INVISIBLE);
+                        mainFrameLayout.setClickable(false);
+                        subFrameLayout.setVisibility(View.VISIBLE);
+                        subFrameLayout.setClickable(true);
+
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frameLayout_menu, shop_fragment,"shop")
+                                .commit();
+
+                        // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야 백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라1
+//                isShopInit = false;
+                    }
+                });
+                TextView tv_cancel = (TextView) customDialog.findViewById(R.id.tv_cancel);
+                tv_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "클릭 cancel", Toast.LENGTH_SHORT).show();
+                        customDialog.dismiss();
+
+
+                        // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야   백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라2
+//                isShopInit = false;
+                    }
+                });
+
+                customDialog.show();
+
+
+            }
+        });
+
+    }
+
 
 }

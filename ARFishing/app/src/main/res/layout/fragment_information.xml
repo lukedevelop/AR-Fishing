@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        >
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        >
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="닉네임"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tv_nickName_information"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="송찬욱"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="잡은 물고기 수"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tv_catchFish_information"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="보유 물고기 수"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tv_hasFish_information"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="보유 머니"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tv_money_information"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="10000"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+</LinearLayout>
