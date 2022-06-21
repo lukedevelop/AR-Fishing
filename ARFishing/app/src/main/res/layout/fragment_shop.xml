@@ -8,36 +8,85 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/btn_shop_purchase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="구매" />
+        <Button
+            android:id="@+id/btn_shop_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="판매" />
+
+
+        <Button
+            android:id="@+id/btn_shop_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나가기"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/btn_shop_fish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="물고기"
+            />
+        <Button
+            android:id="@+id/btn_shop_bait"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="미끼"
+            />
+
+        <Button
+            android:id="@+id/btn_shop_interior"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="꾸미기"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:gravity="right"
+        android:gravity="center"
         >
+
         <TextView
+            android:id="@+id/tv_shop_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="보유 머니: 10"
             android:textSize="20sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
             />
-
-        <Button
-            android:id="@+id/btn_outShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:text="나가기" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
+        android:layout_weight="20"
         android:orientation="horizontal">
         <ListView
-            android:id="@+id/list_bait"
+            android:id="@+id/list_shop"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"

@@ -579,7 +579,7 @@ public class MainActivity extends FragmentActivity {
                 tv_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "클릭 ok", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
 
                         mainFrameLayout.setVisibility(View.INVISIBLE);
@@ -599,7 +599,7 @@ public class MainActivity extends FragmentActivity {
                 tv_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "클릭 cancel", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
 
 

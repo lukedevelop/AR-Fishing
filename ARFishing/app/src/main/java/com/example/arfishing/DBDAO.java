@@ -91,13 +91,14 @@ public class DBDAO {
         ArrayList<InventoryDTO> inventoryDTO_arr = new ArrayList<>();
         db = myDB.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from inventory_"+name,null);
-        InventoryDTO inventoryDTO = new InventoryDTO(0,"1","1",0);
+        InventoryDTO inventoryDTO = new InventoryDTO(0,"1","1",0,0);
         while(cursor.moveToNext()) {
             inventoryDTO = new InventoryDTO(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
-                    cursor.getInt(3)
+                    cursor.getInt(3),
+                    cursor.getInt(4)
             );
             inventoryDTO_arr.add(inventoryDTO);
         }

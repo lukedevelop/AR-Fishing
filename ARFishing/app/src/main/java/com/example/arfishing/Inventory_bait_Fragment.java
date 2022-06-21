@@ -98,7 +98,7 @@ public class Inventory_bait_Fragment extends Fragment {
                 adapter.addItem(new BaitItem(
                         inventoryDTO.item_name,
                         inventoryDTO.item_explain,
-                        0,
+                        inventoryDTO.item_price,
                         inventoryDTO.item_amount,
                         choiceImg(inventoryDTO.item_id)));
             }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,17 @@ public class ShopFragment extends Fragment {
 
     MainActivity mainActivity;
 
-    TextView tv_nickName_information, tv_catchFish_information, tv_hasFish_information, tv_money_information;
+    Button btn_shop_purchase;
+    Button btn_shop_sale;
+    Button btn_shop_out;
+
+    Button btn_shop_fish;
+    Button btn_shop_bait;
+    Button btn_shop_interior;
+
+
+
+    ListView listView;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -42,18 +53,67 @@ public class ShopFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ListView listView = view.findViewById(R.id.list_bait);
+        btn_shop_purchase = (Button) view.findViewById(R.id.btn_shop_purchase);
+        btn_shop_sale = (Button) view.findViewById(R.id.btn_shop_sale);
+        btn_shop_out = (Button) view.findViewById(R.id.btn_shop_out);
 
-        BaitAdapter adapter = new BaitAdapter();
+        btn_shop_fish = (Button) view.findViewById(R.id.btn_shop_fish);
+        btn_shop_bait = (Button) view.findViewById(R.id.btn_shop_bait);
+        btn_shop_interior = (Button) view.findViewById(R.id.btn_shop_interior);
+
+        listView = view.findViewById(R.id.list_shop);
+        showListFish();
+
+        btn_shop_purchase.setEnabled(false);
+
+        btn_shop_purchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                btn_shop_purchase.setEnabled(false);
+                btn_shop_sale.setEnabled(true);
+
+            }
+        });
+
+        btn_shop_sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_shop_purchase.setEnabled(true);
+                btn_shop_sale.setEnabled(false);
+            }
+        });
+
+        btn_shop_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
+        btn_shop_fish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showListFish();
+            }
+        });
 
-        adapter.addItem(new BaitItem("갯지렁이","잡기 확률 10% +", 100,0,R.drawable.bait_earthworm));
-        adapter.addItem(new BaitItem("왕꿈틀이","잡기 확률 20% +", 300, 0, R.drawable.bait_kingworm));
-        adapter.addItem(new BaitItem("루어","잡기 확률 30% +", 500, 0, R.drawable.bait_lure));
-        adapter.addItem(new BaitItem("건새우","잡기 확률 50% +", 1000, 0, R.drawable.bait_gunsaewoo));
+        btn_shop_bait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showListBait();
+            }
+        });
 
-        listView.setAdapter(adapter);
+        btn_shop_interior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showListInterior();
+            }
+        });
+
+
     }
 
     @Override
@@ -61,6 +121,77 @@ public class ShopFragment extends Fragment {
         super.onResume();
 
     }
+
+    void showListFish() {
+
+
+        BaitAdapter adapter = new BaitAdapter();
+        DBDAO dbDAO = new DBDAO(mainActivity);
+        ArrayList<InventoryDTO> inventoryDTO_arr = dbDAO.selectInventory("fish");
+        for(InventoryDTO inventoryDTO: inventoryDTO_arr) {
+
+            adapter.addItem(new BaitItem(
+                    inventoryDTO.item_name,
+                    inventoryDTO.item_explain,
+                    inventoryDTO.item_price,
+                    inventoryDTO.item_amount,
+                    // TODO - 물고기, 미끼, 인테리어 이미지 설정 필요
+                    R.drawable.bait_earthworm));
+
+
+        }
+
+        listView.setAdapter(adapter);
+    }
+
+    void showListBait() {
+
+
+        BaitAdapter adapter = new BaitAdapter();
+        DBDAO dbDAO = new DBDAO(mainActivity);
+        ArrayList<InventoryDTO> inventoryDTO_arr = dbDAO.selectInventory("bait");
+        for(InventoryDTO inventoryDTO: inventoryDTO_arr) {
+
+            adapter.addItem(new BaitItem(
+                    inventoryDTO.item_name,
+                    inventoryDTO.item_explain,
+                    inventoryDTO.item_price,
+                    inventoryDTO.item_amount,
+                    // TODO - 물고기, 미끼, 인테리어 이미지 설정 필요
+                    R.drawable.bait_earthworm));
+
+
+        }
+
+        listView.setAdapter(adapter);
+    }
+
+
+    void showListInterior() {
+
+
+        BaitAdapter adapter = new BaitAdapter();
+        DBDAO dbDAO = new DBDAO(mainActivity);
+        ArrayList<InventoryDTO> inventoryDTO_arr = dbDAO.selectInventory("interior");
+        for(InventoryDTO inventoryDTO: inventoryDTO_arr) {
+
+            adapter.addItem(new BaitItem(
+                    inventoryDTO.item_name,
+                    inventoryDTO.item_explain,
+                    inventoryDTO.item_price,
+                    inventoryDTO.item_amount,
+                    // TODO - 물고기, 미끼, 인테리어 이미지 설정 필요
+                    R.drawable.bait_earthworm));
+
+
+        }
+
+        listView.setAdapter(adapter);
+    }
+
+
+
+
 
     class BaitAdapter extends BaseAdapter {
 
