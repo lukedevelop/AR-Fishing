@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
-    float[] pointMatrix;
+    float[] pointMatrix, waterMatrix, fishMatrix;
     int btnClickCnt;
     Frame frame;
 
@@ -222,11 +222,6 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
 
                 if (castingBtn.getText().toString().equals("완료")) {
-//                    if(!setBucket){
-//                        setBucket = true;
-//                        Toast.makeText(getApplicationContext(), "낚시대를 설치해주세요.", Toast.LENGTH_SHORT).show();
-//                    }
-//                    else if(setBucket && !setRod){
                     if (!setRod) {
                         setRod = true;
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
@@ -260,10 +255,18 @@ public class MainActivity extends FragmentActivity {
                         }.start();
                     }
                 } else if (castingBtn.getText().toString().equals("캐스팅")) {
-                    //todo 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
+                    //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
+                    //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
                     Matrix.translateM(pointMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
+                    Matrix.translateM(fishMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
                     Matrix.scaleM(pointMatrix, 0, 1.5f, 1.5f, 1.5f);
                     mRenderer.point.setModelMatrix(pointMatrix);
+
+//                    Matrix.translateM(waterMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
+//                    Matrix.translateM(waterMatrix, 0, -398f, -14850f, 2362f);
+//                    Matrix.scaleM(waterMatrix, 0, 0.001f, 0.001f, 0.001f);
+//                    mRenderer.water.setModelMatrix(waterMatrix);
+
                     casting = true;
                     Toast.makeText(getApplicationContext(), "캐스팅 완료!", Toast.LENGTH_SHORT);
                     castingSeekbar.setVisibility(View.INVISIBLE);
@@ -327,29 +330,24 @@ public class MainActivity extends FragmentActivity {
 
                 mRenderer.mCamera.transformDisplayGeometry(frame);
 
-                Log.d("111111","ㅇㅇ");
                 if (mTouched) {
                     List<HitResult> results = frame.hitTest(displayX, displayY);
-                    System.out.println(displayX + ", " + displayY);
-                    System.out.println(results.size());
-                    Log.d("22222",results.size()+"");
                     for (HitResult hr : results) {
                         Pose pose = hr.getHitPose();
-                        Log.d("333333",results.size()+"");
-//                        if(!setBucket) {
-//                            float[] bucketMatrix = new float[16];
-//                            pose.toMatrix(bucketMatrix, 0);
-//                            Matrix.scaleM(bucketMatrix, 0, 0.007f, 0.007f, 0.007f);
-//                            mRenderer.bucket.setModelMatrix(bucketMatrix);
-//                            break;
-//                        }
-//                        else if(setBucket && !setRod) {
                         if (!setRod) {
                             float[] rodMatrix = new float[16];
                             pose.toMatrix(rodMatrix, 0);
                             Matrix.scaleM(rodMatrix, 0, 0.005f, 0.005f, 0.005f);
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
+                            Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
+
+                            waterMatrix = new float[16];
+                            pose.toMatrix(waterMatrix, 0);
+//                            Matrix.translateM(waterMatrix, 0, -398f, -14850f, -10000f);
+                            Matrix.translateM(waterMatrix, 0, 0, -20f, -40f);
+                            Matrix.scaleM(waterMatrix, 0, 0.001f, 0.001f, 0.001f);
+                            mRenderer.water.setModelMatrix(waterMatrix);
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -359,7 +357,10 @@ public class MainActivity extends FragmentActivity {
                             });
 
                             pointMatrix = new float[16];
+                            fishMatrix = new float[16];
                             pose.toMatrix(pointMatrix, 0);
+                            pose.toMatrix(fishMatrix, 0);
+
                             break;
                         }
                     }
@@ -511,6 +512,9 @@ public class MainActivity extends FragmentActivity {
 
                         break;
 
+                    case "bucket":
+                        imageCatched = true;
+                        break;
                 }
             }
         }

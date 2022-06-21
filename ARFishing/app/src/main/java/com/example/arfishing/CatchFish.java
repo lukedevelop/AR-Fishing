@@ -4,10 +4,19 @@ import android.app.AlertDialog;
 import android.opengl.Matrix;
 import android.widget.Toast;
 
+import java.util.LinkedHashMap;
+
 public class CatchFish extends Thread{
 
     MainActivity mainActivity;
     boolean isCaught, isCaptured, intime1, intime2;
+
+    //todo 지은) 일단 임의로 바다로 설정, 이후에 지원님의 변수와 연결 필요
+    String area = "바다", fishName;
+
+    FishDTO caughtFish;
+
+    LinkedHashMap<String, String> fishNameObj = new LinkedHashMap<String, String>();
 
     AlertDialog.Builder dlg;
 
@@ -16,6 +25,17 @@ public class CatchFish extends Thread{
 
         dlg = new AlertDialog.Builder(mainActivity);
         dlg.setMessage("안디 잡음");
+
+        fishNameObj.put("베스", "fish_bass");
+        fishNameObj.put("부시리", "fish_boosiri");
+        fishNameObj.put("뼈", "fish_fishbones");
+        fishNameObj.put("금붕어", "fish_goldfish");
+        fishNameObj.put("해파리", "fish_jellyfish");
+        fishNameObj.put("니모", "fish_nimo");
+        fishNameObj.put("바위", "fish_rock");
+        fishNameObj.put("삼식", "fish_samsik");
+        fishNameObj.put("스폰지밥", "fish_spongebob");
+        fishNameObj.put("거북이", "fish_turtle");
     }
 
     @Override
@@ -33,7 +53,9 @@ public class CatchFish extends Thread{
             }
         });
 
+
         //타이머 시작 -> 시간 안에 잡기 버튼을 눌러야함
+        //todo 찬욱) 시간 스레드1 >> 여기가 시간이 줄어들면 캐스팅 하고 나서 고기가 빨리 잡힘
         intime1 = true;
         new Thread(){
             int time = 10;
@@ -84,9 +106,33 @@ public class CatchFish extends Thread{
 
         //고기가 잡히면 찌 사라지고 고기로 바뀜
         if(isCaught) {
+
+            int ranNum = (int) (Math.random()*100)+1;
+            if(ranNum <= 20){
+                fishName = area.equals("강") ? "베스" : "부시리";
+            } else if(ranNum <= 40){
+                fishName = area.equals("강") ? "금붕어" : "해파리";
+            } else if(ranNum <= 60){
+                fishName = area.equals("강") ? "삼식" : "거북이";
+            } else if(ranNum <= 70){
+                fishName = "뼈";
+            } else if(ranNum <= 80){
+                fishName = "니모";
+            } else if(ranNum <= 90){
+                fishName = "바위";
+            } else{
+                fishName = "스폰지밥";
+            }
+
+            caughtFish = new DBDAO(mainActivity).getFishInfo(fishName);
+
             mainActivity.mRenderer.point.init();
-            Matrix.scaleM(mainActivity.pointMatrix, 0, 5f, 5f, 5f);
-            mainActivity.mRenderer.fish.setModelMatrix(mainActivity.pointMatrix);
+            mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
+            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale));
+            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
+            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
+            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 1, 0);
+            mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
 
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -98,6 +144,7 @@ public class CatchFish extends Thread{
 
             //다시 30초 타이머 시작
             //시간이 다 흐르면 타이머 스탑, 고기도 놓침
+            //todo 찬욱) 시간 스레드2 >> 여기가 시간이 늘어나면 고기 잡고 나서 양동이 사진 찍기까지 시간이 널널해짐
             intime2 = true;
             new Thread() {
                 int time = 30;
@@ -128,6 +175,7 @@ public class CatchFish extends Thread{
 
 
             //시간 안에 이미지를 찍으면 타이머는 멈추고 고기는 포획됨
+            //todo 찬욱) 물고기 잡히는 부분
             new Thread() {
                 @Override
                 public void run() {
@@ -146,7 +194,7 @@ public class CatchFish extends Thread{
                                     dlg.show();
                                     mainActivity.setRod = false;
                                     mainActivity.casting = false;
-                                    mainActivity.mRenderer.point.init();
+//                                    mainActivity.mRenderer.point.init();
                                     mainActivity.castingBtn.setText("완료");
                                     mainActivity.castingBtn.callOnClick();
                                 }
@@ -158,10 +206,10 @@ public class CatchFish extends Thread{
 
             //시간 흐르는동안 고기 흔들흔들
             while (intime2) {
-                Matrix.translateM(mainActivity.pointMatrix, 0, 0.5f, 0, 0);
-                mainActivity.mRenderer.fish.setModelMatrix(mainActivity.pointMatrix);
-                Matrix.translateM(mainActivity.pointMatrix, 0, -0.5f, 0, 0);
-                mainActivity.mRenderer.fish.setModelMatrix(mainActivity.pointMatrix);
+                Matrix.translateM(mainActivity.fishMatrix, 0, 0.5f/Float.parseFloat(caughtFish.fish_scale), 0, 0);
+                mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
+                Matrix.translateM(mainActivity.fishMatrix, 0, -0.5f/Float.parseFloat(caughtFish.fish_scale), 0, 0);
+                mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
             }
 
 
@@ -173,7 +221,7 @@ public class CatchFish extends Thread{
                         Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
                         mainActivity.setRod = false;
                         mainActivity.casting = false;
-                        mainActivity.mRenderer.point.init();
+//                        mainActivity.mRenderer.point.init();
                         mainActivity.castingBtn.setText("완료");
                         mainActivity.castingBtn.callOnClick();
                     }
@@ -188,7 +236,7 @@ public class CatchFish extends Thread{
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
                     mainActivity.setRod = false;
                     mainActivity.casting = false;
-                    mainActivity.mRenderer.point.init();
+//                    mainActivity.mRenderer.point.init();
                     mainActivity.castingBtn.setText("완료");
                     mainActivity.castingBtn.callOnClick();
                 }

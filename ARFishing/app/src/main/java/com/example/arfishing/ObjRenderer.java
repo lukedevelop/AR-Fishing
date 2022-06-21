@@ -67,6 +67,7 @@ public class ObjRenderer {
 
     private float[] mMinPoint;
     private float[] mMaxPoint;
+    boolean isInit = false;
 
     public ObjRenderer(Context context, String objName, String textureName) {
         mContext = context;
@@ -157,6 +158,7 @@ public class ObjRenderer {
         if (linked[0] == 0) {
             Log.e(TAG, "Could not link program.");
         }
+        isInit = true;
     }
 
     public void draw() {

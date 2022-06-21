@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.ar.core.Session;
 
+import java.util.LinkedHashMap;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -18,17 +20,18 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     int width, height;
     RenderCallBack myCallBack;
     boolean viewportChange = false;
+    Context context;
 
     CameraPreView mCamera;
-    ObjRenderer bucket, fishingRod, point, fish;
+    ObjRenderer fishingRod, point, fish, water;
 
     MainRenderer(RenderCallBack myCallBack, Context context){
         this.myCallBack = myCallBack;
+        this.context = context;
         mCamera = new CameraPreView();
-        bucket = new ObjRenderer(context, "bucket.obj", "bucket.jpg");
         fishingRod = new ObjRenderer(context, "rod.obj", "rod.jpg");
         point = new ObjRenderer(context, "float.obj", "float.jpg");
-        fish = new ObjRenderer(context, "andy.obj", "andy.png");
+        water = new ObjRenderer(context, "Water.obj", "Water.jpg");
     }
 
     @Override
@@ -38,8 +41,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera.init();
         fishingRod.init();
         point.init();
-        bucket.init();
-        fish.init();
+//        fish.init();
+        water.init();
     }
 
     @Override
@@ -62,8 +65,14 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         fishingRod.draw();
         point.draw();
-        bucket.draw();
-        fish.draw();
+
+        if(fish != null){
+            if(!fish.isInit){
+                fish.init();
+            }
+            fish.draw();
+        }
+        water.draw();
     }
 
     void onDisplayChanged(){
@@ -85,14 +94,22 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     void updateProjMatrix(float [] matrix){
         fishingRod.setProjectionMatrix(matrix);
         point.setProjectionMatrix(matrix);
-        bucket.setProjectionMatrix(matrix);
-        fish.setProjectionMatrix(matrix);
+        if(fish != null) {
+            fish.setProjectionMatrix(matrix);
+        }
+        water.setProjectionMatrix(matrix);
     }
 
     void updateViewMatrix(float [] matrix){
         fishingRod.setViewMatrix(matrix);
         point.setViewMatrix(matrix);
-        bucket.setViewMatrix(matrix);
-        fish.setViewMatrix(matrix);
+        if(fish != null){
+            fish.setViewMatrix(matrix);
+        }
+        water.setViewMatrix(matrix);
+    }
+
+    void makeFishObj(String objName){
+        fish = new ObjRenderer(context, objName+".obj", objName+".jpeg");
     }
 }
