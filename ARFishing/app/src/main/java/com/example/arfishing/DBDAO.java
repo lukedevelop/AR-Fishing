@@ -209,6 +209,13 @@ public class DBDAO {
 
     }
 
+    void minusBaitInventory(String name){
+        db = myDB.getWritableDatabase();
+        db.execSQL("update inventory_bait set bait_amount = " +
+                "(select bait_amount from inventory_bait where bait_name = '" +name+"') - 1 where bait_name = '"+name+"'");
+        db.close();
+    }
+
 
 
     class MyDB extends SQLiteOpenHelper {

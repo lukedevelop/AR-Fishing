@@ -7,8 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.LinkedHashMap;
 
 public class CatchFish extends Thread{
@@ -18,6 +16,9 @@ public class CatchFish extends Thread{
 
     //todo 지은) 일단 임의로 바다로 설정, 이후에 지원님의 변수와 연결 필요
     String area = "바다", fishName;
+
+    //todo 지은) 일단 임의로 루어로 설정, 이후에 찬욱님의 변수와 연결 필요
+    String baitName = "루어";
 
     FishDTO caughtFish;
 
@@ -53,6 +54,8 @@ public class CatchFish extends Thread{
 
     @Override
     public void run() {
+
+        mainActivity.threadIsGoing = true;
 
         try {
             sleep(3000);
@@ -158,9 +161,6 @@ public class CatchFish extends Thread{
                 }
             });
 
-            new DBDAO(mainActivity).plusFishInventory(fishName);
-
-
             //다시 30초 타이머 시작
             //시간이 다 흐르면 타이머 스탑, 고기도 놓침
             //todo 찬욱) 시간 스레드2 >> 여기가 시간이 늘어나면 고기 잡고 나서 양동이 사진 찍기까지 시간이 널널해짐
@@ -203,10 +203,14 @@ public class CatchFish extends Thread{
                         if (mainActivity.imageCatched) {
                             isCaptured = true;
                             intime2 = false;
+                            mainActivity.imageCatched = false;
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(mainActivity.getApplicationContext(), fishName+"을(를) 잡았습니다!", Toast.LENGTH_SHORT).show();
+
+                                    new DBDAO(mainActivity).plusFishInventory(fishName);
+                                    new DBDAO(mainActivity).minusBaitInventory(baitName);
 
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);
@@ -214,15 +218,14 @@ public class CatchFish extends Thread{
                                     dlgImg.setImageResource(new ShopFragment().choiceFishImg(caughtFish.fish_id));
                                     dlg.setView(dlgView);
                                     dlg.show();
-                                    mainActivity.setRod = false;
                                     mainActivity.casting = false;
-                                    mainActivity.imageCatched = false;
                                     mainActivity.mRenderer.drawPoint = false;
                                     mainActivity.mRenderer.drawFish = false;
                                     mainActivity.castingBtn.setText("완료");
                                     mainActivity.castingBtn.callOnClick();
                                 }
                             });
+                            mainActivity.threadIsGoing = false;
                             interrupt();
                         }
                     }
@@ -244,7 +247,6 @@ public class CatchFish extends Thread{
                     @Override
                     public void run() {
                         Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
-                        mainActivity.setRod = false;
                         mainActivity.casting = false;
                         mainActivity.mRenderer.drawPoint = false;
                         mainActivity.mRenderer.drawFish = false;
@@ -252,16 +254,14 @@ public class CatchFish extends Thread{
                         mainActivity.castingBtn.callOnClick();
                     }
                 });
+                mainActivity.threadIsGoing = false;
                 interrupt();
-
-                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
             }
         }else if(!intime1 && !isCaptured){
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
-                    mainActivity.setRod = false;
                     mainActivity.casting = false;
                     mainActivity.mRenderer.drawPoint = false;
                     mainActivity.mRenderer.drawFish = false;
@@ -269,8 +269,9 @@ public class CatchFish extends Thread{
                     mainActivity.castingBtn.callOnClick();
                 }
             });
+            mainActivity.threadIsGoing = false;
             interrupt();
-                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
         }
+        mainActivity.threadIsGoing = false;
     }
 }

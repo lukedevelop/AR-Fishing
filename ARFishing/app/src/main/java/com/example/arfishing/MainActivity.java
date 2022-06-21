@@ -54,7 +54,7 @@ public class MainActivity extends FragmentActivity {
     GLSurfaceView mySurfaceView;
     MainRenderer mRenderer;
     float displayX, displayY;
-    boolean mTouched = false, setRod = false, casting = false;
+    boolean mTouched = false, setRod = false, casting = false, threadIsGoing;
     boolean imageCatched = false;
 
     Button castingBtn;
@@ -268,12 +268,6 @@ public class MainActivity extends FragmentActivity {
                     Matrix.scaleM(pointMatrix, 0, 1.5f, 1.5f, 1.5f);
                     mRenderer.point.setModelMatrix(pointMatrix);
                     mRenderer.drawPoint = true;
-                    System.out.println("point 그린다");
-
-//                    Matrix.translateM(waterMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
-//                    Matrix.translateM(waterMatrix, 0, -398f, -14850f, 2362f);
-//                    Matrix.scaleM(waterMatrix, 0, 0.001f, 0.001f, 0.001f);
-//                    mRenderer.water.setModelMatrix(waterMatrix);
 
                     casting = true;
                     Toast.makeText(getApplicationContext(), "캐스팅 완료!", Toast.LENGTH_SHORT);
@@ -286,7 +280,6 @@ public class MainActivity extends FragmentActivity {
                     btnClickCnt = 0;
                 } else if (castingBtn.getText().toString().equals("잡기")) {
                     btnClickCnt++;
-                    System.out.println(btnClickCnt);
                 }
             }
         });
@@ -349,6 +342,7 @@ public class MainActivity extends FragmentActivity {
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
+                            setRod = true;
                             mRenderer.drawRod = true;
 
                             waterMatrix = new float[16];
@@ -502,12 +496,12 @@ public class MainActivity extends FragmentActivity {
 
     void drawImages(Frame frame){
         Collection<AugmentedImage> agImgs = frame.getUpdatedTrackables(AugmentedImage.class);
-
         for (AugmentedImage img : agImgs) {
-            if (img.getTrackingState() == TrackingState.TRACKING) {
+            if (img.getTrackingState() == TrackingState.TRACKING &&
+                    img.getTrackingMethod() == AugmentedImage.TrackingMethod.FULL_TRACKING) {
                 Log.d("야호", "ㅁㅁ");
+                img.getName();
                 switch (img.getName()) {
-
                     case "shop_npc":
                         if(!isShopInit) {
                             isShopInit = true;
@@ -518,7 +512,9 @@ public class MainActivity extends FragmentActivity {
                         break;
 
                     case "bucket":
-                        imageCatched = true;
+                        if(threadIsGoing) {
+                            imageCatched = true;
+                        }
                         break;
                 }
             }
@@ -624,6 +620,4 @@ public class MainActivity extends FragmentActivity {
         });
 
     }
-
-
 }
