@@ -72,7 +72,7 @@ public class CatchFish extends Thread{
         //todo 찬욱) 시간 스레드1 >> 이 스레드가 멈추가 전에 버튼을 다다다다 눌러야 하는 것
         intime1 = true;
         new Thread(){
-            int time = 10;
+            int time = 5;
             @Override
             public void run() {
                 while (intime1 && time >= 0) {
@@ -216,12 +216,14 @@ public class CatchFish extends Thread{
                                     dlg.show();
                                     mainActivity.setRod = false;
                                     mainActivity.casting = false;
+                                    mainActivity.imageCatched = false;
                                     mainActivity.mRenderer.drawPoint = false;
                                     mainActivity.mRenderer.drawFish = false;
                                     mainActivity.castingBtn.setText("완료");
                                     mainActivity.castingBtn.callOnClick();
                                 }
                             });
+                            interrupt();
                         }
                     }
                 }
@@ -250,6 +252,7 @@ public class CatchFish extends Thread{
                         mainActivity.castingBtn.callOnClick();
                     }
                 });
+                interrupt();
 
                 //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
             }
@@ -266,6 +269,7 @@ public class CatchFish extends Thread{
                     mainActivity.castingBtn.callOnClick();
                 }
             });
+            interrupt();
                 //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
         }
     }

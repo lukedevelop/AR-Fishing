@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity {
     float[] pointMatrix, waterMatrix, fishMatrix;
     int btnClickCnt;
     Frame frame;
+    Pose pose;
 
     // 송찬욱--
     FrameLayout mainFrameLayout;
@@ -257,11 +258,17 @@ public class MainActivity extends FragmentActivity {
                 } else if (castingBtn.getText().toString().equals("캐스팅")) {
                     //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
+                    pointMatrix = new float[16];
+                    fishMatrix = new float[16];
+                    pose.toMatrix(pointMatrix, 0);
+                    pose.toMatrix(fishMatrix, 0);
+
                     Matrix.translateM(pointMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
                     Matrix.translateM(fishMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
                     Matrix.scaleM(pointMatrix, 0, 1.5f, 1.5f, 1.5f);
                     mRenderer.point.setModelMatrix(pointMatrix);
                     mRenderer.drawPoint = true;
+                    System.out.println("point 그린다");
 
 //                    Matrix.translateM(waterMatrix, 0, 5f, -5f, -(float) castingSeekbar.getProgress());
 //                    Matrix.translateM(waterMatrix, 0, -398f, -14850f, 2362f);
@@ -334,7 +341,7 @@ public class MainActivity extends FragmentActivity {
                 if (mTouched) {
                     List<HitResult> results = frame.hitTest(displayX, displayY);
                     for (HitResult hr : results) {
-                        Pose pose = hr.getHitPose();
+                        pose = hr.getHitPose();
                         if (!setRod) {
                             float[] rodMatrix = new float[16];
                             pose.toMatrix(rodMatrix, 0);
@@ -358,11 +365,6 @@ public class MainActivity extends FragmentActivity {
                                     castingBtn.setEnabled(true);
                                 }
                             });
-
-                            pointMatrix = new float[16];
-                            fishMatrix = new float[16];
-                            pose.toMatrix(pointMatrix, 0);
-                            pose.toMatrix(fishMatrix, 0);
 
                             break;
                         }
