@@ -40,6 +40,7 @@ public class CatchFish extends Thread{
 
     @Override
     public void run() {
+
         try {
             sleep(3000);
         } catch (InterruptedException e) {
@@ -55,7 +56,7 @@ public class CatchFish extends Thread{
 
 
         //타이머 시작 -> 시간 안에 잡기 버튼을 눌러야함
-        //todo 찬욱) 시간 스레드1 >> 여기가 시간이 줄어들면 캐스팅 하고 나서 고기가 빨리 잡힘
+        //todo 찬욱) 시간 스레드1 >> 이 스레드가 멈추가 전에 버튼을 다다다다 눌러야 하는 것
         intime1 = true;
         new Thread(){
             int time = 10;
@@ -229,7 +230,7 @@ public class CatchFish extends Thread{
                     }
                 });
 
-                //todo 여기서
+                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
             }
         }else if(!intime1 && !isCaptured){
             mainActivity.runOnUiThread(new Runnable() {
@@ -243,7 +244,7 @@ public class CatchFish extends Thread{
                     mainActivity.castingBtn.callOnClick();
                 }
             });
-
+                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
         }
     }
 }
