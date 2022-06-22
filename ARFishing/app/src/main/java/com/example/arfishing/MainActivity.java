@@ -98,8 +98,20 @@ public class MainActivity extends FragmentActivity {
     Aquarium aquarium;
     Dogam_Fragment dogamfrag;
 
-    AlertDialog insert_fish_dialog;
+    Integer [] items;
 
+    Integer [] dogam_null_img= {R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
+            R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
+            R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg};
+
+    Integer [] dogam_img = {R.drawable.img_bass, R.drawable.img_boosiri
+            , R.drawable.img_fishbones, R.drawable.img_fishbones, R.drawable.img_goldfish, R.drawable.img_jellyfish
+            , R.drawable.img_nimo, R.drawable.img_rock, R.drawable.img_samsik, R.drawable.img_spongebob
+            , R.drawable.img_turtle};
+
+    AlertDialog insert_fish_dialog;
+    Fragment dogam_frgment;
+    ArrayList<Integer> main_dogam = new ArrayList<Integer>();
     // -- 현석
 
 
@@ -133,6 +145,7 @@ public class MainActivity extends FragmentActivity {
         inventory_fish_fragment = new Inventory_fish_Fragment();
         inventory_bait_fragment = new Inventory_bait_Fragment();
         inventory_interior_fragment = new Inventory_interior_Fragment();
+        dogam_frgment = new Dogam_Fragment();
 
         shop_fragment = new ShopFragment();
         quest_fragment = new QuestFragment();
@@ -203,24 +216,29 @@ public class MainActivity extends FragmentActivity {
                         .commit();
             }
         });
-//
-//        btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frameLayout_menu, information_fragment,"dogam")// 수정 필
-//                        .commit();
-//            }
-//        });
-
-
-
-
-
 
         // --찬욱
 
         // 현석 --
+
+        btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
+                items = new Integer[10];
+
+                for (int i = 0; i < cheak.size() ; i++) {
+                    if(cheak.get(i) == 0){
+                        items[i] = dogam_null_img[i];
+                    } else {
+                        items[i] = dogam_img[i];
+                    }
+                }
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout_menu, dogam_frgment,"dogam").commit();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         aquarium = new Aquarium(this);
@@ -235,7 +253,6 @@ public class MainActivity extends FragmentActivity {
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 builder.setItems(aquarium.items, new DialogInterface.OnClickListener() {
                     @Override
@@ -302,7 +319,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (castingBtn.getText().toString().equals("완료")) {
                     if (!setRod) {
-
+                        setRod = true;
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
                         castingBtn.setText("캐스팅");
 
@@ -336,6 +353,7 @@ public class MainActivity extends FragmentActivity {
                 } else if (castingBtn.getText().toString().equals("캐스팅")) {
                     //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
+
                     pointMatrix = new float[16];
                     fishMatrix = new float[16];
                     pose.toMatrix(pointMatrix, 0);
@@ -420,7 +438,6 @@ public class MainActivity extends FragmentActivity {
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
-                            setRod = true;
                             mRenderer.drawRod = true;
 
                             waterMatrix = new float[16];
@@ -547,7 +564,6 @@ public class MainActivity extends FragmentActivity {
         try {
             InputStream is = getAssets().open("bucket.png");
             Bitmap bitmap = BitmapFactory.decodeStream(is);
-
             imgDB.addImage("bucket", bitmap);
             is.close();
 
