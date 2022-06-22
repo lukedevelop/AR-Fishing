@@ -2,6 +2,7 @@ package com.example.arfishing;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -77,6 +79,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
+    Button btn1, btn_AddFish, btn_removeFish, btn_showAquarium, btn_goFishing;
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -90,6 +93,14 @@ public class MainActivity extends FragmentActivity {
     boolean isShopInit = false;
     Dialog customDialog;
     // -- 송찬욱
+
+    // 현석 --
+    Aquarium aquarium;
+    Dogam_Fragment dogamfrag;
+
+    AlertDialog insert_fish_dialog;
+
+    // -- 현석
 
 
     @Override
@@ -156,6 +167,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 mainFrameLayout.setVisibility(View.VISIBLE);
                 mainFrameLayout.setClickable(true);
+
                 subFrameLayout.setVisibility(View.INVISIBLE);
                 subFrameLayout.setClickable(false);
 
@@ -207,6 +219,72 @@ public class MainActivity extends FragmentActivity {
 
 
         // --찬욱
+
+        // 현석 --
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        aquarium = new Aquarium(this);
+        dogamfrag = new Dogam_Fragment();
+
+        btn1 = (Button) findViewById(R.id.btn1);
+        btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
+        btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
+        btn_showAquarium = (Button) findViewById(R.id.btn_showAquarium);
+        btn_goFishing = (Button) findViewById(R.id.btn_goFishing);
+
+        btn_AddFish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                builder.setItems(aquarium.items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        aquarium.insertFish(id);
+                        Toast.makeText(getApplicationContext(), aquarium.items[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                insert_fish_dialog = builder.create();
+                insert_fish_dialog.show();
+
+                Log.d("붕",mRenderer.fish_arr.size() + "");
+
+            }
+        });
+
+        btn_removeFish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                aquarium.deleteFish();
+            }
+        });
+
+        btn_showAquarium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn1.setVisibility(View.GONE);
+                btn_AddFish.setVisibility(View.VISIBLE);
+                btn_removeFish.setVisibility(View.VISIBLE);
+                btn_showAquarium.setVisibility(View.VISIBLE);
+
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mainFrameLayout.setClickable(true);
+
+                subFrameLayout.setVisibility(View.INVISIBLE);
+                subFrameLayout.setClickable(false);
+
+            }
+        });
+
+        btn_goFishing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aquarium.ready = false;
+                aquarium.model_arr.clear();
+                mRenderer.fish_arr.clear();
+            }
+        });
 
 
 
@@ -488,6 +566,11 @@ public class MainActivity extends FragmentActivity {
             imgDB.addImage("aquarium",bitmap);
             is.close();
 
+            is = getAssets().open("aquarium.jpg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("aquarium",bitmap);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -501,6 +584,8 @@ public class MainActivity extends FragmentActivity {
                     img.getTrackingMethod() == AugmentedImage.TrackingMethod.FULL_TRACKING) {
                 Log.d("야호", "ㅁㅁ");
                 img.getName();
+
+
                 switch (img.getName()) {
                     case "shop_npc":
                         if(!isShopInit) {
@@ -515,6 +600,21 @@ public class MainActivity extends FragmentActivity {
                         if(threadIsGoing) {
                             imageCatched = true;
                         }
+                        break;
+
+
+
+
+                }
+            }
+
+            if (img.getTrackingState() == TrackingState.TRACKING ) {
+                pose = img.getCenterPose();
+                switch (img.getName()) {
+                    case "aquarium":
+
+                        // 현석
+                        aquarium.normalMov();
                         break;
                 }
             }

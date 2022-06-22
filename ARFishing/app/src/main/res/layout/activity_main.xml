@@ -60,6 +60,53 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textColor="@color/white"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="1dp">
+
+            <Button
+                android:id="@+id/btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="32dp"
+                android:text="내정보"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <Button
+                android:id="@+id/btn_AddFish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="물고기 추가"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_removeFish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="물고기 제거"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_goFishing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="낚시터"
+                android:visibility="invisible" />
+
+
+        </LinearLayout>
     </FrameLayout>
 
 
@@ -118,6 +165,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="도감" />
+                <Button
+                    android:id="@+id/btn_showAquarium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수조"/>
             </LinearLayout>
 
         </LinearLayout>

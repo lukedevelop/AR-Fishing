@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.ar.core.Session;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -27,6 +28,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
     boolean drawRod, drawPoint, drawFish, drawWater;
 
+    // 현석
+    ArrayList<ObjRenderer> fish_arr;
+
     MainRenderer(RenderCallBack myCallBack, Context context){
         this.myCallBack = myCallBack;
         this.context = context;
@@ -34,6 +38,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         fishingRod = new ObjRenderer(context, "rod.obj", "rod.jpg");
         point = new ObjRenderer(context, "float.obj", "float.jpg");
         water = new ObjRenderer(context, "Water.obj", "Water.jpg");
+
+        fish_arr = new ArrayList<ObjRenderer>();
     }
 
     @Override
@@ -80,6 +86,16 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         if(drawWater) {
             water.draw();
         }
+
+        // 현석
+        for (ObjRenderer fish  : fish_arr) {
+            if(!fish.isInit){
+                fish.init();
+
+            }
+            fish.draw();
+        }
+
     }
 
     void onDisplayChanged(){
@@ -105,6 +121,12 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             fish.setProjectionMatrix(matrix);
         }
         water.setProjectionMatrix(matrix);
+
+        for (ObjRenderer fish  : fish_arr) {
+            fish.setProjectionMatrix(matrix);
+        }
+
+
     }
 
     void updateViewMatrix(float [] matrix){
@@ -114,6 +136,11 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             fish.setViewMatrix(matrix);
         }
         water.setViewMatrix(matrix);
+
+        for (ObjRenderer fish  : fish_arr) {
+            fish.setViewMatrix(matrix);
+        }
+
     }
 
     void makeFishObj(String objName){
