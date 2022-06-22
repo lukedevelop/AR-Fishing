@@ -224,7 +224,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (castingBtn.getText().toString().equals("완료")) {
                     if (!setRod) {
-
+                        setRod = true;
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
                         castingBtn.setText("캐스팅");
 
@@ -342,7 +342,6 @@ public class MainActivity extends FragmentActivity {
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
-                            setRod = true;
                             mRenderer.drawRod = true;
 
                             waterMatrix = new float[16];

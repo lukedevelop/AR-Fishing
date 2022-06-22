@@ -1,7 +1,9 @@
 package com.example.arfishing;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.opengl.Matrix;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -112,6 +114,9 @@ public class CatchFish extends Thread{
                 }
             }
         }.start();
+
+        Vibrator vibrator = (Vibrator) mainActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(500);
 
         //고기가 잡히기 전까지 찌 흔들흔들
         while(intime1){
