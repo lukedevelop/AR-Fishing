@@ -79,7 +79,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
-    Button btn1, btn_AddFish, btn_removeFish, btn_showAquarium, btn_goFishing;
+    Button  btn_AddFish, btn_removeFish, btn_showAquarium, btn_goFishing;
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -171,6 +171,16 @@ public class MainActivity extends FragmentActivity {
                 subFrameLayout.setVisibility(View.INVISIBLE);
                 subFrameLayout.setClickable(false);
 
+                aquarium.ready = false;
+                aquarium.model_arr.clear();
+                mRenderer.fish_arr.clear();
+
+                btn_AddFish.setVisibility(View.INVISIBLE);
+                btn_removeFish.setVisibility(View.INVISIBLE);
+
+
+                castingBtn.setVisibility(View.VISIBLE);
+
 //                DBDAO dbDAO = new DBDAO(MainActivity.this);
 //                dbDAO.updateMemberDB("nickName","송찬욱",1,1,0);
 
@@ -226,7 +236,6 @@ public class MainActivity extends FragmentActivity {
         aquarium = new Aquarium(this);
         dogamfrag = new Dogam_Fragment();
 
-        btn1 = (Button) findViewById(R.id.btn1);
         btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
         btn_showAquarium = (Button) findViewById(R.id.btn_showAquarium);
@@ -263,16 +272,19 @@ public class MainActivity extends FragmentActivity {
         btn_showAquarium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn1.setVisibility(View.GONE);
-                btn_AddFish.setVisibility(View.VISIBLE);
-                btn_removeFish.setVisibility(View.VISIBLE);
-                btn_showAquarium.setVisibility(View.VISIBLE);
+
 
                 mainFrameLayout.setVisibility(View.VISIBLE);
                 mainFrameLayout.setClickable(true);
 
                 subFrameLayout.setVisibility(View.INVISIBLE);
                 subFrameLayout.setClickable(false);
+
+                castingBtn.setVisibility(View.INVISIBLE);
+
+                Toast.makeText(MainActivity.this, "수조 이미지를 인식해주세요", Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
@@ -283,6 +295,15 @@ public class MainActivity extends FragmentActivity {
                 aquarium.ready = false;
                 aquarium.model_arr.clear();
                 mRenderer.fish_arr.clear();
+
+                btn_AddFish.setVisibility(View.INVISIBLE);
+                btn_removeFish.setVisibility(View.INVISIBLE);
+
+
+                castingBtn.setVisibility(View.VISIBLE);
+
+
+
             }
         });
 
@@ -602,7 +623,24 @@ public class MainActivity extends FragmentActivity {
                         }
                         break;
 
+                    case "aquarium":
+                        if(btn_AddFish.getVisibility() == View.INVISIBLE &&
+                            castingBtn.getVisibility() == View.INVISIBLE
+                        ) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d("야야","너너");
+                                    btn_AddFish.setVisibility(View.VISIBLE);
+                                    btn_removeFish.setVisibility(View.VISIBLE);
+                                }
+                            });
 
+                        }
+
+                        // 현석
+                        aquarium.normalMov();
+                        break;
 
 
                 }
@@ -720,4 +758,6 @@ public class MainActivity extends FragmentActivity {
         });
 
     }
+
+
 }
