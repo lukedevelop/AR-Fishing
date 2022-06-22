@@ -2,6 +2,9 @@ package com.example.arfishing;
 
 import android.app.AlertDialog;
 import android.opengl.Matrix;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.LinkedHashMap;
@@ -14,17 +17,28 @@ public class CatchFish extends Thread{
     //todo 지은) 일단 임의로 바다로 설정, 이후에 지원님의 변수와 연결 필요
     String area = "바다", fishName;
 
+    //todo 지은) 일단 임의로 루어로 설정, 이후에 찬욱님의 변수와 연결 필요
+    String baitName = "루어";
+
     FishDTO caughtFish;
 
     LinkedHashMap<String, String> fishNameObj = new LinkedHashMap<String, String>();
 
     AlertDialog.Builder dlg;
+    View dlgView;
+    TextView dlgTv1, dlgTv2, dlgTv3;
+    ImageView dlgImg;
 
     CatchFish(MainActivity activity){
         mainActivity = activity;
 
         dlg = new AlertDialog.Builder(mainActivity);
-        dlg.setMessage("안디 잡음");
+        dlg.setNegativeButton("확인", null);
+        dlgView = (View) View.inflate(mainActivity, R.layout.caught_fish_dlg, null);
+        dlgTv1 = (TextView) dlgView.findViewById(R.id.dlgTv1);
+        dlgTv2 = (TextView) dlgView.findViewById(R.id.dlgTv2);
+        dlgTv3 = (TextView) dlgView.findViewById(R.id.dlgTv3);
+        dlgImg = (ImageView) dlgView.findViewById(R.id.dlgImg);
 
         fishNameObj.put("베스", "fish_bass");
         fishNameObj.put("부시리", "fish_boosiri");
@@ -40,6 +54,8 @@ public class CatchFish extends Thread{
 
     @Override
     public void run() {
+
+        mainActivity.threadIsGoing = true;
 
         try {
             sleep(3000);
@@ -59,7 +75,7 @@ public class CatchFish extends Thread{
         //todo 찬욱) 시간 스레드1 >> 이 스레드가 멈추가 전에 버튼을 다다다다 눌러야 하는 것
         intime1 = true;
         new Thread(){
-            int time = 10;
+            int time = 5;
             @Override
             public void run() {
                 while (intime1 && time >= 0) {
@@ -84,6 +100,7 @@ public class CatchFish extends Thread{
 
         //시간 안에 버튼을 일정 횟수 이상 누르면
         //고기가 잡히고 타이머는 스탑
+        //todo 지은) 물고기마다 버튼 횟수도 정하기
         new Thread(){
             @Override
             public void run() {
@@ -128,13 +145,14 @@ public class CatchFish extends Thread{
 
             caughtFish = new DBDAO(mainActivity).getFishInfo(fishName);
 
-            mainActivity.mRenderer.point.init();
+            mainActivity.mRenderer.drawPoint = false;
             mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
             Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale));
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 1, 0);
             mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
+            mainActivity.mRenderer.drawFish = true;
 
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -142,10 +160,6 @@ public class CatchFish extends Thread{
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기가 잡혔습니다. 양동이 이미지를 촬영해주세요!", Toast.LENGTH_SHORT).show();
                 }
             });
-
-            new DBDAO(mainActivity).plusFishInventory(fishName);
-
-
 
             //다시 30초 타이머 시작
             //시간이 다 흐르면 타이머 스탑, 고기도 놓침
@@ -172,7 +186,6 @@ public class CatchFish extends Thread{
                         time--;
                     }
                     intime2 = false;
-                    System.out.println("1)" + intime2);
                     isCaught = false;
                     isCaptured = false;
                 }
@@ -190,19 +203,30 @@ public class CatchFish extends Thread{
                         if (mainActivity.imageCatched) {
                             isCaptured = true;
                             intime2 = false;
-                            System.out.println("2)" + intime2);
+                            mainActivity.imageCatched = false;
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(mainActivity.getApplicationContext(), "안디를 잡았습니다!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mainActivity.getApplicationContext(), fishName+"을(를) 잡았습니다!", Toast.LENGTH_SHORT).show();
+
+                                    new DBDAO(mainActivity).plusFishInventory(fishName);
+                                    new DBDAO(mainActivity).minusBaitInventory(baitName);
+
+                                    dlgTv1.setText(fishName+"을(를) 잡았습니다!");
+                                    dlgTv2.setText(fishName);
+                                    dlgTv3.setText(caughtFish.fish_explain);
+                                    dlgImg.setImageResource(new ShopFragment().choiceFishImg(caughtFish.fish_id));
+                                    dlg.setView(dlgView);
                                     dlg.show();
-                                    mainActivity.setRod = false;
                                     mainActivity.casting = false;
-//                                    mainActivity.mRenderer.point.init();
+                                    mainActivity.mRenderer.drawPoint = false;
+                                    mainActivity.mRenderer.drawFish = false;
                                     mainActivity.castingBtn.setText("완료");
                                     mainActivity.castingBtn.callOnClick();
                                 }
                             });
+                            mainActivity.threadIsGoing = false;
+                            interrupt();
                         }
                     }
                 }
@@ -223,58 +247,31 @@ public class CatchFish extends Thread{
                     @Override
                     public void run() {
                         Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
-                        mainActivity.setRod = false;
                         mainActivity.casting = false;
-//                        mainActivity.mRenderer.point.init();
+                        mainActivity.mRenderer.drawPoint = false;
+                        mainActivity.mRenderer.drawFish = false;
                         mainActivity.castingBtn.setText("완료");
                         mainActivity.castingBtn.callOnClick();
                     }
                 });
-
-                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
+                mainActivity.threadIsGoing = false;
+                interrupt();
             }
         }else if(!intime1 && !isCaptured){
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기를 놓쳤습니다!", Toast.LENGTH_SHORT).show();
-                    mainActivity.setRod = false;
                     mainActivity.casting = false;
-//                    mainActivity.mRenderer.point.init();
+                    mainActivity.mRenderer.drawPoint = false;
+                    mainActivity.mRenderer.drawFish = false;
                     mainActivity.castingBtn.setText("완료");
                     mainActivity.castingBtn.callOnClick();
                 }
             });
-                //todo 지은) 여기서 낚시대 설치하는 곳 or 캐스팅 하는 곳으로 돌아가야되는데 잘 안됨
+            mainActivity.threadIsGoing = false;
+            interrupt();
         }
+        mainActivity.threadIsGoing = false;
     }
-
-    void check_quest_DB() {
-        //
-        new DBDAO(mainActivity).update_quest_now_DB(0);
-        new DBDAO(mainActivity).update_quest_complete_DB();
-        // count 와 now 검사 후 complete 체크
-
-    }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

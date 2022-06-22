@@ -190,6 +190,12 @@ public class DBDAO {
             fishDTO.fish_scale = cursor.getString(4);
             fishDTO.fish_rotation = cursor.getString(5);
         }
+
+        cursor = db.rawQuery("select fish_explain from inventory_fish where fish_name = '"+name+"'", null);
+        while(cursor.moveToNext()){
+            fishDTO.fish_explain = cursor.getString(0);
+        }
+
         db.close();
 
         return fishDTO;
@@ -197,12 +203,17 @@ public class DBDAO {
 
     void plusFishInventory(String name){
         db = myDB.getWritableDatabase();
-        System.out.println("update inventory_fish set fish_amount = " +
-                "(select fish_amount from inventory_fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
         db.execSQL("update inventory_fish set fish_amount = " +
                 "(select fish_amount from inventory_fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
         db.close();
 
+    }
+
+    void minusBaitInventory(String name){
+        db = myDB.getWritableDatabase();
+        db.execSQL("update inventory_bait set bait_amount = " +
+                "(select bait_amount from inventory_bait where bait_name = '" +name+"') - 1 where bait_name = '"+name+"'");
+        db.close();
     }
 
 
