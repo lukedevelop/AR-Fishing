@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity {
     float[] pointMatrix, waterMatrix, fishMatrix;
     int btnClickCnt;
     Frame frame;
-//    Pose pose;
+    Pose pose;
 
     CatchFish catchFish;
 
@@ -720,6 +720,8 @@ public class MainActivity extends FragmentActivity {
             }
 
             if (img.getTrackingState() == TrackingState.TRACKING ) {
+
+                pose =img.getCenterPose();
                 switch (img.getName()) {
                     case "aquarium":
 
