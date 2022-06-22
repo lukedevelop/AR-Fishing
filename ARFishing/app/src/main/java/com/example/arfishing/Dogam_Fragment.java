@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,17 +22,14 @@ import java.util.ArrayList;
 
 public class Dogam_Fragment extends Fragment {
 
-    ArrayList<String> ChenkDogam = new ArrayList<String>();
-    boolean fish1 = false, fish2 = false, fish3 = false, fish4 = false, fish5 = false, fish6 = false;
 
-
-    MainActivity mainA;
+    MainActivity mainActivity;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mainA = (MainActivity) context;
+        mainActivity = (MainActivity) context;
 
         Log.d("프래그먼트 작동 여", "작동 1");
     }
@@ -56,12 +54,12 @@ public class Dogam_Fragment extends Fragment {
         Log.d("프래그먼트 작동 여", "작동 4");
 
         GridView gridView = (GridView) view.findViewById(R.id.gridView1);
-        cGridAdapter gridAdapter = new cGridAdapter(mainA);
+        cGridAdapter gridAdapter = new cGridAdapter(mainActivity);
         gridView.setAdapter(gridAdapter);
         TextView gridtext = (TextView) view.findViewById(R.id.gridtext);
 
 
-        gridView.setAdapter(new cGridAdapter(mainA));
+        gridView.setAdapter(new cGridAdapter(mainActivity));
 
 
 
@@ -72,21 +70,19 @@ public class Dogam_Fragment extends Fragment {
 
     public class cGridAdapter extends BaseAdapter {
 
-        Integer [] itmes = {R.drawable.fish1, R.drawable.nullimg, R.drawable.nullimg,
-                R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
-                R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg};
+
 
         String [] num = {"001", "002", "003", "004", "005", "006", "007", "008", "009", "010"};
 
         public cGridAdapter(MainActivity context){
 
-            mainA = context;
+            mainActivity = context;
 
 
         }
         @Override
         public int getCount() {
-            return itmes.length;
+            return mainActivity.items.length;
         }
 
         @Override
@@ -103,25 +99,25 @@ public class Dogam_Fragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
 
 
-            ImageView imageView = new ImageView(mainA);
-            TextView girdtext = new TextView(mainA);
+            ImageView imageView = new ImageView(mainActivity);
+            TextView girdtext = new TextView(mainActivity);
             imageView.setLayoutParams(new GridView.LayoutParams(250, 300));
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setPadding(5,5,5,5);
 
-            imageView.setImageResource(itmes[position]);
+            imageView.setImageResource(mainActivity.items[position]);
 
             final int pos = position;
 
-            if(itmes[position] == R.drawable.nullimg ) {}
+            if(mainActivity.items[position] == R.drawable.nullimg ) {}
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     View dialogView = (View) View.inflate(
-                            mainA, R.layout.dialog, null);
-                    AlertDialog.Builder dlg = new AlertDialog.Builder(mainA);
+                            mainActivity, R.layout.dialog, null);
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(mainActivity);
                     ImageView ivPoster = (ImageView) dialogView .findViewById(R.id.imagview);
-                    ivPoster.setImageResource(itmes[pos]);
+                    ivPoster.setImageResource(mainActivity.items    [pos]);
                     dlg.setTitle("도감 정보");
                     //     dlg.setIcon(R.drawable.nullimg);
                     dlg.setView(dialogView);
@@ -134,6 +130,8 @@ public class Dogam_Fragment extends Fragment {
             return imageView;
         }
     }
+
+
 }
 
 

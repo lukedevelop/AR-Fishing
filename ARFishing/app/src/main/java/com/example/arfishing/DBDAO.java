@@ -205,6 +205,8 @@ public class DBDAO {
         db = myDB.getWritableDatabase();
         db.execSQL("update inventory_fish set fish_amount = " +
                 "(select fish_amount from inventory_fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
+        db.execSQL("update fish set fish_dogam =" +
+                "(select fish_dogam from fish where fish_name = '"+name+"') + 1 where fish_name = '"+name+"'");
         db.close();
 
     }
@@ -285,6 +287,19 @@ public class DBDAO {
 
     }
 
+    ArrayList<Integer> update_dogam_fish_DB(){
+        ArrayList<Integer> dogam = new ArrayList<Integer>();
+
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select fish_dogam from fish", null);
+        while (cursor.moveToNext()){
+            dogam.add(cursor.getInt(0));
+        }
+        db.close();
+        return dogam;
+    }
+
+
 
 
 
@@ -303,4 +318,5 @@ public class DBDAO {
 
         }
     }
+
 }

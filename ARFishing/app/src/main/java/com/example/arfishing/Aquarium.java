@@ -76,15 +76,15 @@ public class Aquarium {
             switch (id){
                 case 0 :
                     mObj  = new ObjRenderer(mActivity, "rock2.obj", "rock.png");
-                    Matrix.scaleM(modelMatrix, 0, 0.001f, 0.001f, 0.001f);
+                 //   Matrix.scaleM(modelMatrix, 0, 0.001f, 0.001f, 0.001f);
                     break;
                 case 1 :
                     mObj  = new ObjRenderer(mActivity, "andy.obj", "andy.png");
-                    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
+                //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
                 case 2 :
                     mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "Jelly_Fish.jpg");
-                    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
+                //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
                 case 3 :
                     mObj  = new ObjRenderer(mActivity, "andy.obj", "andy.png");
@@ -96,8 +96,7 @@ public class Aquarium {
 
 
 
-            try{
-                Thread.sleep(1000);
+
 
 
                 mActivity.pose.toMatrix(modelMatrix, 0);
@@ -106,9 +105,7 @@ public class Aquarium {
                 mActivity.mRenderer.fish_arr.add(mObj);
                 model_arr.add(modelMatrix);
 
-            } catch (Exception e){
 
-            }
 
 
 
