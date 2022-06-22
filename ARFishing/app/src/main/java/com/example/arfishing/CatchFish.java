@@ -15,7 +15,7 @@ public class CatchFish extends Thread{
     boolean isCaught, isCaptured, intime1, intime2;
 
     //todo 지은) 일단 임의로 바다로 설정, 이후에 지원님의 변수와 연결 필요
-    String area = "바다", fishName;
+    String area = "", fishName;
 
     //todo 지은) 일단 임의로 루어로 설정, 이후에 찬욱님의 변수와 연결 필요
     String baitName = "루어";
@@ -31,6 +31,8 @@ public class CatchFish extends Thread{
 
     CatchFish(MainActivity activity){
         mainActivity = activity;
+
+        this.area = mainActivity.area;
 
         dlg = new AlertDialog.Builder(mainActivity);
         dlg.setNegativeButton("확인", null);

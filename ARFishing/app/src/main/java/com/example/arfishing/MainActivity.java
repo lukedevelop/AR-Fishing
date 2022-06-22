@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,8 @@ public class MainActivity extends FragmentActivity {
     Frame frame;
     Pose pose;
 
+    CatchFish catchFish;
+
     // 송찬욱--
     FrameLayout mainFrameLayout;
     FrameLayout subFrameLayout;
@@ -101,6 +104,14 @@ public class MainActivity extends FragmentActivity {
     AlertDialog insert_fish_dialog;
 
     // -- 현석
+
+    // 지원 --
+    boolean sea = false, gang = false;
+    String area = "바다";
+    ImageView galimg, galimg2, riverimg;
+    TextView fishingtv ;
+
+    // -- 지원
 
 
     @Override
@@ -230,6 +241,14 @@ public class MainActivity extends FragmentActivity {
 
         // --찬욱
 
+        // 지원 --
+        fishingtv = (TextView)findViewById(R.id.FishingTv);
+
+        galimg = (ImageView)findViewById(R.id.Gal);
+        galimg2 = (ImageView)findViewById(R.id.Gal2);
+        riverimg = (ImageView)findViewById(R.id.River);
+        // -- 지원
+
         // 현석 --
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -323,7 +342,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (castingBtn.getText().toString().equals("완료")) {
                     if (!setRod) {
-
+                        setRod = true;
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
                         castingBtn.setText("캐스팅");
 
@@ -374,7 +393,10 @@ public class MainActivity extends FragmentActivity {
                     castingBtn.setText("잡기");
                     castingBtn.setEnabled(false);
 
-                    new CatchFish(MainActivity.this).start();
+
+                    catchFish = new CatchFish(MainActivity.this);
+                    catchFish.start();
+//                    new CatchFish(MainActivity.this).start();
 
                     btnClickCnt = 0;
                 } else if (castingBtn.getText().toString().equals("잡기")) {
@@ -441,7 +463,7 @@ public class MainActivity extends FragmentActivity {
                             Matrix.rotateM(rodMatrix, 0, -45, 1, 0, 0);
                             Matrix.rotateM(rodMatrix, 0, -20, 0, 1, 0);
                             mRenderer.fishingRod.setModelMatrix(rodMatrix);
-                            setRod = true;
+
                             mRenderer.drawRod = true;
 
                             waterMatrix = new float[16];
@@ -591,6 +613,15 @@ public class MainActivity extends FragmentActivity {
             bitmap = BitmapFactory.decodeStream(is);
             imgDB.addImage("aquarium",bitmap);
 
+            is = getAssets().open("river.jpeg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("river", bitmap);
+            is.close();
+
+            is = getAssets().open("sea.jpeg");
+            bitmap = BitmapFactory.decodeStream(is);
+            imgDB.addImage("sea", bitmap);
+            is.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -642,6 +673,67 @@ public class MainActivity extends FragmentActivity {
                         aquarium.normalMov();
                         break;
 
+                    case "sea":
+
+                        if (!sea) {
+                            sea = true;
+
+                            area = "바다";
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+
+                                    galimg.setVisibility(View.VISIBLE);
+                                    galimg2.setVisibility(View.VISIBLE);
+
+                                    riverimg.setVisibility(View.INVISIBLE);
+                                    fishingtv.setText("동해바다");
+
+                                    Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            });
+
+
+
+                            Log.d("실행중1","실행중1");
+
+                        }
+                        gang = false;
+                        break;
+
+                    case "river":
+//                        Log.d("drawImages2 여", img.getIndex() +img.getName()+
+//                                pose.tx()+","+
+//                                pose.ty()+","+
+//                                pose.tz());
+
+                        if(!gang) {
+                            gang = true;
+                            area = "강";
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    galimg.setVisibility(View.INVISIBLE);
+                                    galimg2.setVisibility(View.INVISIBLE);
+                                    riverimg.setVisibility(View.VISIBLE);
+
+                                    fishingtv.setText("낙동강");
+
+                                    Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+
+
+
+                            Log.d("실행중2","실행중2");
+
+                        }
+                        sea = false;
+                        break;
 
                 }
             }
