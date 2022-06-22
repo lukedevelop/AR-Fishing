@@ -359,12 +359,12 @@ public class MainActivity extends FragmentActivity {
                                 while (!casting) {
                                     if (dir) {
                                         castingSeekbar.incrementProgressBy(1);
-                                        if (castingSeekbar.getProgress() == 60) {
+                                        if (castingSeekbar.getProgress() == 100) {
                                             dir = false;
                                         }
                                     } else if (!dir) {
                                         castingSeekbar.incrementProgressBy(-1);
-                                        if (castingSeekbar.getProgress() == 0) {
+                                        if (castingSeekbar.getProgress() == 30) {
                                             dir = true;
                                         }
                                     }
@@ -386,12 +386,12 @@ public class MainActivity extends FragmentActivity {
                     pointMatrix = mRenderer.modelMatrix.clone();
                     waterMatrix = mRenderer.modelMatrix.clone();
 
-                    Matrix.translateM(pointMatrix, 0, 0, 10f, -(float) castingSeekbar.getProgress()*5);
+                    Matrix.translateM(pointMatrix, 0, 0, 7f, -(float) castingSeekbar.getProgress()*5);
                     Matrix.scaleM(pointMatrix, 0, 10f, 10f, 10f);
                     mRenderer.point.setModelMatrix(pointMatrix);
 
-                    Matrix.scaleM(waterMatrix, 0, 0.01f, 0.01f, 0.01f);
-                    Matrix.translateM(waterMatrix, 0, -398f, -14850f,-(float) castingSeekbar.getProgress()*5*100);
+                    Matrix.scaleM(waterMatrix, 0, 0.007f, 0.007f, 0.007f);
+                    Matrix.translateM(waterMatrix, 0, -398f, -14850f,-(float) castingSeekbar.getProgress()*5*120);
                     mRenderer.water.setModelMatrix(waterMatrix);
 
 
@@ -498,6 +498,8 @@ public class MainActivity extends FragmentActivity {
 
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        changeGameMode("낚시");
     }
 
     @Override
