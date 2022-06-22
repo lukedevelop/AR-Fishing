@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bigimg"/>
+
+    <ImageView
+        android:id="@+id/imagview"
+        android:layout_width="match_parent"
+        android:layout_height="515dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="붕어 \n"
+        android:textSize="40dp"
+        android:id="@+id/dogam_name"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="호수에서 주로 잡힌다 \n 평균길이 15cm"
+        android:textSize="20dp"
+        android:id="@+id/dogam_explain"/>
+
+
+
+</LinearLayout>

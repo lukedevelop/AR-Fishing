@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity {
             R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg};
 
     Integer [] dogam_img = {R.drawable.img_bass, R.drawable.img_boosiri
-            , R.drawable.img_fishbones, R.drawable.img_fishbones, R.drawable.img_goldfish, R.drawable.img_jellyfish
+            , R.drawable.img_fishbones, R.drawable.img_goldfish, R.drawable.img_jellyfish
             , R.drawable.img_nimo, R.drawable.img_rock, R.drawable.img_samsik, R.drawable.img_spongebob
             , R.drawable.img_turtle};
 
