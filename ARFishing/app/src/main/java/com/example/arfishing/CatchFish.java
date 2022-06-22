@@ -16,11 +16,9 @@ public class CatchFish extends Thread{
     MainActivity mainActivity;
     boolean isCaught, isCaptured, intime1, intime2;
 
-    //todo 지은) 일단 임의로 바다로 설정, 이후에 지원님의 변수와 연결 필요
     String area = "", fishName;
 
-    //todo 지은) 일단 임의로 루어로 설정, 이후에 찬욱님의 변수와 연결 필요
-    String baitName = "루어";
+    String baitName = "떡밥";
 
     FishDTO caughtFish;
 
@@ -35,7 +33,7 @@ public class CatchFish extends Thread{
         mainActivity = activity;
 
         this.area = mainActivity.area;
-
+        this.baitName = mainActivity.setBait;
         dlg = new AlertDialog.Builder(mainActivity);
         dlg.setNegativeButton("확인", null);
         dlgView = (View) View.inflate(mainActivity, R.layout.caught_fish_dlg, null);
@@ -218,6 +216,23 @@ public class CatchFish extends Thread{
 
                                     new DBDAO(mainActivity).plusFishInventory(fishName);
                                     new DBDAO(mainActivity).minusBaitInventory(baitName);
+                                    new DBDAO(mainActivity).updateMemberDB("hasFish",
+                                            "",
+                                            0,
+                                            new DBDAO(mainActivity).select_hasFish_MemberDB()+1,
+                                            0
+                                            );
+                                    new DBDAO(mainActivity).updateMemberDB("catchFish",
+                                            "",
+                                            new DBDAO(mainActivity).select_catchFish_MemberDB()+1,
+                                            0,
+                                            0
+                                    );
+
+
+                                    new DBDAO(mainActivity).update_quest_now_DB(0);
+                                    new DBDAO(mainActivity).update_quest_complete_DB();
+
 
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);

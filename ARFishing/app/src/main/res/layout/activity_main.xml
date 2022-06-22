@@ -213,11 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="도감" />
-                <Button
-                    android:id="@+id/btn_showAquarium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수조"/>
+
             </LinearLayout>
 
         </LinearLayout>

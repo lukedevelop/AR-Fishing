@@ -157,7 +157,9 @@ public class Inventory_bait_Fragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(mainActivity, item.baitName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity, item.baitName+"을(를) 장비하였습니다.", Toast.LENGTH_SHORT).show();
+                    mainActivity.setBait = item.baitName;
+
                 }
             });
 

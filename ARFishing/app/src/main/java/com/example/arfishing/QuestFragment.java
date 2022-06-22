@@ -40,8 +40,8 @@ public class QuestFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.list_quest);
 
-        new DBDAO(mainActivity).update_quest_now_DB(0);
-        new DBDAO(mainActivity).update_quest_complete_DB();
+
+
 
         // TODO - DB 퀘스트 불러오기
 

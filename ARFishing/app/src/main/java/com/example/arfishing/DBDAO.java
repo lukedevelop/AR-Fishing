@@ -60,6 +60,33 @@ public class DBDAO {
         return money;
     }
 
+    int select_catchFish_MemberDB() {
+        int amount = 0;
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select catchfish from member",null);
+        while(cursor.moveToNext()) {
+            amount = cursor.getInt(0);
+        }
+
+        db.close();
+
+        return amount;
+    }
+
+    int select_hasFish_MemberDB() {
+        int amount = 0;
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select hasfish from member",null);
+        while(cursor.moveToNext()) {
+            amount = cursor.getInt(0);
+        }
+
+        db.close();
+
+        return amount;
+    }
+
+
     void update_money_MemberDB(int money) {
         db = myDB.getReadableDatabase();
         db.execSQL("update member set money = " +
@@ -218,7 +245,19 @@ public class DBDAO {
         db.close();
     }
 
-
+    boolean is_bait_Inventory(String name) {
+        db = myDB.getReadableDatabase();
+        int amount = 0;
+        Cursor cursor = db.rawQuery("select bait_amount from inventory_bait where bait_name = '"+name+"'", null);
+        while(cursor.moveToNext()){
+            amount = cursor.getInt(0);
+        }
+        if(amount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 //    ArrayList<Integer> select_quest_count_DB(int id) {
 //        db = myDB.getReadableDatabase();

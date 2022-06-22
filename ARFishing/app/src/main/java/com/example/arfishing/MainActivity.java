@@ -11,6 +11,7 @@ import android.hardware.display.DisplayManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -61,6 +62,7 @@ public class MainActivity extends FragmentActivity {
     boolean imageCatched = false;
 
     String gameMode = "입장";
+    String setBait = "떡밥";
 
     Button castingBtn;
     SeekBar castingSeekbar;
@@ -84,7 +86,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
-    Button  btn_AddFish, btn_removeFish, btn_showAquarium, btn_goFishing;
+    Button  btn_AddFish, btn_removeFish, btn_goFishing;
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -139,7 +141,6 @@ public class MainActivity extends FragmentActivity {
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
 
-
         // 찬욱--
         // ------------연결 시작
 
@@ -165,7 +166,7 @@ public class MainActivity extends FragmentActivity {
         // TODO 나중연결 후 추가 - 퀘스트, 도감 프래그먼트 추가 요망
 
         // 온보딩 생성 나중에 살리기
-//        showOnBoarding();
+        showOnBoarding();
 
         btn_showMenuFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,14 +178,15 @@ public class MainActivity extends FragmentActivity {
                 subFrameLayout.setClickable(true);
 
 
+
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, information_fragment,"information")
                         .commit();
 
-//                // 정보 업데이트
-//                if(getSupportFragmentManager().findFragmentByTag("information") != null) {
-//                    ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
-//                }
+                // 정보 업데이트
+                if(getSupportFragmentManager().findFragmentByTag("information") != null) {
+                    ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
+                }
 
                 changeGameMode("메뉴");
             }
@@ -225,6 +227,11 @@ public class MainActivity extends FragmentActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, information_fragment,"information")
                         .commit();
+                // 정보 업데이트
+                if(getSupportFragmentManager().findFragmentByTag("information") != null) {
+                    ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
+                }
+
             }
         });
 
@@ -243,6 +250,8 @@ public class MainActivity extends FragmentActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, quest_fragment,"quest") // 수정 필
                         .commit();
+
+                new DBDAO(MainActivity.this).update_quest_complete_DB();
             }
         });
 
@@ -283,7 +292,6 @@ public class MainActivity extends FragmentActivity {
 
         btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
-        btn_showAquarium = (Button) findViewById(R.id.btn_showAquarium);
         btn_goFishing = (Button) findViewById(R.id.btn_goFishing);
 
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
@@ -313,25 +321,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        btn_showAquarium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                mainFrameLayout.setVisibility(View.VISIBLE);
-                mainFrameLayout.setClickable(true);
-
-                subFrameLayout.setVisibility(View.INVISIBLE);
-                subFrameLayout.setClickable(false);
-
-                castingBtn.setVisibility(View.INVISIBLE);
-
-                Toast.makeText(MainActivity.this, "수조 이미지를 인식해주세요", Toast.LENGTH_SHORT).show();
-
-
-
-            }
-        });
 
         btn_goFishing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,7 +337,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-
+    
 
         // 지은 --
         castingSeekbar.setOnTouchListener(new View.OnTouchListener() {
@@ -362,8 +351,11 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                if (castingBtn.getText().toString().equals("시작")) {
+                if (castingBtn.getText().toString().equals("시작")
 
+                ) {
+                    if(new DBDAO(MainActivity.this).is_bait_Inventory(setBait)) {
+                        casting = false;
                         Toast.makeText(getApplicationContext(), "낚시대를 던져주세요.", Toast.LENGTH_SHORT).show();
                         castingBtn.setText("캐스팅");
 
@@ -374,6 +366,7 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void run() {
                                 while (!casting) {
+                                    Log.d("캐스팅", "");
                                     if (dir) {
                                         castingSeekbar.incrementProgressBy(1);
                                         if (castingSeekbar.getProgress() == 100) {
@@ -393,6 +386,12 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
                         }.start();
+
+
+                    } else {
+                        Toast.makeText(MainActivity.this,"미끼가 없습니다.", Toast.LENGTH_SHORT).show();
+
+                    }
                 } else if (castingBtn.getText().toString().equals("캐스팅")) {
                     //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
@@ -518,7 +517,6 @@ public class MainActivity extends FragmentActivity {
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-        changeGameMode("낚시");
     }
 
     @Override
@@ -650,6 +648,8 @@ public class MainActivity extends FragmentActivity {
                             isShopInit = true;
                             Log.d("야호", "ㅁㅁ");
                             showCustomDialog();
+
+
                         }
 
                         break;
@@ -825,6 +825,7 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
+                        changeGameMode("상점");
 
                         mainFrameLayout.setVisibility(View.INVISIBLE);
                         mainFrameLayout.setClickable(false);
@@ -866,6 +867,8 @@ public class MainActivity extends FragmentActivity {
 
         if(!mode.equals("낚시")){
             mRenderer.drawRod = false;
+            casting = true;
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -878,6 +881,8 @@ public class MainActivity extends FragmentActivity {
             galimg.setVisibility(View.INVISIBLE);
             galimg2.setVisibility(View.INVISIBLE);
             riverimg.setVisibility(View.INVISIBLE);
+
+
         }else{
             mRenderer.drawRod = true;
             castingBtn.setVisibility(View.VISIBLE);
