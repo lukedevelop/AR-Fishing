@@ -258,6 +258,7 @@ public class CatchFish extends Thread{
                         mainActivity.casting = false;
                         mainActivity.mRenderer.drawPoint = false;
                         mainActivity.mRenderer.drawFish = false;
+                        mainActivity.mRenderer.drawWater = false;
                         mainActivity.castingBtn.setText("시작");
                         mainActivity.castingBtn.callOnClick();
                     }
@@ -273,6 +274,7 @@ public class CatchFish extends Thread{
                     mainActivity.casting = false;
                     mainActivity.mRenderer.drawPoint = false;
                     mainActivity.mRenderer.drawFish = false;
+                    mainActivity.mRenderer.drawWater = false;
                     mainActivity.castingBtn.setText("시작");
                     mainActivity.castingBtn.callOnClick();
                 }

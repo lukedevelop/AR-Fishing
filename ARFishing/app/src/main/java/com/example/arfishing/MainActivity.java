@@ -60,6 +60,8 @@ public class MainActivity extends FragmentActivity {
     boolean mTouched = false, casting = false, threadIsGoing;
     boolean imageCatched = false;
 
+    String gameMode = "입장";
+
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
@@ -107,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 
     // 지원 --
     boolean sea = false, gang = false;
-    String area = "바다";
+    String area = "";
     ImageView galimg, galimg2, riverimg;
     TextView fishingtv ;
 
@@ -170,6 +172,8 @@ public class MainActivity extends FragmentActivity {
 //                if(getSupportFragmentManager().findFragmentByTag("information") != null) {
 //                    ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
 //                }
+
+                changeGameMode("메뉴");
             }
         });
 
@@ -194,7 +198,11 @@ public class MainActivity extends FragmentActivity {
 
 //                DBDAO dbDAO = new DBDAO(MainActivity.this);
 //                dbDAO.updateMemberDB("nickName","송찬욱",1,1,0);
-
+                if(area.equals("")){
+                    changeGameMode("입장");
+                } else{
+                    changeGameMode("낚시");
+                }
             }
         });
 
@@ -320,9 +328,6 @@ public class MainActivity extends FragmentActivity {
 
 
                 castingBtn.setVisibility(View.VISIBLE);
-
-
-
             }
         });
 
@@ -354,12 +359,12 @@ public class MainActivity extends FragmentActivity {
                                 while (!casting) {
                                     if (dir) {
                                         castingSeekbar.incrementProgressBy(1);
-                                        if (castingSeekbar.getProgress() == 60) {
+                                        if (castingSeekbar.getProgress() == 100) {
                                             dir = false;
                                         }
                                     } else if (!dir) {
                                         castingSeekbar.incrementProgressBy(-1);
-                                        if (castingSeekbar.getProgress() == 0) {
+                                        if (castingSeekbar.getProgress() == 30) {
                                             dir = true;
                                         }
                                     }
@@ -381,12 +386,12 @@ public class MainActivity extends FragmentActivity {
                     pointMatrix = mRenderer.modelMatrix.clone();
                     waterMatrix = mRenderer.modelMatrix.clone();
 
-                    Matrix.translateM(pointMatrix, 0, 0, 10f, -(float) castingSeekbar.getProgress()*5);
+                    Matrix.translateM(pointMatrix, 0, 0, 7f, -(float) castingSeekbar.getProgress()*5);
                     Matrix.scaleM(pointMatrix, 0, 10f, 10f, 10f);
                     mRenderer.point.setModelMatrix(pointMatrix);
 
-                    Matrix.scaleM(waterMatrix, 0, 0.01f, 0.01f, 0.01f);
-                    Matrix.translateM(waterMatrix, 0, -398f, -14850f,-(float) castingSeekbar.getProgress()*5*100);
+                    Matrix.scaleM(waterMatrix, 0, 0.007f, 0.007f, 0.007f);
+                    Matrix.translateM(waterMatrix, 0, -398f, -14850f,-(float) castingSeekbar.getProgress()*5*120);
                     mRenderer.water.setModelMatrix(waterMatrix);
 
 
@@ -493,6 +498,8 @@ public class MainActivity extends FragmentActivity {
 
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        changeGameMode("낚시");
     }
 
     @Override
@@ -636,84 +643,83 @@ public class MainActivity extends FragmentActivity {
                         break;
 
                     case "aquarium":
-                        if(btn_AddFish.getVisibility() == View.INVISIBLE &&
-                            castingBtn.getVisibility() == View.INVISIBLE
-                        ) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d("야야","너너");
-                                    btn_AddFish.setVisibility(View.VISIBLE);
-                                    btn_removeFish.setVisibility(View.VISIBLE);
-                                }
-                            });
+                        if(!threadIsGoing) {
+                            if (btn_AddFish.getVisibility() == View.INVISIBLE &&
+                                    castingBtn.getVisibility() == View.INVISIBLE
+                            ) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d("야야", "너너");
+                                        btn_AddFish.setVisibility(View.VISIBLE);
+                                        btn_removeFish.setVisibility(View.VISIBLE);
+                                    }
+                                });
 
+                            }
+
+                            // 현석
+                            aquarium.normalMov();
+                            changeGameMode("수조");
                         }
-
-                        // 현석
-                        aquarium.normalMov();
                         break;
 
                     case "sea":
+                        if(!threadIsGoing) {
+                            if (!sea) {
+                                sea = true;
+                                area = "바다";
 
-                        if (!sea) {
-                            sea = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        galimg.setVisibility(View.VISIBLE);
+                                        galimg2.setVisibility(View.VISIBLE);
 
-                            area = "바다";
+                                        riverimg.setVisibility(View.INVISIBLE);
+                                        fishingtv.setText("동해바다");
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-
-                                    galimg.setVisibility(View.VISIBLE);
-                                    galimg2.setVisibility(View.VISIBLE);
-
-                                    riverimg.setVisibility(View.INVISIBLE);
-                                    fishingtv.setText("동해바다");
-
-                                    Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
-                                }
-
-                            });
+                                        Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
+                                        changeGameMode("낚시");
+                                    }
+                                });
 
 
+                                Log.d("실행중1", "실행중1");
 
-                            Log.d("실행중1","실행중1");
-
+                            }
+                            gang = false;
                         }
-                        gang = false;
                         break;
 
                     case "river":
+                        if(!threadIsGoing) {
 //                        Log.d("drawImages2 여", img.getIndex() +img.getName()+
 //                                pose.tx()+","+
 //                                pose.ty()+","+
 //                                pose.tz());
 
-                        if(!gang) {
-                            gang = true;
-                            area = "강";
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    galimg.setVisibility(View.INVISIBLE);
-                                    galimg2.setVisibility(View.INVISIBLE);
-                                    riverimg.setVisibility(View.VISIBLE);
+                            if (!gang) {
+                                gang = true;
+                                area = "강";
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        galimg.setVisibility(View.INVISIBLE);
+                                        galimg2.setVisibility(View.INVISIBLE);
+                                        riverimg.setVisibility(View.VISIBLE);
 
-                                    fishingtv.setText("낙동강");
+                                        fishingtv.setText("낙동강");
 
-                                    Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
+                                        changeGameMode("낚시");
+                                    }
+                                });
+                                Log.d("실행중2", "실행중2");
 
-                                }
-                            });
-
-
-
-                            Log.d("실행중2","실행중2");
-
+                            }
+                            sea = false;
                         }
-                        sea = false;
                         break;
 
                 }
@@ -724,9 +730,12 @@ public class MainActivity extends FragmentActivity {
                 pose =img.getCenterPose();
                 switch (img.getName()) {
                     case "aquarium":
+                        if(!threadIsGoing) {
+                            pose = img.getCenterPose();
 
-                        // 현석
-                        aquarium.normalMov();
+                            // 현석
+                            aquarium.normalMov();
+                        }
                         break;
                 }
             }
@@ -832,6 +841,40 @@ public class MainActivity extends FragmentActivity {
         });
 
     }
+
+     void changeGameMode(String mode){
+
+        gameMode = mode;
+
+        if(!mode.equals("낚시")){
+            mRenderer.drawRod = false;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    castingBtn.setText("시작");
+                }
+            });
+            castingBtn.setVisibility(View.INVISIBLE);
+            castingSeekbar.setVisibility(View.INVISIBLE);
+
+            galimg.setVisibility(View.INVISIBLE);
+            galimg2.setVisibility(View.INVISIBLE);
+            riverimg.setVisibility(View.INVISIBLE);
+        }else{
+            mRenderer.drawRod = true;
+            castingBtn.setVisibility(View.VISIBLE);
+
+            if(area.equals("바다")){
+                galimg.setVisibility(View.VISIBLE);
+                galimg2.setVisibility(View.VISIBLE);
+            }
+            else if(area.equals("강")){
+                riverimg.setVisibility(View.VISIBLE);
+            }
+        }
+
+        System.out.println(gameMode);
+     }
 
 
 }
