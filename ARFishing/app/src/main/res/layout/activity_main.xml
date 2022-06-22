@@ -41,6 +41,7 @@
                 android:layout_margin="50dp"
                 android:text="시작"
                 android:textSize="30sp"
+                android:visibility="invisible"
                 ></Button>
         </LinearLayout>
 

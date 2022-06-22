@@ -117,7 +117,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         //----------------------------
 
-        fishingRod.draw();
+        if(drawRod) {
+            fishingRod.draw();
+        }
 
         if(drawPoint) {
             point.draw();
