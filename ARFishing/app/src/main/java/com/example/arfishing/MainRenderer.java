@@ -3,6 +3,7 @@ package com.example.arfishing;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.util.Log;
 
 import com.google.ar.core.Session;
@@ -18,12 +19,22 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     interface RenderCallBack{
         void preRender();
     }
+
     int width, height;
     RenderCallBack myCallBack;
     boolean viewportChange = false;
     Context context;
 
     CameraPreView mCamera;
+
+
+    //추가된 부분-------------------
+    float[] mMVPMatrix = new float[16];
+    float [] mViewMatrix = new float[16];
+    float [] mProjectionMatrix = new float[16];
+    float [] modelMatrix;
+    //-----------------------------------
+
     ObjRenderer fishingRod, point, fish, water;
 
     boolean drawRod, drawPoint, drawFish, drawWater;
@@ -49,7 +60,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera.init();
         fishingRod.init();
         point.init();
-//        fish.init();
         water.init();
     }
 
@@ -59,6 +69,12 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         viewportChange = true;
         this.width = width;
         this.height = height;
+
+        //추가된 부분-----------------
+        float ratio = (float) width * 1 / height;
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 100, 200);
+
+        //----------------------------
     }
 
     @Override
@@ -66,14 +82,43 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         myCallBack.preRender();
-
         GLES30.glDepthMask(false);
         mCamera.draw();
         GLES30.glDepthMask(true);
 
-        if(drawRod) {
-            fishingRod.draw();
-        }
+
+        //추가된 부분-----------------
+        Matrix.setLookAtM(
+                mViewMatrix,0,
+                //카메라위치
+                // x,      y,      z
+                2,5,100,
+                //시선 위치
+                // x,      y,      z
+                0,0,-2,
+                //카메라 윗방향
+                0,1,0
+        );
+
+        Matrix.setIdentityM(mMVPMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+        modelMatrix = new float[16];
+
+        Matrix.setIdentityM(modelMatrix,0);
+        Matrix.scaleM(modelMatrix, 0, 0.007f, 0.004f, 0.005f);
+//        Matrix.translateM(modelMatrix, 0, 10f, -120f, 0);
+        Matrix.translateM(modelMatrix, 0, 10f, -120f, 0);
+        Matrix.rotateM(modelMatrix, 0, 10, 1, 0, 0);
+//        Matrix.rotateM(modelMatrix, 0, 5, 0, 0, 1);
+        fishingRod.setModelMatrix(modelMatrix);
+        fishingRod.setViewMatrix(mViewMatrix);
+        fishingRod.setProjectionMatrix(mProjectionMatrix);
+
+        //----------------------------
+
+        fishingRod.draw();
+
         if(drawPoint) {
             point.draw();
         }
@@ -85,6 +130,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         }
         if(drawWater) {
             water.draw();
+            System.out.println("물 그렸다");
         }
 
         // 현석

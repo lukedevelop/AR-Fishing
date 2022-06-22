@@ -1,7 +1,9 @@
 package com.example.arfishing;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.opengl.Matrix;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -115,6 +117,9 @@ public class CatchFish extends Thread{
             }
         }.start();
 
+        Vibrator vibrator = (Vibrator) mainActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(500);
+
         //고기가 잡히기 전까지 찌 흔들흔들
         while(intime1){
             Matrix.translateM(mainActivity.pointMatrix, 0, 0.5f, 0, 0);
@@ -223,7 +228,8 @@ public class CatchFish extends Thread{
                                     mainActivity.casting = false;
                                     mainActivity.mRenderer.drawPoint = false;
                                     mainActivity.mRenderer.drawFish = false;
-                                    mainActivity.castingBtn.setText("완료");
+                                    mainActivity.mRenderer.drawWater = false;
+                                    mainActivity.castingBtn.setText("시작");
                                     mainActivity.castingBtn.callOnClick();
                                 }
                             });
@@ -252,7 +258,7 @@ public class CatchFish extends Thread{
                         mainActivity.casting = false;
                         mainActivity.mRenderer.drawPoint = false;
                         mainActivity.mRenderer.drawFish = false;
-                        mainActivity.castingBtn.setText("완료");
+                        mainActivity.castingBtn.setText("시작");
                         mainActivity.castingBtn.callOnClick();
                     }
                 });
@@ -267,7 +273,7 @@ public class CatchFish extends Thread{
                     mainActivity.casting = false;
                     mainActivity.mRenderer.drawPoint = false;
                     mainActivity.mRenderer.drawFish = false;
-                    mainActivity.castingBtn.setText("완료");
+                    mainActivity.castingBtn.setText("시작");
                     mainActivity.castingBtn.callOnClick();
                 }
             });
