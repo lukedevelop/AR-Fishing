@@ -195,7 +195,7 @@ public class MainActivity extends FragmentActivity {
         // TODO 나중연결 후 추가 - 퀘스트, 도감 프래그먼트 추가 요망
 
         // 온보딩 생성 나중에 살리기
-//        showOnBoarding();
+        showOnBoarding();
 
         btn_showMenuFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -938,10 +938,10 @@ public class MainActivity extends FragmentActivity {
 
         // onboarding 온보딩
         PaperOnboardingPage scr1 = new PaperOnboardingPage(
-                "Hotel",
-                "All hotel",
-                Color.parseColor("#678FB4"), R.drawable.bait_gunsaewoo,
-                R.drawable.bait_gunsaewoo
+                "AR Fishing",
+                "밀어서 입장하기 <<",
+                Color.parseColor("#E6F6FE"), R.drawable.title2,
+                R.drawable.shark
         );
         PaperOnboardingPage scr2 = new PaperOnboardingPage(
                 "Hotel",
@@ -977,8 +977,6 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
-
-
     }
 
 
