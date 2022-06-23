@@ -90,7 +90,7 @@ public class Aquarium {
                     mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_goldfish.obj", "fish_goldfish.jpeg");
                     break;
                 case "해파리" :
-                    mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "fish_nimo.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "fish_jellyfish.jpeg");
                     break;
                 case "니모" :
                     mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_nimo.obj", "fish_nimo.jpeg");

@@ -3,14 +3,19 @@ package com.example.arfishing;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.display.DisplayManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
@@ -46,12 +51,20 @@ import com.ramotion.paperonboarding.PaperOnboardingFragment;
 import com.ramotion.paperonboarding.PaperOnboardingPage;
 import com.ramotion.paperonboarding.listeners.PaperOnboardingOnRightOutListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.opengles.GL10;
 
 public class MainActivity extends FragmentActivity {
 
@@ -87,7 +100,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
-    Button  btn_AddFish, btn_removeFish, btn_goFishing;
+    Button  btn_AddFish, btn_removeFish, btn_capture;
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -220,7 +233,7 @@ public class MainActivity extends FragmentActivity {
 
                 btn_AddFish.setVisibility(View.INVISIBLE);
                 btn_removeFish.setVisibility(View.INVISIBLE);
-
+                btn_capture.setVisibility(View.VISIBLE);
 
                 castingBtn.setVisibility(View.VISIBLE);
 
@@ -267,6 +280,49 @@ public class MainActivity extends FragmentActivity {
                 new DBDAO(MainActivity.this).update_quest_complete_DB();
             }
         });
+        btn_capture = (Button) findViewById(R.id.btn_capture);
+        btn_capture.setOnClickListener(view -> {
+            captureBitmap(new BitmapReadyCallbacks()
+            {
+                @Override
+                public void onBitmapReady(Bitmap bitmap)
+                {
+                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/ARfishingCapture";
+
+                    File file = new File(path);
+                    if (!file.exists())
+                    {
+                        file.mkdirs();
+                        Toast.makeText(MainActivity.this, "폴더 완료", Toast.LENGTH_SHORT).show();
+                    }
+//                    SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
+//                    Date date = new Date();
+                    Bitmap captureview = bitmap;
+                    String name = "";
+                    try
+                    {
+                        name = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/ARfishingCapture/"+(System.currentTimeMillis()/1000) +".jpeg";
+                        FileOutputStream fos = new FileOutputStream(name);
+
+                        captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/ad" + ".jpeg")));
+
+                        Toast.makeText(MainActivity.this, "캡쳐 완료 - ARfishingCapture)", Toast.LENGTH_SHORT).show();
+                        fos.flush();
+                        fos.close();
+
+                    } catch (FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    shareImage(name);
+                }
+            });
+        });
+
 
         // --찬욱
 
@@ -306,7 +362,7 @@ public class MainActivity extends FragmentActivity {
 
         btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
-        btn_goFishing = (Button) findViewById(R.id.btn_goFishing);
+
 
         // TODO 물고기 추가하기
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
@@ -361,20 +417,6 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-        btn_goFishing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aquarium.ready = false;
-                aquarium.model_arr.clear();
-                mRenderer.fish_arr.clear();
-
-                btn_AddFish.setVisibility(View.INVISIBLE);
-                btn_removeFish.setVisibility(View.INVISIBLE);
-
-
-                castingBtn.setVisibility(View.VISIBLE);
-            }
-        });
 
     
 
@@ -604,7 +646,10 @@ public class MainActivity extends FragmentActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.CAMERA,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
                     0
             );
         }
@@ -950,6 +995,85 @@ public class MainActivity extends FragmentActivity {
 
         System.out.println(gameMode);
      }
+
+     // 캡쳐와 공유
+
+    Bitmap snapshotBitmap;
+    void captureBitmap(final BitmapReadyCallbacks bitmapReadyCallbacks) {
+        mySurfaceView.queueEvent(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                EGL10 egl = (EGL10) EGLContext.getEGL();
+                GL10 gl = (GL10) egl.eglGetCurrentContext().getGL();
+                snapshotBitmap = createBitmapFromGLSurface(0, 0, mySurfaceView.getWidth(), mySurfaceView.getHeight(), gl);
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        bitmapReadyCallbacks.onBitmapReady(snapshotBitmap);
+                    }
+                });
+
+            }
+        });
+    }
+
+    private Bitmap createBitmapFromGLSurface(int x, int y, int w, int h, GL10 gl) throws OutOfMemoryError {
+        int bitmapBuffer[] = new int[w * h];
+        int bitmapSource[] = new int[w * h];
+        IntBuffer intBuffer = IntBuffer.wrap(bitmapBuffer);
+        intBuffer.position(0);
+
+        try
+        {
+            gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer);
+            int offset1, offset2;
+            for (int i = 0; i < h; i++)
+            {
+                offset1 = i * w;
+                offset2 = (h - i - 1) * w;
+                for (int j = 0; j < w; j++)
+                {
+                    int texturePixel = bitmapBuffer[offset1 + j];
+                    int blue = (texturePixel >> 16) & 0xff;
+                    int red = (texturePixel << 16) & 0x00ff0000;
+                    int pixel = (texturePixel & 0xff00ff00) | red | blue;
+                    bitmapSource[offset2 + j] = pixel;
+                }
+            }
+        } catch (GLException e)
+        {
+            return null;
+        }
+
+        return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
+    }
+
+
+    void shareImage(String result) {
+        String [] aa = {result};
+        MediaScannerConnection.scanFile(this, aa, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        shareIntent.setType("image/jpeg");
+                        startActivity(Intent.createChooser(shareIntent,"Share"));
+
+
+                    }
+                }
+
+        );
+
+
+    }
 
 
 }
