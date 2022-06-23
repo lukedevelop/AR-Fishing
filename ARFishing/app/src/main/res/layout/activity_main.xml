@@ -52,9 +52,8 @@
             android:layout_width="196dp"
             android:layout_height="285dp"
             android:layout_gravity="bottom|right"
-            android:min="30"
-            android:max="100"
-            android:rotation="270"
+            android:min="-50"
+            android:max="50"
             android:visibility="invisible"></SeekBar>
 
         <TextView

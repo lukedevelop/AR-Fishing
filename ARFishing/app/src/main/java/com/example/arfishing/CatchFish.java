@@ -59,6 +59,7 @@ public class CatchFish extends Thread{
 
         mainActivity.threadIsGoing = true;
 
+
         try {
             sleep(3000);
         } catch (InterruptedException e) {
@@ -120,10 +121,10 @@ public class CatchFish extends Thread{
 
         //고기가 잡히기 전까지 찌 흔들흔들
         while(intime1){
-            Matrix.translateM(mainActivity.pointMatrix, 0, 0.5f, 0, 0);
-            mainActivity.mRenderer.point.setModelMatrix(mainActivity.pointMatrix);
-            Matrix.translateM(mainActivity.pointMatrix, 0, -0.5f, 0, 0);
-            mainActivity.mRenderer.point.setModelMatrix(mainActivity.pointMatrix);
+            Matrix.translateM(mainActivity.fishMatrix, 0, 0.5f, 0, 0);
+            mainActivity.mRenderer.point.setModelMatrix(mainActivity.fishMatrix);
+            Matrix.translateM(mainActivity.fishMatrix, 0, -0.5f, 0, 0);
+            mainActivity.mRenderer.point.setModelMatrix(mainActivity.fishMatrix);
         }
 
 
@@ -152,7 +153,7 @@ public class CatchFish extends Thread{
 
             mainActivity.mRenderer.drawPoint = false;
             mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
-            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale), Float.parseFloat(caughtFish.fish_scale));
+            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 1, 0);
@@ -221,7 +222,7 @@ public class CatchFish extends Thread{
                                             0,
                                             new DBDAO(mainActivity).select_hasFish_MemberDB()+1,
                                             0
-                                            );
+                                    );
                                     new DBDAO(mainActivity).updateMemberDB("catchFish",
                                             "",
                                             new DBDAO(mainActivity).select_catchFish_MemberDB()+1,
