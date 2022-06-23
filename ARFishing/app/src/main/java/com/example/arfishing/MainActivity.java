@@ -247,6 +247,8 @@ public class MainActivity extends FragmentActivity {
                 } else{
                     changeGameMode("낚시");
                 }
+
+                isShopInit = false;
             }
         });
 
@@ -1006,8 +1008,8 @@ public class MainActivity extends FragmentActivity {
                                 .replace(R.id.frameLayout_menu, shop_fragment,"shop")
                                 .commit();
 
-                        // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야 백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라1
-//                isShopInit = false;
+
+//
                     }
                 });
                 TextView tv_cancel = (TextView) customDialog.findViewById(R.id.tv_cancel);
@@ -1019,7 +1021,7 @@ public class MainActivity extends FragmentActivity {
 
 
                         // TODO : 여기가 아니라 상점 나가기 버튼을 누르고 false 해줘야   백 쪽에서 인식 안 됨 찬욱아 꼭 옮겨라2
-//                isShopInit = false;
+                        isShopInit = false;
                     }
                 });
 
