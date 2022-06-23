@@ -49,6 +49,7 @@ import com.ramotion.paperonboarding.listeners.PaperOnboardingOnRightOutListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -105,7 +106,13 @@ public class MainActivity extends FragmentActivity {
     Aquarium aquarium;
     Dogam_Fragment dogamfrag;
 
+    String [] add;
+    String [] delete;
+    ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물기고 뼈,",
+            "금붕어", "해파리", "니모", "돌", "삼식이", "스폰지밥", "거북이"));
+
     Integer [] items;
+
 
     Integer [] dogam_null_img= {R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
             R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
@@ -117,8 +124,14 @@ public class MainActivity extends FragmentActivity {
             , R.drawable.img_turtle};
 
     AlertDialog insert_fish_dialog;
+    AlertDialog delete_fish_dialog;
     Fragment dogam_frgment;
     ArrayList<Integer> main_dogam = new ArrayList<Integer>();
+    ArrayList<String> fish_add_cheak;
+    ArrayList<String> fish_delete_cheak = new ArrayList<String>();
+
+
+
     // -- 현석
 
     // 지원 --
@@ -270,8 +283,9 @@ public class MainActivity extends FragmentActivity {
         btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
                 items = new Integer[10];
+                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
+
 
                 for (int i = 0; i < cheak.size() ; i++) {
                     if(cheak.get(i) == 0){
@@ -294,30 +308,55 @@ public class MainActivity extends FragmentActivity {
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
         btn_goFishing = (Button) findViewById(R.id.btn_goFishing);
 
+        // TODO 물고기 추가하기
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(fish_add_cheak.size() != 0){
 
-                builder.setItems(aquarium.items, new DialogInterface.OnClickListener() {
+                    add = new String[fish_add_cheak.size()];
+                    fish_add_cheak.toArray(add);
+
+                    builder.setItems(add, new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        aquarium.insertFish(id);
-                        Toast.makeText(getApplicationContext(), aquarium.items[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
+                        aquarium.insertFish(add[id]);
+                        fish_delete_cheak.add(add[id]);
+                        Toast.makeText(getApplicationContext(), add[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
                 insert_fish_dialog = builder.create();
                 insert_fish_dialog.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "물고기를 먼저 잡아주세요", Toast.LENGTH_SHORT).show();
+                }
 
-                Log.d("붕",mRenderer.fish_arr.size() + "");
+             //   Log.d("붕",mRenderer.fish_arr.size() + "");
 
             }
         });
 
+        // TODO 물고기 제거하기
         btn_removeFish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                aquarium.deleteFish();
+                delete = new String[fish_delete_cheak.size()];
+                fish_delete_cheak.toArray(delete);
+
+                builder.setItems(delete, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+
+                        aquarium.deleteFish(id);
+                        fish_delete_cheak.remove(id);
+                        Toast.makeText(getApplicationContext(), delete[id] + "를 제거했습니다", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                delete_fish_dialog = builder.create();
+                delete_fish_dialog.show();
             }
         });
 
@@ -517,6 +556,10 @@ public class MainActivity extends FragmentActivity {
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 781e47e732d05564bbeb162fc5e2af5afa7cab92
     }
 
     @Override
@@ -667,10 +710,22 @@ public class MainActivity extends FragmentActivity {
                             ) {
                                 runOnUiThread(new Runnable() {
                                     @Override
+
+                                    //TODO 물고기 체크
                                     public void run() {
-                                        Log.d("야야", "너너");
+                                        fish_add_cheak = new ArrayList<String>();
+
+                                     //   cheak_insert_fish.clear();
+                                        ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
+                                        for (int i = 0; i < cheak.size() ; i++) {
+                                            if(cheak.get(i) != 0){
+                                                fish_add_cheak.add(fish_name.get(i));
+                                            }
+                                        }
+                                 //       Log.d("야야", cheak_insert_fish.size() +  " " );
                                         btn_AddFish.setVisibility(View.VISIBLE);
                                         btn_removeFish.setVisibility(View.VISIBLE);
+
                                     }
                                 });
 

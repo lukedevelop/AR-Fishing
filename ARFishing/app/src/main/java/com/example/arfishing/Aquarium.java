@@ -11,7 +11,7 @@ public class Aquarium {
 
     //  ArrayList <ObjRenderer> FISH = new ArrayList<ObjRenderer>();
 
-    final CharSequence [] items = {"돌", "안디", "해파리", "미정", "미정"};
+
 
     boolean cheak = true;
     boolean cheak_new_fish = false;
@@ -27,8 +27,8 @@ public class Aquarium {
 
 
     float tx =1f , ty = 0f, tz = 1f;
-    int id;
-    int cnt2 = 0;
+    String add_name;
+    int delete_num ,cnt2 = 0;
 
     Aquarium (MainActivity mActivity) {
         this.mActivity = mActivity;
@@ -42,7 +42,7 @@ public class Aquarium {
 
         //TODO 여기도 고쳐야할 부분임 (일단 고침)
         for (float [] model : model_arr) {
-            Matrix.translateM(model,0, 0, 0, 0.01f);
+            Matrix.translateM(model,0, 0, 0, 0f);
 
             Log.d("포즈로 물고기 움직이기 여" , "움직임");
         }
@@ -66,37 +66,48 @@ public class Aquarium {
 
     }
 
-    public void insertFish(int id){
-        this.id = id;
+    public void insertFish(String add_name){
+        this.add_name = add_name;
         float[] modelMatrix = new float[16];
 
-        Log.d("아이디 눈", id + "");
+
         if(cheak_new_fish && mActivity.mRenderer.fish_arr.size() < 11) {
 
-            switch (id){
-                case 0 :
-                    mObj  = new ObjRenderer(mActivity, "rock2.obj", "rock.png");
+            switch (add_name){
+                case "베스" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_bass.obj", "fish_bass.jpeg");
                  //   Matrix.scaleM(modelMatrix, 0, 0.001f, 0.001f, 0.001f);
                     break;
-                case 1 :
-                    mObj  = new ObjRenderer(mActivity, "andy.obj", "andy.png");
+                case "부시리" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_boosiri.obj", "fish_boosiri.jpeg");
                 //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
-                case 2 :
-                    mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "Jelly_Fish.jpg");
+                case "물고기 뼈" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_fishbones.obj", "fish_fishbones.jpeg");
                 //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
-                case 3 :
-                    mObj  = new ObjRenderer(mActivity, "andy.obj", "andy.png");
+                case "금붕어" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_goldfish.obj", "fish_goldfish.jpeg");
                     break;
-                case 4 :
-                    mObj  = new ObjRenderer(mActivity, "andy.obj", "andy.png");
+                case "해파리" :
+                    mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "fish_nimo.jpeg");
+                    break;
+                case "니모" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_nimo.obj", "fish_nimo.jpeg");
+                    break;
+                case "돌" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_rock.obj", "fish_rock.jpeg");
+                    break;
+                case "삼식이" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_samsik.obj", "fish_samsik.jpeg");
+                    break;
+                case "스폰지밥" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_spongebob.obj", "fish_spongebob.jpeg");
+                    break;
+                case "거북이" :
+                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_turtle.obj", "fish_turtle.jpeg");
                     break;
             }
-
-
-
-
 
 
                 mActivity.pose.toMatrix(modelMatrix, 0);
@@ -113,14 +124,15 @@ public class Aquarium {
         }
     }
 
-    public void deleteFish(){
+    public void deleteFish(int delete_num){
+        this.delete_num = delete_num;
 
         if(mActivity.mRenderer.fish_arr.size() <= 1) {
             mActivity.mRenderer.fish_arr.clear();
             model_arr.clear();
         } else {
-            mActivity.mRenderer.fish_arr.remove(1);
-            model_arr.remove(1);
+            mActivity.mRenderer.fish_arr.remove(delete_num);
+
         }
 
     }
