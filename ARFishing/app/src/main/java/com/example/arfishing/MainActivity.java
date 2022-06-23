@@ -167,6 +167,7 @@ public class MainActivity extends FragmentActivity {
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
 
+
         // 찬욱--
         // ------------연결 시작
 
@@ -280,6 +281,7 @@ public class MainActivity extends FragmentActivity {
                 new DBDAO(MainActivity.this).update_quest_complete_DB();
             }
         });
+
         btn_capture = (Button) findViewById(R.id.btn_capture);
         btn_capture.setOnClickListener(view -> {
             captureBitmap(new BitmapReadyCallbacks()
