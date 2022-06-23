@@ -29,10 +29,10 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
 
     //추가된 부분-------------------
-    float[] mMVPMatrix = new float[16];
-    float [] mViewMatrix = new float[16];
-    float [] mProjectionMatrix = new float[16];
-    float [] modelMatrix;
+//    float[] mMVPMatrix = new float[16];
+//    float [] mViewMatrix = new float[16];
+//    float [] mProjectionMatrix = new float[16];
+//    float [] modelMatrix;
     //-----------------------------------
 
     ObjRenderer fishingRod, point, fish, water;
@@ -48,7 +48,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera = new CameraPreView();
         fishingRod = new ObjRenderer(context, "rod.obj", "rod.jpg");
         point = new ObjRenderer(context, "float.obj", "float.jpg");
-        water = new ObjRenderer(context, "Water.obj", "Water.jpg");
+        water = new ObjRenderer(context, "Water3.obj", "Water.jpg");
 
         fish_arr = new ArrayList<ObjRenderer>();
     }
@@ -70,11 +70,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         this.width = width;
         this.height = height;
 
-        //추가된 부분-----------------
-        float ratio = (float) width * 1 / height;
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 100, 200);
-
-        //----------------------------
     }
 
     @Override
@@ -86,36 +81,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera.draw();
         GLES30.glDepthMask(true);
 
-
-        //추가된 부분-----------------
-        Matrix.setLookAtM(
-                mViewMatrix,0,
-                //카메라위치
-                // x,      y,      z
-                2,5,100,
-                //시선 위치
-                // x,      y,      z
-                0,0,-2,
-                //카메라 윗방향
-                0,1,0
-        );
-
-        Matrix.setIdentityM(mMVPMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-
-        modelMatrix = new float[16];
-
-        Matrix.setIdentityM(modelMatrix,0);
-        Matrix.scaleM(modelMatrix, 0, 0.007f, 0.004f, 0.005f);
-//        Matrix.translateM(modelMatrix, 0, 10f, -120f, 0);
-        Matrix.translateM(modelMatrix, 0, 10f, -120f, 0);
-        Matrix.rotateM(modelMatrix, 0, 10, 1, 0, 0);
-//        Matrix.rotateM(modelMatrix, 0, 5, 0, 0, 1);
-        fishingRod.setModelMatrix(modelMatrix);
-        fishingRod.setViewMatrix(mViewMatrix);
-        fishingRod.setProjectionMatrix(mProjectionMatrix);
-
-        //----------------------------
 
         if(drawRod) {
             fishingRod.draw();
@@ -130,9 +95,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             }
             fish.draw();
         }
-        if(drawWater) {
+        if(drawRod) {
             water.draw();
-            System.out.println("물 그렸다");
         }
 
         // 현석

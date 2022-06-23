@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.hardware.display.DisplayManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -64,10 +65,11 @@ public class MainActivity extends FragmentActivity {
     String gameMode = "입장";
     String setBait = "떡밥";
 
+    float[] rodMatrix, waterMatrix, floatMatrix, fishMatrix;
+
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
-    float[] pointMatrix, waterMatrix, fishMatrix;
     int btnClickCnt;
     Frame frame;
     Pose pose;
@@ -166,7 +168,7 @@ public class MainActivity extends FragmentActivity {
         // TODO 나중연결 후 추가 - 퀘스트, 도감 프래그먼트 추가 요망
 
         // 온보딩 생성 나중에 살리기
-        showOnBoarding();
+//        showOnBoarding();
 
         btn_showMenuFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -369,13 +371,15 @@ public class MainActivity extends FragmentActivity {
                                     Log.d("캐스팅", "");
                                     if (dir) {
                                         castingSeekbar.incrementProgressBy(1);
-                                        if (castingSeekbar.getProgress() == 100) {
+                                        if (castingSeekbar.getProgress() == castingSeekbar.getMax()) {
                                             dir = false;
                                         }
                                     } else if (!dir) {
                                         castingSeekbar.incrementProgressBy(-1);
-                                        if (castingSeekbar.getProgress() == 30) {
-                                            dir = true;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            if (castingSeekbar.getProgress() == castingSeekbar.getMin()) {
+                                                dir = true;
+                                            }
                                         }
                                     }
                                     try {
@@ -396,37 +400,24 @@ public class MainActivity extends FragmentActivity {
                     //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
 
-                    pointMatrix = new float[16];
-                    waterMatrix = new float[16];
-                    fishMatrix = new float[16];
-
-                    pointMatrix = mRenderer.modelMatrix.clone();
-                    waterMatrix = mRenderer.modelMatrix.clone();
-
-                    Matrix.translateM(pointMatrix, 0, 0, 7f, -(float) castingSeekbar.getProgress()*5);
-                    Matrix.scaleM(pointMatrix, 0, 10f, 10f, 10f);
-                    mRenderer.point.setModelMatrix(pointMatrix);
-
-                    Matrix.scaleM(waterMatrix, 0, 0.007f, 0.007f, 0.007f);
-                    Matrix.translateM(waterMatrix, 0, -398f, -14850f,-(float) castingSeekbar.getProgress()*5*120);
-                    mRenderer.water.setModelMatrix(waterMatrix);
-
+                    casting = true;
 
                     mRenderer.drawPoint = true;
-                    mRenderer.drawWater = true;
 
-                    fishMatrix = pointMatrix;
+                    fishMatrix = floatMatrix.clone();
 
-                    casting = true;
+                    Matrix.translateM(fishMatrix, 0, (float) castingSeekbar.getProgress() / 10, 0, 0);
+                    mRenderer.point.setModelMatrix(fishMatrix);
+
+
                     Toast.makeText(getApplicationContext(), "캐스팅 완료!", Toast.LENGTH_SHORT);
                     castingSeekbar.setVisibility(View.INVISIBLE);
                     castingBtn.setText("잡기");
                     castingBtn.setEnabled(false);
 
-
-                    catchFish = new CatchFish(MainActivity.this);
-                    catchFish.start();
-//                    new CatchFish(MainActivity.this).start();
+//                    catchFish = new CatchFish(MainActivity.this);
+//                    catchFish.start();
+                    new CatchFish(MainActivity.this).start();
 
                     btnClickCnt = 0;
                 } else if (castingBtn.getText().toString().equals("잡기")) {
@@ -486,7 +477,6 @@ public class MainActivity extends FragmentActivity {
                     List<HitResult> results = frame.hitTest(displayX, displayY);
                     for (HitResult hr : results) {
 
-
 //                        pose = hr.getHitPose();
 
 
@@ -504,6 +494,86 @@ public class MainActivity extends FragmentActivity {
 
                 drawImages(frame);
 
+                //추가된 부분---------------------------------
+
+                float[] projMatrix2 = new float[16];
+                camera.getProjectionMatrix(projMatrix2, 0, 100f, 200f);
+
+                rodMatrix = new float[16];
+                floatMatrix = new float[16];
+
+                Matrix.setIdentityM(rodMatrix, 0);
+                Matrix.setIdentityM(floatMatrix, 0);
+
+                float[] mBallPoint = calculateInitialBallPoint(mRenderer.width,
+                        mRenderer.height,
+                        projMatrix, viewMatrix);
+
+                float[] mBallPoint2 = calculateInitialBallPoint2(mRenderer.width,
+                        mRenderer.height,
+                        projMatrix2, viewMatrix);
+
+                Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.1f, mBallPoint[2]);
+                Matrix.scaleM(rodMatrix, 0, 0.002f, 0.0008f, 0.001f);
+
+                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1]-0.3f, mBallPoint2[2]);
+
+                Matrix.scaleM(floatMatrix, 0, 7f, 7f, 7f);
+
+
+                float[] point = new float[4];
+
+                Matrix.multiplyMV(point, 0, rodMatrix, 0,
+                        new float[]{0f, 0f, 0f, 1f}, 0);
+
+                float[] point2 = new float[4];
+
+                Matrix.multiplyMV(point2, 0, floatMatrix, 0,
+                        new float[]{0f, 0f, 0f, 1f}, 0);
+
+                float yy = (float) (180 * Math.atan2(
+                        point[0] - point2[0],
+                        point[2] - point2[2]
+                )
+                        / Math.PI);
+
+                Matrix.rotateM(rodMatrix, 0, yy, 0, 1, 0);
+
+                double deltaZ = point[2] - point2[2];
+                double deltaY = point[1] - point2[1];
+
+                if (deltaZ < 0) {
+                    deltaZ *= -1;
+                }
+
+                if (deltaY < 0) {
+                }
+
+                float xx = -(float) (180 * Math.atan2(
+
+                        deltaY,
+                        deltaZ
+                )
+
+                        / Math.PI);
+
+                Matrix.rotateM(rodMatrix, 0, xx, 1, 0, 0);
+
+                mRenderer.fishingRod.setModelMatrix(rodMatrix);
+
+                if(!casting) {
+                    mRenderer.point.setModelMatrix(floatMatrix);
+                }
+
+                waterMatrix = floatMatrix.clone();
+
+                Matrix.scaleM(waterMatrix, 0, 0.0013f, 0.0013f, 0.0013f);
+                Matrix.rotateM(waterMatrix, 0, -50, 1, 0, 0);
+                mRenderer.water.setModelMatrix(waterMatrix);
+
+
+                //--------------------------------------------
+
                 mRenderer.updateProjMatrix(projMatrix);
                 mRenderer.updateViewMatrix(viewMatrix);
             }
@@ -516,6 +586,9 @@ public class MainActivity extends FragmentActivity {
 
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        //시작할때 바로 낚시 나오게 잠깐 넣어놓음
+        changeGameMode("낚시");
 
     }
 
@@ -898,6 +971,72 @@ public class MainActivity extends FragmentActivity {
 
         System.out.println(gameMode);
      }
+
+     //지은 추가------------------------------------------------------------
+
+    //공 최초 위치 설정
+    public float[] calculateInitialBallPoint(int width, int height,
+                                             float[] projMat, float[] viewMat) {
+        return getScreenPoint(width / 2, height / 2, width, height, projMat, viewMat);
+    }
+
+    //공 최초 위치 설정
+    public float[] calculateInitialBallPoint2(int width, int height,
+                                              float[] projMat, float[] viewMat) {
+        return getScreenPoint(width / 2, height / 2 - 100f, width, height, projMat, viewMat);
+    }
+
+
+    //평면화
+    public float[] getScreenPoint(float x, float y, float w, float h,
+                                  float[] projMat, float[] viewMat) {
+        float[] position = new float[3];
+        float[] direction = new float[3];
+
+        x = x * 2 / w - 1.0f;
+        y = (h - y) * 2 / h - 1.0f;
+
+        float[] viewProjMat = new float[16];
+        Matrix.multiplyMM(viewProjMat, 0, projMat, 0, viewMat, 0);
+
+        float[] invertedMat = new float[16];
+        Matrix.setIdentityM(invertedMat, 0);
+        Matrix.invertM(invertedMat, 0, viewProjMat, 0);
+
+        float[] farScreenPoint = new float[]{x, y, 1.0F, 1.0F};
+        float[] nearScreenPoint = new float[]{x, y, -1.0F, 1.0F};
+        float[] nearPlanePoint = new float[4];
+        float[] farPlanePoint = new float[4];
+
+        Matrix.multiplyMV(nearPlanePoint, 0, invertedMat, 0, nearScreenPoint, 0);
+        Matrix.multiplyMV(farPlanePoint, 0, invertedMat, 0, farScreenPoint, 0);
+
+        position[0] = nearPlanePoint[0] / nearPlanePoint[3];
+        position[1] = nearPlanePoint[1] / nearPlanePoint[3];
+        position[2] = nearPlanePoint[2] / nearPlanePoint[3];
+
+        direction[0] = farPlanePoint[0] / farPlanePoint[3] - position[0];
+        direction[1] = farPlanePoint[1] / farPlanePoint[3] - position[1];
+        direction[2] = farPlanePoint[2] / farPlanePoint[3] - position[2];
+
+        normalize(direction);
+
+        position[0] += (direction[0] * 0.1f);
+        position[1] += (direction[1] * 0.1f);
+        position[2] += (direction[2] * 0.1f);
+
+        return position;
+    }
+
+    // 정규화
+    private void normalize(float[] v) {
+        double norm = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+        v[0] /= norm;
+        v[1] /= norm;
+        v[2] /= norm;
+    }
+
+    //---------------------------------------------------------------------
 
 
 }
