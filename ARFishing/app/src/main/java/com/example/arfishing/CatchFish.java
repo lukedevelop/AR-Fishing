@@ -156,7 +156,7 @@ public class CatchFish extends Thread{
             Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
-            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 1, 0);
+            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 0, 1);
             mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
             mainActivity.mRenderer.drawFish = true;
 

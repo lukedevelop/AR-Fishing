@@ -599,7 +599,7 @@ public class MainActivity extends FragmentActivity {
                 Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.1f, mBallPoint[2]);
                 Matrix.scaleM(rodMatrix, 0, 0.002f, 0.0008f, 0.001f);
 
-                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1]-0.3f, mBallPoint2[2]);
+                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1]+1f, mBallPoint2[2]+10f);
 
                 Matrix.scaleM(floatMatrix, 0, 7f, 7f, 7f);
 
@@ -671,7 +671,7 @@ public class MainActivity extends FragmentActivity {
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
 
-
+        changeGameMode("낚시");
     }
 
     @Override
