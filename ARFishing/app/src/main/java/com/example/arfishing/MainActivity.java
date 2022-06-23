@@ -3,15 +3,20 @@ package com.example.arfishing;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.display.DisplayManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
@@ -47,11 +52,20 @@ import com.ramotion.paperonboarding.PaperOnboardingFragment;
 import com.ramotion.paperonboarding.PaperOnboardingPage;
 import com.ramotion.paperonboarding.listeners.PaperOnboardingOnRightOutListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.opengles.GL10;
 
 public class MainActivity extends FragmentActivity {
 
@@ -88,7 +102,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
-    Button  btn_AddFish, btn_removeFish, btn_goFishing;
+    Button  btn_AddFish, btn_removeFish, btn_capture;
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -107,7 +121,13 @@ public class MainActivity extends FragmentActivity {
     Aquarium aquarium;
     Dogam_Fragment dogamfrag;
 
+    String [] add;
+    String [] delete;
+    ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물기고 뼈,",
+            "금붕어", "해파리", "니모", "돌", "삼식이", "스폰지밥", "거북이"));
+
     Integer [] items;
+
 
     Integer [] dogam_null_img= {R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
             R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
@@ -119,8 +139,14 @@ public class MainActivity extends FragmentActivity {
             , R.drawable.img_turtle};
 
     AlertDialog insert_fish_dialog;
+    AlertDialog delete_fish_dialog;
     Fragment dogam_frgment;
     ArrayList<Integer> main_dogam = new ArrayList<Integer>();
+    ArrayList<String> fish_add_cheak;
+    ArrayList<String> fish_delete_cheak = new ArrayList<String>();
+
+
+
     // -- 현석
 
     // 지원 --
@@ -142,6 +168,7 @@ public class MainActivity extends FragmentActivity {
         castingBtn = (Button) findViewById(R.id.castingBtn);
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
+
 
         // 찬욱--
         // ------------연결 시작
@@ -209,7 +236,7 @@ public class MainActivity extends FragmentActivity {
 
                 btn_AddFish.setVisibility(View.INVISIBLE);
                 btn_removeFish.setVisibility(View.INVISIBLE);
-
+                btn_capture.setVisibility(View.VISIBLE);
 
                 castingBtn.setVisibility(View.VISIBLE);
 
@@ -257,6 +284,50 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        btn_capture = (Button) findViewById(R.id.btn_capture);
+        btn_capture.setOnClickListener(view -> {
+            captureBitmap(new BitmapReadyCallbacks()
+            {
+                @Override
+                public void onBitmapReady(Bitmap bitmap)
+                {
+                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/ARfishingCapture";
+
+                    File file = new File(path);
+                    if (!file.exists())
+                    {
+                        file.mkdirs();
+                        Toast.makeText(MainActivity.this, "폴더 완료", Toast.LENGTH_SHORT).show();
+                    }
+//                    SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
+//                    Date date = new Date();
+                    Bitmap captureview = bitmap;
+                    String name = "";
+                    try
+                    {
+                        name = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/ARfishingCapture/"+(System.currentTimeMillis()/1000) +".jpeg";
+                        FileOutputStream fos = new FileOutputStream(name);
+
+                        captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/ad" + ".jpeg")));
+
+                        Toast.makeText(MainActivity.this, "캡쳐 완료 - ARfishingCapture)", Toast.LENGTH_SHORT).show();
+                        fos.flush();
+                        fos.close();
+
+                    } catch (FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    shareImage(name);
+                }
+            });
+        });
+
+
         // --찬욱
 
         // 지원 --
@@ -272,8 +343,9 @@ public class MainActivity extends FragmentActivity {
         btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
                 items = new Integer[10];
+                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
+
 
                 for (int i = 0; i < cheak.size() ; i++) {
                     if(cheak.get(i) == 0){
@@ -294,50 +366,61 @@ public class MainActivity extends FragmentActivity {
 
         btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
-        btn_goFishing = (Button) findViewById(R.id.btn_goFishing);
 
+
+        // TODO 물고기 추가하기
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(fish_add_cheak.size() != 0){
 
-                builder.setItems(aquarium.items, new DialogInterface.OnClickListener() {
+                    add = new String[fish_add_cheak.size()];
+                    fish_add_cheak.toArray(add);
+
+                    builder.setItems(add, new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        aquarium.insertFish(id);
-                        Toast.makeText(getApplicationContext(), aquarium.items[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
+                        aquarium.insertFish(add[id]);
+                        fish_delete_cheak.add(add[id]);
+                        Toast.makeText(getApplicationContext(), add[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
                 insert_fish_dialog = builder.create();
                 insert_fish_dialog.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "물고기를 먼저 잡아주세요", Toast.LENGTH_SHORT).show();
+                }
 
-                Log.d("붕",mRenderer.fish_arr.size() + "");
+             //   Log.d("붕",mRenderer.fish_arr.size() + "");
 
             }
         });
 
+        // TODO 물고기 제거하기
         btn_removeFish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                aquarium.deleteFish();
+                delete = new String[fish_delete_cheak.size()];
+                fish_delete_cheak.toArray(delete);
+
+                builder.setItems(delete, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+
+                        aquarium.deleteFish(id);
+                        fish_delete_cheak.remove(id);
+                        Toast.makeText(getApplicationContext(), delete[id] + "를 제거했습니다", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                delete_fish_dialog = builder.create();
+                delete_fish_dialog.show();
             }
         });
 
 
-        btn_goFishing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aquarium.ready = false;
-                aquarium.model_arr.clear();
-                mRenderer.fish_arr.clear();
-
-                btn_AddFish.setVisibility(View.INVISIBLE);
-                btn_removeFish.setVisibility(View.INVISIBLE);
-
-
-                castingBtn.setVisibility(View.VISIBLE);
-            }
-        });
 
     
 
@@ -587,8 +670,7 @@ public class MainActivity extends FragmentActivity {
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-        //시작할때 바로 낚시 나오게 잠깐 넣어놓음
-        changeGameMode("낚시");
+
 
     }
 
@@ -637,7 +719,10 @@ public class MainActivity extends FragmentActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.CAMERA,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
                     0
             );
         }
@@ -740,10 +825,22 @@ public class MainActivity extends FragmentActivity {
                             ) {
                                 runOnUiThread(new Runnable() {
                                     @Override
+
+                                    //TODO 물고기 체크
                                     public void run() {
-                                        Log.d("야야", "너너");
+                                        fish_add_cheak = new ArrayList<String>();
+
+                                     //   cheak_insert_fish.clear();
+                                        ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
+                                        for (int i = 0; i < cheak.size() ; i++) {
+                                            if(cheak.get(i) != 0){
+                                                fish_add_cheak.add(fish_name.get(i));
+                                            }
+                                        }
+                                 //       Log.d("야야", cheak_insert_fish.size() +  " " );
                                         btn_AddFish.setVisibility(View.VISIBLE);
                                         btn_removeFish.setVisibility(View.VISIBLE);
+
                                     }
                                 });
 
@@ -1037,6 +1134,86 @@ public class MainActivity extends FragmentActivity {
     }
 
     //---------------------------------------------------------------------
+
+
+     // 캡쳐와 공유
+
+    Bitmap snapshotBitmap;
+    void captureBitmap(final BitmapReadyCallbacks bitmapReadyCallbacks) {
+        mySurfaceView.queueEvent(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                EGL10 egl = (EGL10) EGLContext.getEGL();
+                GL10 gl = (GL10) egl.eglGetCurrentContext().getGL();
+                snapshotBitmap = createBitmapFromGLSurface(0, 0, mySurfaceView.getWidth(), mySurfaceView.getHeight(), gl);
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        bitmapReadyCallbacks.onBitmapReady(snapshotBitmap);
+                    }
+                });
+
+            }
+        });
+    }
+
+    private Bitmap createBitmapFromGLSurface(int x, int y, int w, int h, GL10 gl) throws OutOfMemoryError {
+        int bitmapBuffer[] = new int[w * h];
+        int bitmapSource[] = new int[w * h];
+        IntBuffer intBuffer = IntBuffer.wrap(bitmapBuffer);
+        intBuffer.position(0);
+
+        try
+        {
+            gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer);
+            int offset1, offset2;
+            for (int i = 0; i < h; i++)
+            {
+                offset1 = i * w;
+                offset2 = (h - i - 1) * w;
+                for (int j = 0; j < w; j++)
+                {
+                    int texturePixel = bitmapBuffer[offset1 + j];
+                    int blue = (texturePixel >> 16) & 0xff;
+                    int red = (texturePixel << 16) & 0x00ff0000;
+                    int pixel = (texturePixel & 0xff00ff00) | red | blue;
+                    bitmapSource[offset2 + j] = pixel;
+                }
+            }
+        } catch (GLException e)
+        {
+            return null;
+        }
+
+        return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
+    }
+
+
+    void shareImage(String result) {
+        String [] aa = {result};
+        MediaScannerConnection.scanFile(this, aa, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        shareIntent.setType("image/jpeg");
+                        startActivity(Intent.createChooser(shareIntent,"Share"));
+
+
+                    }
+                }
+
+        );
+
+
+    }
 
 
 }
