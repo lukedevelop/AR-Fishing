@@ -556,10 +556,7 @@ public class MainActivity extends FragmentActivity {
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 781e47e732d05564bbeb162fc5e2af5afa7cab92
     }
 
     @Override
