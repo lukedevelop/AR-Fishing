@@ -2,6 +2,7 @@ package com.example.arfishing;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,8 @@ import android.graphics.Color;
 import android.hardware.display.DisplayManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.media.MediaScannerConnection;
 import android.media.SoundPool;
 import android.net.Uri;
@@ -20,7 +23,6 @@ import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -123,21 +125,28 @@ public class MainActivity extends FragmentActivity {
     // -- 송찬욱
 
     // 현석 --
+
+
     Aquarium aquarium;
+    CatchFish_GPS catchFish_gps;
     Dogam_Fragment dogamfrag;
 
-    String [] add;
-    String [] delete;
-    ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물기고 뼈,",
+    String [] add_fish_arr;
+    String [] delete_fish_arr;
+    String [] add_interior_arr;
+   // String [] delete_interior_arr;
+    ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물고기 뼈",
             "금붕어", "해파리", "니모", "돌", "삼식이", "스폰지밥", "거북이"));
+    ArrayList<String> interior_name = new ArrayList<String>(Arrays.asList("조개"));
+    ArrayList<Integer> main_dogam = new ArrayList<Integer>();
+    ArrayList<String> fish_add_cheak;
+    ArrayList<String> fish_delete_cheak = new ArrayList<String>();
+    ArrayList<ImageView> interior_arr = new ArrayList<ImageView>();
 
     Integer [] items;
-
-
     Integer [] dogam_null_img= {R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
             R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg,
             R.drawable.nullimg, R.drawable.nullimg, R.drawable.nullimg};
-
     Integer [] dogam_img = {R.drawable.img_bass, R.drawable.img_boosiri
             , R.drawable.img_fishbones, R.drawable.img_goldfish, R.drawable.img_jellyfish
             , R.drawable.img_nimo, R.drawable.img_rock, R.drawable.img_samsik, R.drawable.img_spongebob
@@ -145,10 +154,14 @@ public class MainActivity extends FragmentActivity {
 
     AlertDialog insert_fish_dialog;
     AlertDialog delete_fish_dialog;
+    AlertDialog interior_dialog;
+
+    Button btn_add_interior;
+    Button btn_delete_interior;
     Fragment dogam_frgment;
-    ArrayList<Integer> main_dogam = new ArrayList<Integer>();
-    ArrayList<String> fish_add_cheak;
-    ArrayList<String> fish_delete_cheak = new ArrayList<String>();
+    ImageView interior_view_main;
+
+    boolean interior_start = false;
 
 
 
@@ -220,8 +233,6 @@ public class MainActivity extends FragmentActivity {
                 mainFrameLayout.setClickable(false);
                 subFrameLayout.setVisibility(View.VISIBLE);
                 subFrameLayout.setClickable(true);
-
-
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, information_fragment,"information")
@@ -355,6 +366,19 @@ public class MainActivity extends FragmentActivity {
 
         // 현석 --
 
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+       // final Geocoder geocoder = new Geocoder(this);
+
+        btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
+        btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
+        btn_add_interior = (Button) findViewById(R.id.btn_add_interior);
+        btn_delete_interior = (Button) findViewById(R.id.btn_delete_interior);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        aquarium = new Aquarium(this);
+        catchFish_gps = new CatchFish_GPS(this);
+        dogamfrag = new Dogam_Fragment();
+
         btn_showDogamFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -375,30 +399,24 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        aquarium = new Aquarium(this);
-        dogamfrag = new Dogam_Fragment();
-
-        btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
-        btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
-
-
         // TODO 물고기 추가하기
         btn_AddFish.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 if(fish_add_cheak.size() != 0){
 
-                    add = new String[fish_add_cheak.size()];
-                    fish_add_cheak.toArray(add);
+                    add_fish_arr = new String[fish_add_cheak.size()];
+                    fish_add_cheak.toArray(add_fish_arr);
 
-                    builder.setItems(add, new DialogInterface.OnClickListener() {
+                    builder.setItems(add_fish_arr, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        aquarium.insertFish(add[id]);
-                        fish_delete_cheak.add(add[id]);
-                        Toast.makeText(getApplicationContext(), add[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
+                        aquarium.insertFish(add_fish_arr[id]);
+                        fish_delete_cheak.add(add_fish_arr[id]);
+                        Toast.makeText(getApplicationContext(), add_fish_arr[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
                 insert_fish_dialog = builder.create();
@@ -417,17 +435,17 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                delete = new String[fish_delete_cheak.size()];
-                fish_delete_cheak.toArray(delete);
+                delete_fish_arr = new String[fish_delete_cheak.size()];
+                fish_delete_cheak.toArray(delete_fish_arr);
 
-                builder.setItems(delete, new DialogInterface.OnClickListener() {
+                builder.setItems(delete_fish_arr, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
 
                         aquarium.deleteFish(id);
                         fish_delete_cheak.remove(id);
-                        Toast.makeText(getApplicationContext(), delete[id] + "를 제거했습니다", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), delete_fish_arr[id] + "를 제거했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
                 delete_fish_dialog = builder.create();
@@ -435,6 +453,60 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        // TODO 꾸미기 버튼
+        btn_add_interior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).cheak_inventory();
+                add_interior_arr = new String[cheak.size()];
+                for (int i = 0; i < cheak.size() ; i++) {
+                    if(cheak.get(i) != 0){
+                        add_interior_arr [i] = interior_name.get(i);
+                    }
+                }
+
+                builder.setItems( add_interior_arr, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        interior_start = true;
+                        interior_view_main = new ImageView(getApplicationContext());
+                        interior_view_main = aquarium.add_Interior(add_interior_arr[0]);
+                  //      Toast.makeText(getApplicationContext(), add[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                interior_dialog = builder.create();
+                interior_dialog.show();
+
+            }
+        });
+
+        btn_delete_interior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                for (ImageView iv :interior_arr) {
+                    iv.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
+        //TODO 꾸미기 터치 이벤트
+        mySurfaceView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (interior_start) {
+                    interior_view_main.setX(event.getX());
+                    interior_view_main.setY(event.getY());
+                    interior_arr.add(interior_view_main);
+                    interior_start = false;
+
+                }
+                return false;
+            }
+        });
 
 
     
@@ -733,7 +805,9 @@ public class MainActivity extends FragmentActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
                     },
                     0
             );
@@ -852,6 +926,8 @@ public class MainActivity extends FragmentActivity {
                                  //       Log.d("야야", cheak_insert_fish.size() +  " " );
                                         btn_AddFish.setVisibility(View.VISIBLE);
                                         btn_removeFish.setVisibility(View.VISIBLE);
+                                        btn_add_interior.setVisibility(View.VISIBLE);
+                                        btn_delete_interior.setVisibility(View.VISIBLE);
 
                                     }
                                 });

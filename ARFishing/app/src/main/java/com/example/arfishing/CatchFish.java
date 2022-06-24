@@ -27,7 +27,7 @@ public class CatchFish extends Thread{
 
     AlertDialog.Builder dlg;
     View dlgView;
-    TextView dlgTv1, dlgTv2, dlgTv3;
+    TextView dlgTv1, dlgTv2, dlgTv3, dlgTv4;
     ImageView dlgImg;
 
     CatchFish(MainActivity activity){
@@ -41,6 +41,7 @@ public class CatchFish extends Thread{
         dlgTv1 = (TextView) dlgView.findViewById(R.id.dlgTv1);
         dlgTv2 = (TextView) dlgView.findViewById(R.id.dlgTv2);
         dlgTv3 = (TextView) dlgView.findViewById(R.id.dlgTv3);
+        dlgTv4 = (TextView) dlgView.findViewById(R.id.dlgTv4);
         dlgImg = (ImageView) dlgView.findViewById(R.id.dlgImg);
 
         fishNameObj.put("베스", "fish_bass");
@@ -246,6 +247,8 @@ public class CatchFish extends Thread{
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);
                                     dlgTv3.setText(caughtFish.fish_explain);
+
+                                    dlgTv4.setText(mainActivity.catchFish_gps.get_gps());
 
                                     dlgImg.setImageResource(new ShopFragment().choiceFishImg(caughtFish.fish_id));
                                     dlg.setPositiveButton("d", new DialogInterface.OnClickListener() {

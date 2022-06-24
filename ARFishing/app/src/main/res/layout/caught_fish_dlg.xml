@@ -43,5 +43,14 @@
         android:gravity="center"
         android:layout_margin="10dp"></TextView>
 
+    <TextView
+        android:id="@+id/dlgTv4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text=""
+        android:gravity="center"
+        android:layout_margin="10dp"></TextView>
+
 
 </LinearLayout>

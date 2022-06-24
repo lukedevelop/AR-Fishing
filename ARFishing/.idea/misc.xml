@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Temp/Android-Java/OHS/ARFishing/app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="..\:/Temp/Android-Java/OHS/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21510416666666668" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/activity_main.xml" value="0.2980072463768116" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1505" />

@@ -339,6 +339,18 @@ public class DBDAO {
         return dogam;
     }
 
+    ArrayList<Integer> cheak_inventory(){
+        ArrayList<Integer> cheak_inventory_count = new ArrayList<Integer>();
+
+        db = myDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select interior_amount from inventory_interior", null);
+        while (cursor.moveToNext()){
+            cheak_inventory_count.add(cursor.getInt(0));
+        }
+        db.close();
+        return cheak_inventory_count;
+    }
+
 
 
 
