@@ -259,9 +259,7 @@ public class MainActivity extends FragmentActivity {
                 subFrameLayout.setVisibility(View.INVISIBLE);
                 subFrameLayout.setClickable(false);
 
-                aquarium.ready = false;
-                aquarium.model_arr.clear();
-                mRenderer.fish_arr.clear();
+
 
                 btn_AddFish.setVisibility(View.INVISIBLE);
                 btn_removeFish.setVisibility(View.INVISIBLE);
@@ -462,6 +460,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).cheak_inventory();
                 add_interior_arr = new String[cheak.size()];
+                if(add_interior_arr.length != 0){
                 for (int i = 0; i < cheak.size() ; i++) {
                     if(cheak.get(i) != 0){
                         add_interior_arr [i] = interior_name.get(i);
@@ -480,6 +479,9 @@ public class MainActivity extends FragmentActivity {
                 });
                 interior_dialog = builder.create();
                 interior_dialog.show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"꾸미기 아이템을 구매해주세요" ,Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

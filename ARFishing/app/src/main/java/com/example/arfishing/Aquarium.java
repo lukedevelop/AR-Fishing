@@ -158,6 +158,14 @@ public class Aquarium {
         mActivity.btn_delete_interior.setVisibility(View.INVISIBLE);
         mActivity.btn_AddFish.setVisibility(View.INVISIBLE);
         mActivity.btn_removeFish.setVisibility(View.INVISIBLE);
+
+        for (ImageView iv :mActivity.interior_arr) {
+            iv.setVisibility(View.GONE);
+
+            ready = false;
+            model_arr.clear();
+            mRenderer.fish_arr.clear();
+        }
     }
 }
 
