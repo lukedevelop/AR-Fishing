@@ -162,9 +162,10 @@ public class Aquarium {
         for (ImageView iv :mActivity.interior_arr) {
             iv.setVisibility(View.GONE);
 
-            ready = false;
+
             model_arr.clear();
             mRenderer.fish_arr.clear();
+            ready = false;
         }
     }
 }

@@ -91,8 +91,21 @@ public class Inventory_interior_Fragment extends Fragment {
 
 
         // TODO 추가 - DB불러와서 하나씩 추가 필요 for문돌려서
-        adapter.addItem(new BaitItem("인테리어","잡기 확률 10% +", 100,0,R.drawable.bait_gunsaewoo));
+        adapter.addItem(new BaitItem("조개","주례는 조개껍데기다.", 100,0,R.drawable.bait_gunsaewoo));
+        DBDAO dbDAO = new DBDAO(mainActivity);
+        ArrayList<InventoryDTO> inventoryDTO_arr = dbDAO.selectInventory("interior");
+//        adapter.addItem(new BaitItem("물고기","잡기 확률 10% +", 100,0,R.drawable.gunsaewoo));
+        for(InventoryDTO inventoryDTO: inventoryDTO_arr) {
+            if(inventoryDTO.item_amount != 0) {
+                adapter.addItem(new BaitItem(
+                        inventoryDTO.item_name,
+                        inventoryDTO.item_explain,
+                        inventoryDTO.item_price,
+                        inventoryDTO.item_amount,
+                        R.drawable.interior_zogae));
+            }
 
+        }
         listView.setAdapter(adapter);
     }
 

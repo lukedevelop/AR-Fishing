@@ -57,6 +57,7 @@ public class MainFragment extends Fragment {
                     // TODO 추가 DB에 member nickname 입력 로직
 
                     new DBDAO(mainActivity).firstMemberDB(editText_nickName.getText().toString());
+
                 } else {
                     Toast.makeText(mainActivity, "닉네임을 입력해주세요!", Toast.LENGTH_SHORT).show();
                 }
