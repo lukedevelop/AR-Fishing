@@ -2,6 +2,7 @@ package com.example.arfishing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.opengl.Matrix;
 import android.os.Vibrator;
 import android.view.View;
@@ -73,6 +74,7 @@ public class CatchFish extends Thread{
             }
         });
 
+        mainActivity.soundPool.play(mainActivity.sound_casting, 1,1,1,2,0);
 
         //타이머 시작 -> 시간 안에 잡기 버튼을 눌러야함
         //todo 찬욱) 시간 스레드1 >> 이 스레드가 멈추가 전에 버튼을 다다다다 눌러야 하는 것
@@ -81,6 +83,7 @@ public class CatchFish extends Thread{
             int time = 5;
             @Override
             public void run() {
+                mainActivity.soundPool.play(mainActivity.sound_ril, 1,1,1,100,0);
                 while (intime1 && time >= 0) {
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
@@ -95,6 +98,8 @@ public class CatchFish extends Thread{
                     }
                     time--;
                 }
+                mainActivity.soundPool.stop(mainActivity.sound_ril);
+
                 //시간이 다 지나면 타이머 스탑, 고기도 놓침
                 intime1 = false;
                 isCaught = false;
@@ -176,6 +181,7 @@ public class CatchFish extends Thread{
 
                 @Override
                 public void run() {
+                    mainActivity.soundPool.play(mainActivity.sound_padack, 1,1,1,10,0);
                     intime2 = true;
                     while (intime2 && time >= 0) {
                         mainActivity.runOnUiThread(new Runnable() {
@@ -213,6 +219,8 @@ public class CatchFish extends Thread{
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mainActivity.soundPool.play(mainActivity.sound_aquarium, 1,1,1,10,0);
+
                                     Toast.makeText(mainActivity.getApplicationContext(), fishName+"을(를) 잡았습니다!", Toast.LENGTH_SHORT).show();
 
                                     new DBDAO(mainActivity).plusFishInventory(fishName);
@@ -238,7 +246,16 @@ public class CatchFish extends Thread{
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);
                                     dlgTv3.setText(caughtFish.fish_explain);
+
                                     dlgImg.setImageResource(new ShopFragment().choiceFishImg(caughtFish.fish_id));
+                                    dlg.setPositiveButton("d", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mainActivity.soundPool.stop(mainActivity.sound_aquarium);
+
+                                        }
+                                    });
+
                                     dlg.setView(dlgView);
                                     dlg.show();
                                     mainActivity.casting = false;

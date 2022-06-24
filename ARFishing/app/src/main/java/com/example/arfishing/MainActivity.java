@@ -9,7 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.display.DisplayManager;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaScannerConnection;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
@@ -115,6 +118,8 @@ public class MainActivity extends FragmentActivity {
 
     boolean isShopInit = false;
     Dialog customDialog;
+
+    ImageView iv_gal;
     // -- 송찬욱
 
     // 현석 --
@@ -152,7 +157,7 @@ public class MainActivity extends FragmentActivity {
     // 지원 --
     boolean sea = false, gang = false;
     String area = "";
-    ImageView galimg, galimg2, riverimg;
+
     TextView fishingtv ;
 
     // -- 지원
@@ -172,6 +177,16 @@ public class MainActivity extends FragmentActivity {
 
         // 찬욱--
         // ------------연결 시작
+
+        ggiLook();
+        iv_gal = (ImageView) findViewById(R.id.iv_gal);
+        iv_gal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                playSound();
+                return false;
+            }
+        });
 
         mainFrameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
         subFrameLayout = (FrameLayout) findViewById(R.id.subFrameLayout);
@@ -335,9 +350,7 @@ public class MainActivity extends FragmentActivity {
         // 지원 --
         fishingtv = (TextView)findViewById(R.id.FishingTv);
 
-        galimg = (ImageView)findViewById(R.id.Gal);
-        galimg2 = (ImageView)findViewById(R.id.Gal2);
-        riverimg = (ImageView)findViewById(R.id.River);
+
         // -- 지원
 
         // 현석 --
@@ -863,10 +876,9 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        galimg.setVisibility(View.VISIBLE);
-                                        galimg2.setVisibility(View.VISIBLE);
 
-                                        riverimg.setVisibility(View.INVISIBLE);
+                                        soundPool.stop(sound_gang);
+                                        soundPool.play(sound_sea, 1, 1, 0,3,1);
                                         fishingtv.setText("동해바다");
 
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
@@ -895,9 +907,8 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        galimg.setVisibility(View.INVISIBLE);
-                                        galimg2.setVisibility(View.INVISIBLE);
-                                        riverimg.setVisibility(View.VISIBLE);
+                                        soundPool.stop(sound_sea);
+                                        soundPool.play(sound_gang, 1, 1, 0,3,1);
 
                                         fishingtv.setText("낙동강");
 
@@ -1050,9 +1061,7 @@ public class MainActivity extends FragmentActivity {
             castingBtn.setVisibility(View.INVISIBLE);
             castingSeekbar.setVisibility(View.INVISIBLE);
 
-            galimg.setVisibility(View.INVISIBLE);
-            galimg2.setVisibility(View.INVISIBLE);
-            riverimg.setVisibility(View.INVISIBLE);
+
 
 
         }else{
@@ -1060,11 +1069,10 @@ public class MainActivity extends FragmentActivity {
             castingBtn.setVisibility(View.VISIBLE);
 
             if(area.equals("바다")){
-                galimg.setVisibility(View.VISIBLE);
-                galimg2.setVisibility(View.VISIBLE);
+
             }
             else if(area.equals("강")){
-                riverimg.setVisibility(View.VISIBLE);
+
             }
         }
 
@@ -1216,6 +1224,48 @@ public class MainActivity extends FragmentActivity {
 
 
     }
+
+    int sound_aquarium;
+    int sound_casting;
+    int sound_galmaegi;
+    int sound_gang;
+    int sound_padack;
+    int sound_ril;
+    int sound_sea;
+    int sound_spongebob;
+
+    SoundPool soundPool;
+
+    void ggiLook() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(6)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        } else {
+            soundPool = new SoundPool(6, AudioManager.STREAM_MUSIC, 0 );
+
+        }
+        sound_aquarium = soundPool.load(this, R.raw.sound_aquarium,1);
+        sound_casting = soundPool.load(this, R.raw.sound_casting,1);
+        sound_galmaegi = soundPool.load(this, R.raw.sound_galmaegi,1);
+        sound_gang = soundPool.load(this, R.raw.sound_gang,1);
+        sound_padack = soundPool.load(this, R.raw.sound_padack,1);
+        sound_ril = soundPool.load(this, R.raw.sound_ril,1);
+        sound_sea = soundPool.load(this, R.raw.sound_sea,1);
+        sound_spongebob = soundPool.load(this, R.raw.sound_spongebob,1);
+
+    }
+
+    void playSound() {
+        soundPool.play(sound_ril, 1, 1, 0,3,1);
+//        soundPool.stop(sound_galmaegi);
+    }
+
 
 
 }

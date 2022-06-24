@@ -20,7 +20,13 @@
             android:id="@+id/glSsurfaceview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></android.opengl.GLSurfaceView>
-
+        <ImageView
+            android:id="@+id/iv_gal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gal"
+            android:layout_gravity="bottom|center_horizontal"
+            />
         <Button
             android:id="@+id/btn_showMenuFrameLayout"
             android:layout_width="wrap_content"
@@ -104,43 +110,6 @@
             android:layout_marginTop="100dp"
             >
 
-            <ImageView
-                android:id="@+id/Gal"
-                android:layout_width="122dp"
-                android:layout_height="76dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="63dp"
-                android:visibility="invisible"
-                android:src="@drawable/gal"
-                />
-
-            <ImageView
-                android:id="@+id/Gal2"
-                android:layout_width="150dp"
-                android:layout_height="86dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="54dp"
-                android:layout_marginEnd="8dp"
-                android:visibility="invisible"
-                android:src="@drawable/gal2"
-                />
-
-            <ImageView
-                android:id="@+id/River"
-                android:layout_width="285dp"
-                android:layout_height="109dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="47dp"
-                android:layout_marginEnd="71dp"
-                android:src="@drawable/gang"
-                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/FishingTv"
@@ -176,11 +145,11 @@
                 android:id="@+id/frameLayout_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="11"
-                >
+                android:layout_weight="11">
 
 
             </FrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

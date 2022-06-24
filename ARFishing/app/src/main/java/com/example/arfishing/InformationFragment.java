@@ -72,7 +72,6 @@ public class InformationFragment extends Fragment {
         tv_money_information.setText(informationDTO.money+"");
         setChinghoImg();
         // setText에 int면 +"" 반드시 추가
-
     }
 
     void setChinghoImg() {
