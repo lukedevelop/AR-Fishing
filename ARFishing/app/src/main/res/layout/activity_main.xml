@@ -87,10 +87,24 @@
                 android:visibility="invisible"/>
 
             <Button
+                android:id="@+id/btn_add_interior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="꾸미기 추가"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_delete_interior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="꾸미기 제거"
+                android:visibility="invisible"/>
+
+            <Button
                 android:id="@+id/btn_capture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="낚시터"/>
+                android:text="캡처"/>
 
 
         </LinearLayout>

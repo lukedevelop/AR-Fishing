@@ -1,19 +1,19 @@
 package com.example.arfishing;
 
 
+import android.graphics.Color;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Aquarium {
 
-    //  ArrayList <ObjRenderer> FISH = new ArrayList<ObjRenderer>();
-
-
-
-    boolean cheak = true;
     boolean cheak_new_fish = false;
     boolean ready = true;
 
@@ -28,6 +28,7 @@ public class Aquarium {
 
     float tx =1f , ty = 0f, tz = 1f;
     String add_name;
+    String interior_name;
     int delete_num ,cnt2 = 0;
 
     Aquarium (MainActivity mActivity) {
@@ -108,19 +109,11 @@ public class Aquarium {
                     mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_turtle.obj", "fish_turtle.jpeg");
                     break;
             }
-
-
                 mActivity.pose.toMatrix(modelMatrix, 0);
                 mObj.setModelMatrix(modelMatrix);
 
                 mActivity.mRenderer.fish_arr.add(mObj);
                 model_arr.add(modelMatrix);
-
-
-
-
-
-
         }
     }
 
@@ -135,6 +128,28 @@ public class Aquarium {
 
         }
 
+    }
+
+    ImageView add_Interior(String interior_name){
+        this.interior_name = interior_name;
+
+        ImageView interior_view = new ImageView(mActivity);
+
+        switch (interior_name){
+            case "조개" :
+                interior_view.setImageResource(R.drawable.interior_zogae);
+                break;
+        }
+
+        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT);
+         param.width = 300;  //이미지 너비
+         param.height = 300; // 이미지 높이
+       //  param.setMargins(0,0,0,0); 이미지 마진(왼쪽, 위, 오른쪽, 아래)
+        mActivity.mainFrameLayout.addView(interior_view, param);
+
+        return interior_view;
     }
 }
 
