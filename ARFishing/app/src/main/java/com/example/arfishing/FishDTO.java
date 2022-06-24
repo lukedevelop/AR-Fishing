@@ -2,7 +2,7 @@ package com.example.arfishing;
 
 public class FishDTO {
 
-    int fish_id;
+    int fish_id, fish_clickNum;
     String fish_name, fish_area, fish_scale, fish_rotation, fish_explain;
 
     @Override
@@ -13,6 +13,8 @@ public class FishDTO {
                 ", fish_area='" + fish_area + '\'' +
                 ", fish_scale='" + fish_scale + '\'' +
                 ", fish_rotation='" + fish_rotation + '\'' +
+                ", fish_clickNum='" + fish_clickNum + '\'' +
+                ", fish_explain='" + fish_explain + '\'' +
                 '}';
     }
 }

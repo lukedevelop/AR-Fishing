@@ -76,6 +76,26 @@ public class CatchFish extends Thread{
 
         mainActivity.soundPool.play(mainActivity.sound_casting, 1,1,1,2,0);
 
+        int ranNum = (int) (Math.random()*100)+1;
+        if(ranNum <= 20){
+            fishName = area.equals("강") ? "베스" : "부시리";
+        } else if(ranNum <= 40){
+            fishName = area.equals("강") ? "금붕어" : "해파리";
+        } else if(ranNum <= 60){
+            fishName = area.equals("강") ? "삼식" : "거북이";
+        } else if(ranNum <= 70){
+            fishName = "뼈";
+        } else if(ranNum <= 80){
+            fishName = "니모";
+        } else if(ranNum <= 90){
+            fishName = "바위";
+        } else{
+            fishName = "스폰지밥";
+        }
+
+        caughtFish = new DBDAO(mainActivity).getFishInfo(fishName);
+
+
         //타이머 시작 -> 시간 안에 잡기 버튼을 눌러야함
         //todo 찬욱) 시간 스레드1 >> 이 스레드가 멈추가 전에 버튼을 다다다다 눌러야 하는 것
         intime1 = true;
@@ -108,12 +128,11 @@ public class CatchFish extends Thread{
 
         //시간 안에 버튼을 일정 횟수 이상 누르면
         //고기가 잡히고 타이머는 스탑
-        //todo 지은) 물고기마다 버튼 횟수도 정하기
         new Thread(){
             @Override
             public void run() {
                 while(intime1) {
-                    if (mainActivity.btnClickCnt > 2) {
+                    if (mainActivity.btnClickCnt >= caughtFish.fish_clickNum) {
                         isCaught = true;
                         intime1 = false;
                     }
@@ -137,31 +156,12 @@ public class CatchFish extends Thread{
         //todo 찬욱) 물고기 잡히는 부분
         if(isCaught) {
 
-            int ranNum = (int) (Math.random()*100)+1;
-            if(ranNum <= 20){
-                fishName = area.equals("강") ? "베스" : "부시리";
-            } else if(ranNum <= 40){
-                fishName = area.equals("강") ? "금붕어" : "해파리";
-            } else if(ranNum <= 60){
-                fishName = area.equals("강") ? "삼식" : "거북이";
-            } else if(ranNum <= 70){
-                fishName = "뼈";
-            } else if(ranNum <= 80){
-                fishName = "니모";
-            } else if(ranNum <= 90){
-                fishName = "바위";
-            } else{
-                fishName = "스폰지밥";
-            }
-
-            caughtFish = new DBDAO(mainActivity).getFishInfo(fishName);
-
             mainActivity.mRenderer.drawPoint = false;
             mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
             Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
-            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 1, 0);
+            Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 0, 1);
             mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
             mainActivity.mRenderer.drawFish = true;
 

@@ -216,6 +216,7 @@ public class DBDAO {
             fishDTO.fish_area = cursor.getString(3);
             fishDTO.fish_scale = cursor.getString(4);
             fishDTO.fish_rotation = cursor.getString(5);
+            fishDTO.fish_clickNum = cursor.getInt(7);
         }
 
         cursor = db.rawQuery("select fish_explain from inventory_fish where fish_name = '"+name+"'", null);
