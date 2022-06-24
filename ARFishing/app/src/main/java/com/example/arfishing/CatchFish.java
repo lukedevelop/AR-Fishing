@@ -159,12 +159,13 @@ public class CatchFish extends Thread{
 
             mainActivity.mRenderer.drawPoint = false;
             mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
-            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2);
+            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/3, Float.parseFloat(caughtFish.fish_scale)/3, Float.parseFloat(caughtFish.fish_scale)/3);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 0, 1);
             mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
             mainActivity.mRenderer.drawFish = true;
+            mainActivity.mRenderer.drawWater = false;
 
             mainActivity.runOnUiThread(new Runnable() {
                 @Override

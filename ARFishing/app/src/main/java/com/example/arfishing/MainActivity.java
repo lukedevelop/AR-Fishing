@@ -84,11 +84,12 @@ public class MainActivity extends FragmentActivity {
     String gameMode = "입장";
     String setBait = "떡밥";
 
-    float[] rodMatrix, waterMatrix, floatMatrix, fishMatrix;
+    float[] rodMatrix, waterMatrix, waterMatrix2, floatMatrix, fishMatrix;
 
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
+    ImageView sandImg;
     int btnClickCnt;
     Frame frame;
     Pose pose;
@@ -186,6 +187,7 @@ public class MainActivity extends FragmentActivity {
         castingBtn = (Button) findViewById(R.id.castingBtn);
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
+        sandImg = (ImageView) findViewById(R.id.sandImg);
 
 
         // 찬욱--
@@ -686,10 +688,10 @@ public class MainActivity extends FragmentActivity {
                         mRenderer.height,
                         projMatrix2, viewMatrix);
 
-                Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.1f, mBallPoint[2]);
-                Matrix.scaleM(rodMatrix, 0, 0.002f, 0.0008f, 0.001f);
+                Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.05f, mBallPoint[2]);
+                Matrix.scaleM(rodMatrix, 0, 0.001f, 0.0003f, 0.001f);
 
-                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1]+1f, mBallPoint2[2]+10f);
+                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1], mBallPoint2[2]+10f);
 
                 Matrix.scaleM(floatMatrix, 0, 7f, 7f, 7f);
 
@@ -734,16 +736,29 @@ public class MainActivity extends FragmentActivity {
 
                 mRenderer.fishingRod.setModelMatrix(rodMatrix);
 
-                if(!casting) {
-                    mRenderer.point.setModelMatrix(floatMatrix);
-                }
+
+
 
                 waterMatrix = floatMatrix.clone();
 
+
+                Matrix.translateM(waterMatrix, 0, 0, 0f, 6f);
                 Matrix.scaleM(waterMatrix, 0, 0.0013f, 0.0013f, 0.0013f);
-                Matrix.rotateM(waterMatrix, 0, -50, 1, 0, 0);
+                Matrix.rotateM(waterMatrix, 0, -20, 1, 0, 0);
+
+
                 mRenderer.water.setModelMatrix(waterMatrix);
 
+                waterMatrix2 = waterMatrix.clone();
+
+                Matrix.rotateM(waterMatrix2, 0, -70, 1, 0, 0);
+                Matrix.translateM(waterMatrix2, 0, 0, 1000f, -5000f);
+                mRenderer.water2.setModelMatrix(waterMatrix2);
+
+                Matrix.translateM(floatMatrix, 0, 0, 2.5f, 3.5f);
+                if(!casting) {
+                    mRenderer.point.setModelMatrix(floatMatrix);
+                }
 
                 //--------------------------------------------
 
@@ -759,6 +774,8 @@ public class MainActivity extends FragmentActivity {
 
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        changeGameMode("입장");
     }
 
     @Override
@@ -1120,28 +1137,34 @@ public class MainActivity extends FragmentActivity {
     }
 
      void changeGameMode(String mode){
-
         gameMode = mode;
-
         if(!mode.equals("낚시")){
             mRenderer.drawRod = false;
+            mRenderer.drawWater = false;
             casting = true;
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     castingBtn.setText("시작");
+                    castingBtn.setVisibility(View.INVISIBLE);
+                    castingSeekbar.setVisibility(View.INVISIBLE);
+                    sandImg.setVisibility(View.INVISIBLE);
+                    mainFrameLayout.requestLayout();
                 }
             });
-            castingBtn.setVisibility(View.INVISIBLE);
-            castingSeekbar.setVisibility(View.INVISIBLE);
-
-
-
-
         }else{
             mRenderer.drawRod = true;
-            castingBtn.setVisibility(View.VISIBLE);
+            mRenderer.drawWater = true;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    castingBtn.setVisibility(View.VISIBLE);
+                    sandImg.setVisibility(View.VISIBLE);
+                    mainFrameLayout.requestLayout();
+                }
+            });
 
             if(area.equals("바다")){
 
