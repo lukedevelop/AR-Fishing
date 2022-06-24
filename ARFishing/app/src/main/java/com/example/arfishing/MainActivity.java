@@ -952,7 +952,7 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-
+                                        aquarium.go_fishing();
                                         soundPool.stop(sound_gang);
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
                                         fishingtv.setText("동해바다");
@@ -983,6 +983,7 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        aquarium.go_fishing();
                                         soundPool.stop(sound_sea);
                                         soundPool.play(sound_gang, 1, 1, 0,3,1);
 

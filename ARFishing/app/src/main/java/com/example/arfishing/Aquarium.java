@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.opengl.Matrix;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +44,7 @@ public class Aquarium {
 
         //TODO 여기도 고쳐야할 부분임 (일단 고침)
         for (float [] model : model_arr) {
-            Matrix.translateM(model,0, 0, 0, 0f);
+            Matrix.translateM(model,0, 0, 0, 0.003f);
 
             Log.d("포즈로 물고기 움직이기 여" , "움직임");
         }
@@ -150,6 +151,13 @@ public class Aquarium {
         mActivity.mainFrameLayout.addView(interior_view, param);
 
         return interior_view;
+    }
+
+    public void go_fishing (){
+        mActivity.btn_add_interior.setVisibility(View.INVISIBLE);
+        mActivity.btn_delete_interior.setVisibility(View.INVISIBLE);
+        mActivity.btn_AddFish.setVisibility(View.INVISIBLE);
+        mActivity.btn_removeFish.setVisibility(View.INVISIBLE);
     }
 }
 
