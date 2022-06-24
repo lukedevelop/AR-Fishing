@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,19 +43,24 @@ public class MainFragment extends Fragment {
         btn_goGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.mainFrameLayout.setVisibility(View.VISIBLE);
-                mainActivity.mainFrameLayout.setClickable(true);
-                mainActivity.subFrameLayout.setVisibility(View.INVISIBLE);
-                mainActivity.subFrameLayout.setClickable(false);
+                if(!(editText_nickName.getText().toString()).equals("")) {
+                    mainActivity.mainFrameLayout.setVisibility(View.VISIBLE);
+                    mainActivity.mainFrameLayout.setClickable(true);
+                    mainActivity.subFrameLayout.setVisibility(View.INVISIBLE);
+                    mainActivity.subFrameLayout.setClickable(false);
 
-                mainActivity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .remove(mainActivity.main_fragment).commit();
+                    mainActivity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .remove(mainActivity.main_fragment).commit();
 
 
-                // TODO 추가 DB에 member nickname 입력 로직
+                    // TODO 추가 DB에 member nickname 입력 로직
 
-                new DBDAO(mainActivity).firstMemberDB(editText_nickName.getText().toString());
+                    new DBDAO(mainActivity).firstMemberDB(editText_nickName.getText().toString());
+                } else {
+                    Toast.makeText(mainActivity, "닉네임을 입력해주세요!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

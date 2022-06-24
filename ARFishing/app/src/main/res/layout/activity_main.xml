@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/gal"
             android:layout_gravity="bottom|center_horizontal"
+            android:visibility="invisible"
             />
         <Button
             android:id="@+id/btn_showMenuFrameLayout"

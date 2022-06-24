@@ -223,7 +223,10 @@ public class MainActivity extends FragmentActivity {
         // TODO 나중연결 후 추가 - 퀘스트, 도감 프래그먼트 추가 요망
 
         // 온보딩 생성 나중에 살리기
-        showOnBoarding();
+
+        if(new DBDAO(this).selectMemberDB().nickName.equals("default")) {
+            showOnBoarding();
+        }
 
         btn_showMenuFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -915,7 +918,7 @@ public class MainActivity extends FragmentActivity {
                                     //TODO 물고기 체크
                                     public void run() {
                                         fish_add_cheak = new ArrayList<String>();
-
+                                        fishingtv.setText("수족관");
                                      //   cheak_insert_fish.clear();
                                         ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
                                         for (int i = 0; i < cheak.size() ; i++) {
