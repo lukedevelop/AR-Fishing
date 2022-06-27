@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity {
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
-    ImageView sandImg;
+    ImageView sandImg, timerImg;
     int btnClickCnt;
     Frame frame;
     Pose pose;
@@ -187,6 +187,7 @@ public class MainActivity extends FragmentActivity {
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
         sandImg = (ImageView) findViewById(R.id.sandImg);
+        timerImg = (ImageView) findViewById(R.id.timerImg);
 
 
         // 찬욱--
@@ -585,7 +586,6 @@ public class MainActivity extends FragmentActivity {
 
 
                     Toast.makeText(getApplicationContext(), "캐스팅 완료!", Toast.LENGTH_SHORT);
-                    castingSeekbar.setVisibility(View.INVISIBLE);
                     castingBtn.setText("잡기");
                     castingBtn.setEnabled(false);
 
@@ -601,9 +601,7 @@ public class MainActivity extends FragmentActivity {
         castingBtn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (castingBtn.getText().toString().equals("촬영")){
-                    mRenderer.drawWater = false;
-                }
+                mRenderer.drawWater = !mRenderer.drawWater;
                 return true;
             }
         });
@@ -982,6 +980,7 @@ public class MainActivity extends FragmentActivity {
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
                                         fishingtv.setText("동해바다");
                                         sandImg.setImageResource(R.drawable.beach);
+                                        mainFrameLayout.requestLayout();
 
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
@@ -1015,6 +1014,7 @@ public class MainActivity extends FragmentActivity {
 
                                         fishingtv.setText("낙동강");
                                         sandImg.setImageResource(R.drawable.grass);
+                                        mainFrameLayout.requestLayout();
 
                                         Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
                                         changeGameMode("낚시");
