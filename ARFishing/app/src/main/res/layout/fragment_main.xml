@@ -51,7 +51,7 @@
                     android:id="@+id/editText_nickName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="닉네임"
+                    android:hint="닉네임 - 한글 2~8자리"
                     android:inputType="textCapWords"
 
                     android:textColor="#363A43"
