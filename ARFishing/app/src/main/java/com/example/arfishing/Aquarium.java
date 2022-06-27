@@ -154,6 +154,8 @@ public class Aquarium {
     }
 
     public void go_fishing (){
+
+        mActivity.btn_aquarium_open.setVisibility(View.INVISIBLE);
         mActivity.btn_add_interior.setVisibility(View.INVISIBLE);
         mActivity.btn_delete_interior.setVisibility(View.INVISIBLE);
         mActivity.btn_AddFish.setVisibility(View.INVISIBLE);

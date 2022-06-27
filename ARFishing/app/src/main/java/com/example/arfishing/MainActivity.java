@@ -108,7 +108,9 @@ public class MainActivity extends FragmentActivity {
     Button btn_showQuestFragment;
     Button btn_showDogamFragment;
 
+    Button btn_aquarium_open;
     Button  btn_AddFish, btn_removeFish, btn_capture;
+
 
     Fragment main_fragment;
     Fragment information_fragment;
@@ -124,6 +126,7 @@ public class MainActivity extends FragmentActivity {
 
     ImageView iv_gal;
     // -- 송찬욱
+
 
     // 현석 --
 
@@ -396,6 +399,8 @@ public class MainActivity extends FragmentActivity {
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
        // final Geocoder geocoder = new Geocoder(this);
 
+        btn_aquarium_open = (Button) findViewById(R.id.btn_aquarium_open);
+
         btn_AddFish = (Button) findViewById(R.id.btn_AddFish);
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
         btn_add_interior = (Button) findViewById(R.id.btn_add_interior);
@@ -429,6 +434,32 @@ public class MainActivity extends FragmentActivity {
                 btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_default);
                 btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_selected);
 
+
+            }
+        });
+
+        btn_aquarium_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(btn_aquarium_open.getText().toString().equals("닫힘") ) {
+                    btn_aquarium_open.setText("열림");
+                    btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_close);
+
+                    btn_AddFish.setVisibility(View.VISIBLE);
+                    btn_removeFish.setVisibility(View.VISIBLE);
+                    btn_add_interior.setVisibility(View.VISIBLE);
+                    btn_delete_interior.setVisibility(View.VISIBLE);
+                    btn_capture.setVisibility(View.VISIBLE);
+                } else {
+                    btn_aquarium_open.setText("닫힘");
+                    btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
+
+                    btn_AddFish.setVisibility(View.INVISIBLE);
+                    btn_removeFish.setVisibility(View.INVISIBLE);
+                    btn_add_interior.setVisibility(View.INVISIBLE);
+                    btn_delete_interior.setVisibility(View.INVISIBLE);
+                    btn_capture.setVisibility(View.INVISIBLE);
+                }
 
             }
         });
@@ -974,7 +1005,7 @@ public class MainActivity extends FragmentActivity {
                                     //TODO 물고기 체크
                                     public void run() {
                                         fish_add_cheak = new ArrayList<String>();
-                                        fishingtv.setText("수족관");
+                                        fishingtv.setBackgroundResource(R.drawable.alertimg_aquarium);
                                      //   cheak_insert_fish.clear();
                                         ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
                                         for (int i = 0; i < cheak.size() ; i++) {
@@ -983,11 +1014,9 @@ public class MainActivity extends FragmentActivity {
                                             }
                                         }
                                  //       Log.d("야야", cheak_insert_fish.size() +  " " );
-                                        btn_AddFish.setVisibility(View.VISIBLE);
-                                        btn_removeFish.setVisibility(View.VISIBLE);
-                                        btn_add_interior.setVisibility(View.VISIBLE);
-                                        btn_delete_interior.setVisibility(View.VISIBLE);
-                                        btn_capture.setVisibility(View.VISIBLE);
+                                        btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
+                                        btn_aquarium_open.setText("닫힘");
+                                        btn_aquarium_open.setVisibility(View.VISIBLE);
                                     }
                                 });
 
@@ -1011,7 +1040,9 @@ public class MainActivity extends FragmentActivity {
                                         aquarium.go_fishing();
                                         soundPool.stop(sound_gang);
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
-                                        fishingtv.setText("동해바다");
+
+                                        fishingtv.setBackgroundResource(R.drawable.alertimg_see);
+
                                         sandImg.setImageResource(R.drawable.beach);
                                         mainFrameLayout.requestLayout();
 
@@ -1045,7 +1076,7 @@ public class MainActivity extends FragmentActivity {
                                         soundPool.stop(sound_sea);
                                         soundPool.play(sound_gang, 1, 1, 0,3,1);
 
-                                        fishingtv.setText("낙동강");
+                                        fishingtv.setBackgroundResource(R.drawable.alertimg_gang);
                                         sandImg.setImageResource(R.drawable.grass);
                                         mainFrameLayout.requestLayout();
 
