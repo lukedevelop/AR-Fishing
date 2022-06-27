@@ -244,7 +244,15 @@ public class MainActivity extends FragmentActivity {
                     ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
                 }
 
+                btn_showInformationFragment.setBackgroundResource(R.drawable.icon_information_selected);
+                btn_showInventoryFragment.setBackgroundResource(R.drawable.icon_inventory_default);
+                btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_default);
+                btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_default);
+
+
                 changeGameMode("메뉴");
+
+
             }
         });
 
@@ -288,6 +296,12 @@ public class MainActivity extends FragmentActivity {
                     ((InformationFragment) getSupportFragmentManager().findFragmentByTag("information")).updateDB_InformationFragment();
                 }
 
+                btn_showInformationFragment.setBackgroundResource(R.drawable.icon_information_selected);
+                btn_showInventoryFragment.setBackgroundResource(R.drawable.icon_inventory_default);
+                btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_default);
+                btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_default);
+
+
             }
         });
 
@@ -297,6 +311,12 @@ public class MainActivity extends FragmentActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, inventory_fish_fragment,"inventory")
                         .commit();
+
+                btn_showInformationFragment.setBackgroundResource(R.drawable.icon_information_default);
+                btn_showInventoryFragment.setBackgroundResource(R.drawable.icon_inventory_selected);
+                btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_default);
+                btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_default);
+
             }
         });
 
@@ -308,6 +328,11 @@ public class MainActivity extends FragmentActivity {
                         .commit();
 
                 new DBDAO(MainActivity.this).update_quest_complete_DB();
+
+                btn_showInformationFragment.setBackgroundResource(R.drawable.icon_information_default);
+                btn_showInventoryFragment.setBackgroundResource(R.drawable.icon_inventory_default);
+                btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_selected);
+                btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_default);
             }
         });
 
@@ -395,6 +420,13 @@ public class MainActivity extends FragmentActivity {
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout_menu, dogam_frgment,"dogam").commit();
+
+                btn_showInformationFragment.setBackgroundResource(R.drawable.icon_information_default);
+                btn_showInventoryFragment.setBackgroundResource(R.drawable.icon_inventory_default);
+                btn_showQuestFragment.setBackgroundResource(R.drawable.icon_quest_default);
+                btn_showDogamFragment.setBackgroundResource(R.drawable.icon_dogam_selected);
+
+
             }
         });
 

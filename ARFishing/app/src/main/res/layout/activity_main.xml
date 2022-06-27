@@ -160,7 +160,9 @@
                 android:id="@+id/frameLayout_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="11">
+                android:layout_weight="11"
+                android:background="#ffffff"
+                >
 
 
             </FrameLayout>
@@ -168,38 +170,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:background="#ffffff"
                 >
-                <Button
+
+                <android.widget.Button
                     android:id="@+id/btn_showMainFrameLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="낚시터" />
-                <Button
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_fishing_default"
+                    />
+                <android.widget.Button
                     android:id="@+id/btn_showInformationFragment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="정보" />
-                <Button
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_information_selected"
+                    />
+                <android.widget.Button
                     android:id="@+id/btn_showInventoryFragment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="인벤토리" />
-                <Button
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_inventory_default"
+                    />
+                <android.widget.Button
                     android:id="@+id/btn_showQuestFragment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="퀘스트" />
-                <Button
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_quest_default"
+
+                    />
+                <android.widget.Button
                     android:id="@+id/btn_showDogamFragment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="도감" />
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_dogam_default"
+                    />
 
             </LinearLayout>
-
         </LinearLayout>
 
 
