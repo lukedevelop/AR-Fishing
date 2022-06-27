@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.display.DisplayManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -1122,7 +1123,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void run() {
                 customDialog = new Dialog(MainActivity.this);
+                customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 customDialog.setContentView(R.layout.dialog_custom);
+                customDialog.setCancelable(false);
                 TextView tv_ok = (TextView) customDialog.findViewById(R.id.tv_ok);
                 tv_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1371,6 +1374,7 @@ public class MainActivity extends FragmentActivity {
             soundPool = new SoundPool(6, AudioManager.STREAM_MUSIC, 0 );
 
         }
+
         sound_aquarium = soundPool.load(this, R.raw.sound_aquarium,1);
         sound_casting = soundPool.load(this, R.raw.sound_casting,1);
         sound_galmaegi = soundPool.load(this, R.raw.sound_galmaegi,1);
@@ -1383,7 +1387,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     void playSound() {
-        soundPool.play(sound_ril, 1, 1, 0,3,1);
+        soundPool.play(sound_ril, (float)0.1,(float)0.1, 0,3,1);
 //        soundPool.stop(sound_galmaegi);
     }
 

@@ -11,24 +11,25 @@
         android:layout_weight="1"
         android:gravity="center"
         >
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_inventory_fish_interiorFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="물고기"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_menu_fish_default"
             />
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_inventory_bait_interiorFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="미끼"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_menu_bait_default"
+            android:layout_margin="40dp"
             />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_inventory_interior_interiorFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="꾸미기"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_menu_interior_selected"
             />
 
     </LinearLayout>

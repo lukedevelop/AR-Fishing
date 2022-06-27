@@ -3,6 +3,8 @@ package com.example.arfishing;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +32,6 @@ public class ShopFragment extends Fragment {
 
     Button btn_shop_purchase;
     Button btn_shop_sale;
-    Button btn_shop_out;
 
     Button btn_shop_fish;
     Button btn_shop_bait;
@@ -65,7 +66,6 @@ public class ShopFragment extends Fragment {
 
         btn_shop_purchase = (Button) view.findViewById(R.id.btn_shop_purchase);
         btn_shop_sale = (Button) view.findViewById(R.id.btn_shop_sale);
-        btn_shop_out = (Button) view.findViewById(R.id.btn_shop_out);
 
         btn_shop_fish = (Button) view.findViewById(R.id.btn_shop_fish);
         btn_shop_bait = (Button) view.findViewById(R.id.btn_shop_bait);
@@ -81,7 +81,13 @@ public class ShopFragment extends Fragment {
         nowType = "개";
         type = "bait";
 
-        btn_shop_purchase.setEnabled(false);
+        btn_shop_purchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_selected);
+        btn_shop_sale.setBackgroundResource(R.drawable.btn_shop_top_sale_default);
+
+        btn_shop_fish.setBackgroundResource(R.drawable.btn_menu_fish_unlocked);
+        btn_shop_bait.setBackgroundResource(R.drawable.btn_menu_bait_selected);
+        btn_shop_interior.setBackgroundResource(R.drawable.btn_menu_interior_default);
+
         btn_shop_fish.setEnabled(false);
 
 
@@ -98,6 +104,13 @@ public class ShopFragment extends Fragment {
                 btn_shop_bait.setEnabled(true);
                 btn_shop_interior.setEnabled(true);
                 showListBait();
+
+                btn_shop_purchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_selected);
+                btn_shop_sale.setBackgroundResource(R.drawable.btn_shop_top_sale_default);
+
+                btn_shop_fish.setBackgroundResource(R.drawable.btn_menu_fish_unlocked);
+                btn_shop_bait.setBackgroundResource(R.drawable.btn_menu_bait_selected);
+                btn_shop_interior.setBackgroundResource(R.drawable.btn_menu_interior_default);
 
             }
         });
@@ -116,15 +129,18 @@ public class ShopFragment extends Fragment {
                 btn_shop_interior.setEnabled(false);
                 showListFish();
 
+                btn_shop_purchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_defalut);
+                btn_shop_sale.setBackgroundResource(R.drawable.btn_shop_top_sale_selected);
+
+                btn_shop_fish.setBackgroundResource(R.drawable.btn_menu_fish_selected);
+                btn_shop_bait.setBackgroundResource(R.drawable.btn_menu_bait_unlocked);
+                btn_shop_interior.setBackgroundResource(R.drawable.btn_menu_interior_unlocked);
+
+
             }
         });
 
-        btn_shop_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
 
         btn_shop_fish.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +149,9 @@ public class ShopFragment extends Fragment {
                 showListFish();
                 nowType = "마리";
                 type = "fish";
+
+
+
             }
         });
 
@@ -142,6 +161,11 @@ public class ShopFragment extends Fragment {
                 showListBait();
                 nowType = "개";
                 type = "bait";
+
+                btn_shop_fish.setBackgroundResource(R.drawable.btn_menu_fish_unlocked);
+                btn_shop_bait.setBackgroundResource(R.drawable.btn_menu_bait_selected);
+                btn_shop_interior.setBackgroundResource(R.drawable.btn_menu_interior_default);
+
             }
         });
 
@@ -151,6 +175,11 @@ public class ShopFragment extends Fragment {
                 showListInterior();
                 nowType = "개";
                 type = "interior";
+
+                btn_shop_fish.setBackgroundResource(R.drawable.btn_menu_fish_unlocked);
+                btn_shop_bait.setBackgroundResource(R.drawable.btn_menu_bait_default);
+                btn_shop_interior.setBackgroundResource(R.drawable.btn_menu_interior_selected);
+
             }
         });
 
@@ -231,7 +260,7 @@ public class ShopFragment extends Fragment {
 
     void update_shop_money_db() {
         DBDAO dbDAO = new DBDAO(mainActivity);
-        tv_shop_money.setText("머니: " +dbDAO.select_money_MemberDB()+"");
+        tv_shop_money.setText(dbDAO.select_money_MemberDB()+"원");
     }
 
     int get_shop_money_db() {
@@ -321,7 +350,7 @@ public class ShopFragment extends Fragment {
                 baitItemView.setHasBaitAmount(item.hasBaitAmount);
                 baitItemView.setBaitImg(item.baitId);
 
-                baitItemView.btn_baitPurchase.setText("구매");
+                baitItemView.btn_baitPurchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_selected);
 
                 baitItemView.btn_baitPurchase.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -344,7 +373,7 @@ public class ShopFragment extends Fragment {
                 baitItemView.setHasBaitAmount(item.hasBaitAmount);
                 baitItemView.setBaitImg(item.baitId);
 
-                baitItemView.btn_baitPurchase.setText("판매");
+                baitItemView.btn_baitPurchase.setBackgroundResource(R.drawable.btn_shop_top_sale_selected);
                 baitItemView.btn_baitPurchase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -372,6 +401,8 @@ public class ShopFragment extends Fragment {
             @Override
             public void run() {
                 purchaseDialog = new Dialog(mainActivity);
+                purchaseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                 purchaseDialog.setContentView(R.layout.dialog_shop_purchase);
 
                 TextView dialog_shop_purchase_explain = (TextView) purchaseDialog.findViewById(R.id.dialog_shop_purchase_explain);
@@ -449,6 +480,8 @@ public class ShopFragment extends Fragment {
             @Override
             public void run() {
                 saleDialog = new Dialog(mainActivity);
+                saleDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                 saleDialog.setContentView(R.layout.dialog_shop_sale);
 
                 TextView dialog_shop_sale_explain = (TextView) saleDialog.findViewById(R.id.dialog_shop_sale_explain);

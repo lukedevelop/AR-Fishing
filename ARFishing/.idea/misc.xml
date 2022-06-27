@@ -7,25 +7,52 @@
         <entry key="..\:/Temp/Android-Java/OHS/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21510416666666668" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/activity_main.xml" value="0.2980072463768116" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/btn.xml" value="0.1885" />
+        <entry key="app/src/main/res/drawable/btn_menu_bait.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable/btn_menu_bait_default.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_bait_selected.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_bait_unlocked.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_fish.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable/btn_menu_fish_default.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_fish_selected.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_fish_unlock.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_fish_unlocked.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/btn_menu_interior.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable/btn_menu_interior_default.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_interior_selected.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_menu_interior_unlocked.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_purchase.xml" value="0.1885" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_purchase_defalut.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_purchase_selected.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_sale.xml" value="0.1885" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_sale_default.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/btn_shop_top_sale_selected.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/btn_showmenuframelayout.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/dialog_coner.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/dialog_corner.xml" value="0.117" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1505" />
         <entry key="app/src/main/res/drawable/icon_dogam_selected.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/layout_round.xml" value="0.117" />
+        <entry key="app/src/main/res/drawable/radius.xml" value="0.1885" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/btn_fish.xml" value="0.1" />
         <entry key="app/src/main/res/layout/caught_fish_dlg.xml" value="0.21770833333333334" />
         <entry key="app/src/main/res/layout/dialog.xml" value="0.13333333333333333" />
-        <entry key="app/src/main/res/layout/dialog_custom.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/dialog_custom.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/dialog_dogam.xml" value="0.1154513888888889" />
         <entry key="app/src/main/res/layout/dialog_shop.xml" value="0.3463541666666667" />
-        <entry key="app/src/main/res/layout/dialog_shop_purchase.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/dialog_shop_sale.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_shop_purchase.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/dialog_shop_sale.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_dogam.xml" value="0.2526041666666667" />
         <entry key="app/src/main/res/layout/fragment_information.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_inventory_bait.xml" value="0.2526041666666667" />
-        <entry key="app/src/main/res/layout/fragment_inventory_fish.xml" value="0.2526041666666667" />
-        <entry key="app/src/main/res/layout/fragment_inventory_interior.xml" value="0.2526041666666667" />
-        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/fragment_inventory_bait.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_inventory_fish.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_inventory_interior.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.3191489361702128" />
         <entry key="app/src/main/res/layout/fragment_quest.xml" value="0.2526041666666667" />
-        <entry key="app/src/main/res/layout/fragment_shop.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/fragment_shop.xml" value="0.1" />
         <entry key="app/src/main/res/layout/insert_fish.xml" value="0.3463541666666667" />
-        <entry key="app/src/main/res/layout/item_bait.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/item_bait.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_quest.xml" value="0.23055555555555557" />
         <entry key="app/src/main/res/layout/quest_list.xml" value="0.2526041666666667" />
       </map>
@@ -36,5 +63,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.11" />
+      </ProjectState>
+    </option>
   </component>
 </project>

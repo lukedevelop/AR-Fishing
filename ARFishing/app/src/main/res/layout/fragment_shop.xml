@@ -8,28 +8,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="horizontal"
         android:gravity="center"
         >
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_shop_purchase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="구매" />
-        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_shop_top_purchase_selected"
+            android:layout_marginRight="100dp"
+            />
+        <android.widget.Button
             android:id="@+id/btn_shop_sale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="판매" />
-
-
-        <Button
-            android:id="@+id/btn_shop_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="나가기"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_shop_top_sale_default"
             />
 
     </LinearLayout>
@@ -39,44 +33,54 @@
         android:layout_weight="2"
         android:gravity="center"
         >
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_shop_fish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="물고기"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+
+            android:background="@drawable/btn_menu_fish_unlocked"
             />
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_shop_bait"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="미끼"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_margin="30dp"
+            android:background="@drawable/btn_menu_bait_selected"
             />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_shop_interior"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="꾸미기"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_menu_interior_default"
             />
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="보유 머니"
+            android:textSize="30sp"
+            />
         <TextView
             android:id="@+id/tv_shop_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="보유 머니: 10"
-            android:textSize="20sp"
+            android:text="1000원"
+            android:textSize="40sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+
             />
+
 
     </LinearLayout>
 
