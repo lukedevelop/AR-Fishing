@@ -1127,22 +1127,22 @@ public class MainActivity extends FragmentActivity {
 
         // onboarding 온보딩
         PaperOnboardingPage scr1 = new PaperOnboardingPage(
-                "AR Fishing",
-                "밀어서 입장하기 <<",
-                Color.parseColor("#E6F6FE"), R.drawable.title2,
+                "",
+                "",
+                Color.parseColor("#E6F6FE"), R.drawable.title,
                 R.drawable.shark
         );
         PaperOnboardingPage scr2 = new PaperOnboardingPage(
-                "Hotel",
-                "All hotel",
-                Color.parseColor("#65B0B4"), R.drawable.bait_kingworm,
-                R.drawable.bait_gunsaewoo
+                "",
+                "",
+                Color.parseColor("#A6D6CD"), R.drawable.onboarding_page2,
+                R.drawable.shark
         );
         PaperOnboardingPage scr3 = new PaperOnboardingPage(
-                "Hotel",
-                "All hotel",
-                Color.parseColor("#9B90BC"), R.drawable.bait_earthworm,
-                R.drawable.bait_gunsaewoo
+                "",
+                "",
+                Color.parseColor("#99C4F7"), R.drawable.onboarding_page3,
+                R.drawable.shark
         );
 
         ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
