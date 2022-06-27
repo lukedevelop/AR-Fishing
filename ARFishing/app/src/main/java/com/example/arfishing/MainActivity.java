@@ -927,7 +927,7 @@ public class MainActivity extends FragmentActivity {
         AugmentedImageDatabase imgDB = new AugmentedImageDatabase(mSession);
 
         try {
-            InputStream is = getAssets().open("bucket.png");
+                    InputStream is = getAssets().open("bucket.png");
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             imgDB.addImage("bucket", bitmap);
             is.close();
@@ -999,6 +999,9 @@ public class MainActivity extends FragmentActivity {
                             if (btn_AddFish.getVisibility() == View.INVISIBLE &&
                                     castingBtn.getVisibility() == View.INVISIBLE
                             ) {
+                                gang = false;
+                                sea = false;
+
                                 runOnUiThread(new Runnable() {
                                     @Override
 
@@ -1015,6 +1018,8 @@ public class MainActivity extends FragmentActivity {
                                         }
                                  //       Log.d("야야", cheak_insert_fish.size() +  " " );
                                         btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
+                                        sea = false;
+                                        gang = false;
                                         btn_aquarium_open.setText("닫힘");
                                         btn_aquarium_open.setVisibility(View.VISIBLE);
                                     }
@@ -1032,6 +1037,7 @@ public class MainActivity extends FragmentActivity {
                         if(!threadIsGoing) {
                             if (!sea) {
                                 sea = true;
+                                gang = false;
                                 area = "바다";
 
                                 runOnUiThread(new Runnable() {
@@ -1055,7 +1061,7 @@ public class MainActivity extends FragmentActivity {
                                 Log.d("실행중1", "실행중1");
 
                             }
-                            gang = false;
+
                         }
                         break;
 
@@ -1068,6 +1074,7 @@ public class MainActivity extends FragmentActivity {
 
                             if (!gang) {
                                 gang = true;
+                                sea = false;
                                 area = "강";
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -1087,7 +1094,7 @@ public class MainActivity extends FragmentActivity {
                                 Log.d("실행중2", "실행중2");
 
                             }
-                            sea = false;
+
                         }
                         break;
 
