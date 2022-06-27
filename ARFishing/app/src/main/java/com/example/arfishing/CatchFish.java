@@ -165,12 +165,12 @@ public class CatchFish extends Thread{
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 0, 1);
             mainActivity.mRenderer.fish.setModelMatrix(mainActivity.fishMatrix);
             mainActivity.mRenderer.drawFish = true;
-            mainActivity.mRenderer.drawWater = false;
 
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기가 잡혔습니다. 양동이 이미지를 촬영해주세요!", Toast.LENGTH_SHORT).show();
+                    mainActivity.castingBtn.setText("촬영");
                 }
             });
 
@@ -265,7 +265,7 @@ public class CatchFish extends Thread{
                                     mainActivity.casting = false;
                                     mainActivity.mRenderer.drawPoint = false;
                                     mainActivity.mRenderer.drawFish = false;
-                                    mainActivity.mRenderer.drawWater = false;
+                                    mainActivity.mRenderer.drawWater = true;
                                     mainActivity.castingBtn.setText("시작");
                                     mainActivity.castingBtn.callOnClick();
                                 }
@@ -295,7 +295,8 @@ public class CatchFish extends Thread{
                         mainActivity.casting = false;
                         mainActivity.mRenderer.drawPoint = false;
                         mainActivity.mRenderer.drawFish = false;
-                        mainActivity.mRenderer.drawWater = false;
+                        mainActivity.mRenderer.drawWater = true;
+//                        mainActivity.mRenderer.drawWater = false;
                         mainActivity.castingBtn.setText("시작");
                         mainActivity.castingBtn.callOnClick();
                     }
@@ -311,7 +312,7 @@ public class CatchFish extends Thread{
                     mainActivity.casting = false;
                     mainActivity.mRenderer.drawPoint = false;
                     mainActivity.mRenderer.drawFish = false;
-                    mainActivity.mRenderer.drawWater = false;
+                    mainActivity.mRenderer.drawWater = true;
                     mainActivity.castingBtn.setText("시작");
                     mainActivity.castingBtn.callOnClick();
                 }
