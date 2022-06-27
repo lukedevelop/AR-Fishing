@@ -271,12 +271,6 @@ public class MainActivity extends FragmentActivity {
                 subFrameLayout.setVisibility(View.INVISIBLE);
                 subFrameLayout.setClickable(false);
 
-
-
-                btn_AddFish.setVisibility(View.INVISIBLE);
-                btn_removeFish.setVisibility(View.INVISIBLE);
-                btn_capture.setVisibility(View.VISIBLE);
-
                 castingBtn.setVisibility(View.VISIBLE);
 
 //                DBDAO dbDAO = new DBDAO(MainActivity.this);
@@ -1017,11 +1011,17 @@ public class MainActivity extends FragmentActivity {
                                             }
                                         }
                                  //       Log.d("야야", cheak_insert_fish.size() +  " " );
-                                        btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
+
                                         sea = false;
                                         gang = false;
+                                        btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
                                         btn_aquarium_open.setText("닫힘");
-                                        btn_aquarium_open.setVisibility(View.VISIBLE);
+                                        btn_aquarium_open.setVisibility(View.INVISIBLE);
+                                        btn_AddFish.setVisibility(View.INVISIBLE);
+                                        btn_removeFish.setVisibility(View.INVISIBLE);
+                                        btn_add_interior.setVisibility(View.INVISIBLE);
+                                        btn_delete_interior.setVisibility(View.INVISIBLE);
+                                        btn_capture.setVisibility(View.INVISIBLE);
                                     }
                                 });
 
@@ -1046,11 +1046,18 @@ public class MainActivity extends FragmentActivity {
                                         aquarium.go_fishing();
                                         soundPool.stop(sound_gang);
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
-
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_see);
-
                                         sandImg.setImageResource(R.drawable.beach);
                                         mainFrameLayout.requestLayout();
+
+                                        btn_aquarium_open.setBackgroundResource(R.drawable.btn_aquarium_open);
+                                        btn_aquarium_open.setText("닫힘");
+                                        btn_aquarium_open.setVisibility(View.INVISIBLE);
+                                        btn_AddFish.setVisibility(View.INVISIBLE);
+                                        btn_removeFish.setVisibility(View.INVISIBLE);
+                                        btn_add_interior.setVisibility(View.INVISIBLE);
+                                        btn_delete_interior.setVisibility(View.INVISIBLE);
+                                        btn_capture.setVisibility(View.INVISIBLE);
 
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
