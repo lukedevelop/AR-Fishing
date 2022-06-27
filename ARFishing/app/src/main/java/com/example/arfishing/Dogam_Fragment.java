@@ -1,7 +1,10 @@
 package com.example.arfishing;
 
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,7 +88,10 @@ public class Dogam_Fragment extends Fragment {
                 public void onClick(View v) {
                     View dialogView = (View) View.inflate(
                             mainActivity, R.layout.dialog_dogam, null);
-                    AlertDialog.Builder dlg = new AlertDialog.Builder(mainActivity);
+                    Dialog dlg = new Dialog(mainActivity);
+
+                    dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                     ImageView dogam_img = (ImageView) dialogView.findViewById(R.id.imagview);
                     TextView dogam_name2 = (TextView) dialogView.findViewById(R.id.dogam_name);
                     TextView dogam_explain2 = (TextView) dialogView.findViewById(R.id.dogam_explain);
@@ -143,8 +149,7 @@ public class Dogam_Fragment extends Fragment {
                     dlg.setTitle("도감 정보");
                     Log.d("도감 이미지 번호 용", "" + mainActivity.items[pos]);
                     //     dlg.setIcon(R.drawable.nullimg);
-                    dlg.setView(dialogView);
-                    dlg.setNegativeButton("닫기", null);
+                    dlg.setContentView(dialogView);
                     dlg.show();
                 }
             });

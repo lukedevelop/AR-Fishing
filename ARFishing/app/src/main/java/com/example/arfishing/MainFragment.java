@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.regex.Pattern;
+
 public class MainFragment extends Fragment {
 
     MainActivity mainActivity;
@@ -43,7 +45,10 @@ public class MainFragment extends Fragment {
         btn_goGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!(editText_nickName.getText().toString()).equals("")) {
+                if(nickname(editText_nickName.getText().toString())) {
+                    Toast.makeText(mainActivity, "닉네임 -한글 2~8자리로 구성되어야 합니다.", Toast.LENGTH_SHORT).show();
+
+                } else if(!(editText_nickName.getText().toString()).equals("")) {
                     mainActivity.mainFrameLayout.setVisibility(View.VISIBLE);
                     mainActivity.mainFrameLayout.setClickable(true);
                     mainActivity.subFrameLayout.setVisibility(View.INVISIBLE);
@@ -53,8 +58,6 @@ public class MainFragment extends Fragment {
                             .beginTransaction()
                             .remove(mainActivity.main_fragment).commit();
 
-
-                    // TODO 추가 DB에 member nickname 입력 로직
 
                     new DBDAO(mainActivity).firstMemberDB(editText_nickName.getText().toString());
 
@@ -69,7 +72,16 @@ public class MainFragment extends Fragment {
     }
 
 
-
+    public boolean nickname(String nickname) {
+        boolean res = true;
+        String nick = ""+nickname;
+        String nick_regex = "^[ㄱ-ㅎㅏ-ㅣ가-힣]{2,8}$";
+        char[] concon = nick.toCharArray();
+        if (concon.length > 1 && concon.length < 9 && Pattern.matches(nick_regex, nickname) ) {
+            res = false;
+        }
+        return res;
+    }
 
 
 
