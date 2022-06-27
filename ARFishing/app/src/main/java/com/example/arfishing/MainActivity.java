@@ -85,16 +85,16 @@ public class MainActivity extends FragmentActivity {
     String gameMode = "입장";
     String setBait = "떡밥";
 
-    float[] rodMatrix, waterMatrix, floatMatrix, fishMatrix;
+    float[] rodMatrix, waterMatrix, waterMatrix2, floatMatrix, fishMatrix;
 
     Button castingBtn;
     SeekBar castingSeekbar;
     TextView timerTextView;
+    ImageView sandImg, timerImg;
     int btnClickCnt;
     Frame frame;
     Pose pose;
 
-    CatchFish catchFish;
 
     // 송찬욱--
     FrameLayout mainFrameLayout;
@@ -187,6 +187,8 @@ public class MainActivity extends FragmentActivity {
         castingBtn = (Button) findViewById(R.id.castingBtn);
         castingSeekbar = (SeekBar) findViewById(R.id.castingSeekbar);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
+        sandImg = (ImageView) findViewById(R.id.sandImg);
+        timerImg = (ImageView) findViewById(R.id.timerImg);
 
 
         // 찬욱--
@@ -603,7 +605,7 @@ public class MainActivity extends FragmentActivity {
 
                     }
                 } else if (castingBtn.getText().toString().equals("캐스팅")) {
-                    //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기
+                    //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기 >>> 하고싶지 않아졌다.
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
 
                     casting = true;
@@ -612,23 +614,28 @@ public class MainActivity extends FragmentActivity {
 
                     fishMatrix = floatMatrix.clone();
 
-                    Matrix.translateM(fishMatrix, 0, (float) castingSeekbar.getProgress() / 10, 0, 0);
+                    Matrix.translateM(fishMatrix, 0, (float) castingSeekbar.getProgress() / 15, 0, 0);
                     mRenderer.point.setModelMatrix(fishMatrix);
 
 
                     Toast.makeText(getApplicationContext(), "캐스팅 완료!", Toast.LENGTH_SHORT);
-                    castingSeekbar.setVisibility(View.INVISIBLE);
                     castingBtn.setText("잡기");
                     castingBtn.setEnabled(false);
 
-//                    catchFish = new CatchFish(MainActivity.this);
-//                    catchFish.start();
                     new CatchFish(MainActivity.this).start();
 
                     btnClickCnt = 0;
                 } else if (castingBtn.getText().toString().equals("잡기")) {
                     btnClickCnt++;
                 }
+            }
+        });
+
+        castingBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mRenderer.drawWater = !mRenderer.drawWater;
+                return true;
             }
         });
 
@@ -719,10 +726,10 @@ public class MainActivity extends FragmentActivity {
                         mRenderer.height,
                         projMatrix2, viewMatrix);
 
-                Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.1f, mBallPoint[2]);
-                Matrix.scaleM(rodMatrix, 0, 0.002f, 0.0008f, 0.001f);
+                Matrix.translateM(rodMatrix, 0, mBallPoint[0], mBallPoint[1]-0.05f, mBallPoint[2]);
+                Matrix.scaleM(rodMatrix, 0, 0.001f, 0.0003f, 0.001f);
 
-                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1]+1f, mBallPoint2[2]+10f);
+                Matrix.translateM(floatMatrix, 0, mBallPoint2[0], mBallPoint2[1], mBallPoint2[2]+10f);
 
                 Matrix.scaleM(floatMatrix, 0, 7f, 7f, 7f);
 
@@ -767,16 +774,30 @@ public class MainActivity extends FragmentActivity {
 
                 mRenderer.fishingRod.setModelMatrix(rodMatrix);
 
-                if(!casting) {
-                    mRenderer.point.setModelMatrix(floatMatrix);
-                }
+
+
 
                 waterMatrix = floatMatrix.clone();
 
+
+                Matrix.translateM(waterMatrix, 0, 0, 0f, 6f);
                 Matrix.scaleM(waterMatrix, 0, 0.0013f, 0.0013f, 0.0013f);
-                Matrix.rotateM(waterMatrix, 0, -50, 1, 0, 0);
+                Matrix.rotateM(waterMatrix, 0, -20, 1, 0, 0);
+
+
                 mRenderer.water.setModelMatrix(waterMatrix);
 
+                waterMatrix2 = waterMatrix.clone();
+
+                Matrix.rotateM(waterMatrix2, 0, -70, 1, 0, 0);
+                Matrix.translateM(waterMatrix2, 0, 0, 1000f, -5000f);
+                mRenderer.water2.setModelMatrix(waterMatrix2);
+
+                Matrix.translateM(floatMatrix, 0, 0, 2.5f, 3.5f);
+                Matrix.scaleM(floatMatrix, 0, 0.7f, 0.7f, 0.7f);
+                if(!casting) {
+                    mRenderer.point.setModelMatrix(floatMatrix);
+                }
 
                 //--------------------------------------------
 
@@ -792,6 +813,8 @@ public class MainActivity extends FragmentActivity {
 
         mySurfaceView.setRenderer(mRenderer);
         mySurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        changeGameMode("입장");
     }
 
     @Override
@@ -989,6 +1012,8 @@ public class MainActivity extends FragmentActivity {
                                         soundPool.stop(sound_gang);
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
                                         fishingtv.setText("동해바다");
+                                        sandImg.setImageResource(R.drawable.beach);
+                                        mainFrameLayout.requestLayout();
 
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
@@ -1021,6 +1046,8 @@ public class MainActivity extends FragmentActivity {
                                         soundPool.play(sound_gang, 1, 1, 0,3,1);
 
                                         fishingtv.setText("낙동강");
+                                        sandImg.setImageResource(R.drawable.grass);
+                                        mainFrameLayout.requestLayout();
 
                                         Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
                                         changeGameMode("낚시");
@@ -1169,28 +1196,34 @@ public class MainActivity extends FragmentActivity {
     }
 
      void changeGameMode(String mode){
-
         gameMode = mode;
-
         if(!mode.equals("낚시")){
             mRenderer.drawRod = false;
+            mRenderer.drawWater = false;
             casting = true;
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     castingBtn.setText("시작");
+                    castingBtn.setVisibility(View.INVISIBLE);
+                    castingSeekbar.setVisibility(View.INVISIBLE);
+                    sandImg.setVisibility(View.INVISIBLE);
+                    mainFrameLayout.requestLayout();
                 }
             });
-            castingBtn.setVisibility(View.INVISIBLE);
-            castingSeekbar.setVisibility(View.INVISIBLE);
-
-
-
-
         }else{
             mRenderer.drawRod = true;
-            castingBtn.setVisibility(View.VISIBLE);
+            mRenderer.drawWater = true;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    castingBtn.setVisibility(View.VISIBLE);
+                    sandImg.setVisibility(View.VISIBLE);
+                    mainFrameLayout.requestLayout();
+                }
+            });
 
             if(area.equals("바다")){
 
@@ -1199,8 +1232,6 @@ public class MainActivity extends FragmentActivity {
 
             }
         }
-
-        System.out.println(gameMode);
      }
 
      //지은 추가------------------------------------------------------------
@@ -1390,7 +1421,4 @@ public class MainActivity extends FragmentActivity {
         soundPool.play(sound_ril, (float)0.1,(float)0.1, 0,3,1);
 //        soundPool.stop(sound_galmaegi);
     }
-
-
-
 }

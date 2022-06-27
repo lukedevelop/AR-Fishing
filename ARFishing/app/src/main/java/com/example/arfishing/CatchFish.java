@@ -1,12 +1,19 @@
 package com.example.arfishing;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.opengl.Matrix;
 import android.os.Vibrator;
+import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,24 +32,42 @@ public class CatchFish extends Thread{
 
     LinkedHashMap<String, String> fishNameObj = new LinkedHashMap<String, String>();
 
-    AlertDialog.Builder dlg;
-    View dlgView;
+    Dialog dlg;
+    LinearLayout dlgView;
     TextView dlgTv1, dlgTv2, dlgTv3, dlgTv4;
     ImageView dlgImg;
+    Button dlgShutBtn;
 
     CatchFish(MainActivity activity){
         mainActivity = activity;
 
         this.area = mainActivity.area;
         this.baitName = mainActivity.setBait;
-        dlg = new AlertDialog.Builder(mainActivity);
-        dlg.setNegativeButton("확인", null);
-        dlgView = (View) View.inflate(mainActivity, R.layout.caught_fish_dlg, null);
+        dlg = new Dialog(mainActivity);
+        dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dlg.setContentView((LinearLayout) View.inflate(mainActivity, R.layout.caught_fish_dlg, null));
+
+        Display display = mainActivity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        dlg.getWindow().setLayout((int) (width/1.3), height/2);
+        dlgView = (LinearLayout) View.inflate(mainActivity, R.layout.caught_fish_dlg, null);
         dlgTv1 = (TextView) dlgView.findViewById(R.id.dlgTv1);
         dlgTv2 = (TextView) dlgView.findViewById(R.id.dlgTv2);
         dlgTv3 = (TextView) dlgView.findViewById(R.id.dlgTv3);
         dlgTv4 = (TextView) dlgView.findViewById(R.id.dlgTv4);
         dlgImg = (ImageView) dlgView.findViewById(R.id.dlgImg);
+        dlgShutBtn = (Button) dlgView.findViewById(R.id.dlgShutBtn);
+        dlgShutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlg.dismiss();
+                mainActivity.soundPool.stop(mainActivity.sound_aquarium);
+            }
+        });
 
         fishNameObj.put("베스", "fish_bass");
         fishNameObj.put("부시리", "fish_boosiri");
@@ -105,6 +130,14 @@ public class CatchFish extends Thread{
             @Override
             public void run() {
                 mainActivity.soundPool.play(mainActivity.sound_ril, 1,1,1,100,0);
+                mainActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainActivity.timerImg.setVisibility(View.VISIBLE);
+                        mainActivity.timerTextView.setVisibility(View.VISIBLE);
+                        mainActivity.mainFrameLayout.requestLayout();
+                    }
+                });
                 while (intime1 && time >= 0) {
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
@@ -159,7 +192,7 @@ public class CatchFish extends Thread{
 
             mainActivity.mRenderer.drawPoint = false;
             mainActivity.mRenderer.makeFishObj(fishNameObj.get(caughtFish.fish_name));
-            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2, Float.parseFloat(caughtFish.fish_scale)/2);
+            Matrix.scaleM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_scale)/3, Float.parseFloat(caughtFish.fish_scale)/3, Float.parseFloat(caughtFish.fish_scale)/3);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[0]), 1, 0, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[1]), 0, 1, 0);
             Matrix.rotateM(mainActivity.fishMatrix, 0, Float.parseFloat(caughtFish.fish_rotation.split(",")[2]), 0, 0, 1);
@@ -170,6 +203,7 @@ public class CatchFish extends Thread{
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기가 잡혔습니다. 양동이 이미지를 촬영해주세요!", Toast.LENGTH_SHORT).show();
+                    mainActivity.castingBtn.setText("촬영");
                 }
             });
 
@@ -184,11 +218,14 @@ public class CatchFish extends Thread{
                 public void run() {
                     mainActivity.soundPool.play(mainActivity.sound_padack, 1,1,1,10,0);
                     intime2 = true;
+
                     while (intime2 && time >= 0) {
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mainActivity.timerTextView.setText(time + "");
+                                System.out.println(time);
+                                System.out.println(mainActivity.timerImg.getVisibility());
                             }
                         });
                         try {
@@ -198,6 +235,17 @@ public class CatchFish extends Thread{
                         }
                         time--;
                     }
+
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mainActivity.timerImg.setVisibility(View.INVISIBLE);
+                            System.out.println("2) 에서 바꿈");
+                            mainActivity.timerTextView.setVisibility(View.INVISIBLE);
+                            mainActivity.mainFrameLayout.requestLayout();
+                        }
+                    });
+
                     intime2 = false;
                     isCaught = false;
                     isCaptured = false;
@@ -251,20 +299,12 @@ public class CatchFish extends Thread{
                                     dlgTv4.setText(mainActivity.catchFish_gps.get_gps());
 
                                     dlgImg.setImageResource(new ShopFragment().choiceFishImg(caughtFish.fish_id));
-                                    dlg.setPositiveButton("d", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            mainActivity.soundPool.stop(mainActivity.sound_aquarium);
-
-                                        }
-                                    });
-
-                                    dlg.setView(dlgView);
+                                    dlg.setContentView(dlgView);
                                     dlg.show();
                                     mainActivity.casting = false;
                                     mainActivity.mRenderer.drawPoint = false;
                                     mainActivity.mRenderer.drawFish = false;
-                                    mainActivity.mRenderer.drawWater = false;
+                                    mainActivity.mRenderer.drawWater = true;
                                     mainActivity.castingBtn.setText("시작");
                                     mainActivity.castingBtn.callOnClick();
                                 }
@@ -294,7 +334,8 @@ public class CatchFish extends Thread{
                         mainActivity.casting = false;
                         mainActivity.mRenderer.drawPoint = false;
                         mainActivity.mRenderer.drawFish = false;
-                        mainActivity.mRenderer.drawWater = false;
+                        mainActivity.mRenderer.drawWater = true;
+//                        mainActivity.mRenderer.drawWater = false;
                         mainActivity.castingBtn.setText("시작");
                         mainActivity.castingBtn.callOnClick();
                     }
@@ -310,7 +351,7 @@ public class CatchFish extends Thread{
                     mainActivity.casting = false;
                     mainActivity.mRenderer.drawPoint = false;
                     mainActivity.mRenderer.drawFish = false;
-                    mainActivity.mRenderer.drawWater = false;
+                    mainActivity.mRenderer.drawWater = true;
                     mainActivity.castingBtn.setText("시작");
                     mainActivity.castingBtn.callOnClick();
                 }

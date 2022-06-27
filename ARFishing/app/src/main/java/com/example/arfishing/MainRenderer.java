@@ -3,13 +3,11 @@ package com.example.arfishing;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 import android.util.Log;
 
 import com.google.ar.core.Session;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,7 +33,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 //    float [] modelMatrix;
     //-----------------------------------
 
-    ObjRenderer fishingRod, point, fish, water;
+    ObjRenderer fishingRod, point, fish, water, water2;
 
     boolean drawRod, drawPoint, drawFish, drawWater;
 
@@ -48,8 +46,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera = new CameraPreView();
         fishingRod = new ObjRenderer(context, "rod.obj", "rod.jpg");
         point = new ObjRenderer(context, "float.obj", "float.jpg");
-        water = new ObjRenderer(context, "Water3.obj", "Water.jpg");
-
+        water = new ObjRenderer(context, "Water.obj", "Water.png");
+        water2 = new ObjRenderer(context, "Water.obj", "Water.png");
         fish_arr = new ArrayList<ObjRenderer>();
     }
 
@@ -61,6 +59,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         fishingRod.init();
         point.init();
         water.init();
+        water2.init();
     }
 
     @Override
@@ -95,8 +94,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             }
             fish.draw();
         }
-        if(drawRod) {
+        if(drawWater) {
             water.draw();
+            water2.draw();
         }
 
         // 현석
@@ -133,6 +133,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             fish.setProjectionMatrix(matrix);
         }
         water.setProjectionMatrix(matrix);
+        water2.setProjectionMatrix(matrix);
 
         for (ObjRenderer fish  : fish_arr) {
             fish.setProjectionMatrix(matrix);
@@ -148,6 +149,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             fish.setViewMatrix(matrix);
         }
         water.setViewMatrix(matrix);
+        water2.setViewMatrix(matrix);
 
         for (ObjRenderer fish  : fish_arr) {
             fish.setViewMatrix(matrix);
