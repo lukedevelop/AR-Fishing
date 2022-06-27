@@ -964,7 +964,7 @@ public class MainActivity extends FragmentActivity {
                                         btn_removeFish.setVisibility(View.VISIBLE);
                                         btn_add_interior.setVisibility(View.VISIBLE);
                                         btn_delete_interior.setVisibility(View.VISIBLE);
-
+                                        btn_capture.setVisibility(View.VISIBLE);
                                     }
                                 });
 

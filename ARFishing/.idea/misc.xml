@@ -7,7 +7,14 @@
         <entry key="..\:/Temp/Android-Java/OHS/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21510416666666668" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/activity_main.xml" value="0.2980072463768116" />
         <entry key="..\:/Users/dieun/jieun/coding/Project/ARFishing/app/src/main/res/layout/caught_fish_dlg.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable-v24/btn_aquarium_close.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable-v24/btn_aquarium_interiorremove.xml" value="0.151" />
         <entry key="app/src/main/res/drawable/btn.xml" value="0.1885" />
+        <entry key="app/src/main/res/drawable/btn_aquarium_addfish.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/btn_aquarium_capture.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/btn_aquarium_interioradd.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/btn_aquarium_open.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/btn_aquarium_removefish.xml" value="0.151" />
         <entry key="app/src/main/res/drawable/btn_menu_bait.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable/btn_menu_bait_default.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/btn_menu_bait_selected.xml" value="0.1815" />
@@ -41,7 +48,7 @@
         <entry key="app/src/main/res/layout/dialog_custom.xml" value="0.165" />
         <entry key="app/src/main/res/layout/dialog_dogam.xml" value="0.1154513888888889" />
         <entry key="app/src/main/res/layout/dialog_shop.xml" value="0.3463541666666667" />
-        <entry key="app/src/main/res/layout/dialog_shop_purchase.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/dialog_shop_purchase.xml" value="0.24390243902439024" />
         <entry key="app/src/main/res/layout/dialog_shop_sale.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_dogam.xml" value="0.2526041666666667" />
         <entry key="app/src/main/res/layout/fragment_information.xml" value="0.1" />

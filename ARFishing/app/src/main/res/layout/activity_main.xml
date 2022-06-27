@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-
     >
-
 
     <FrameLayout
         android:id="@+id/mainFrameLayout"
@@ -81,40 +79,47 @@
             android:layout_marginTop="30dp"
             >
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_AddFish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="물고기 추가"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_aquarium_addfish"
                 android:visibility="invisible"/>
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_removeFish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="물고기 제거"
-                android:visibility="invisible"/>
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_aquarium_removefish"
+                android:visibility="invisible"
+                android:layout_margin="5dp"/>
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_add_interior"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="꾸미기 추가"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_aquarium_interioradd"
                 android:visibility="invisible"/>
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_delete_interior"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="꾸미기 제거"
-                android:visibility="invisible"/>
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_aquarium_interiorremove"
+                android:visibility="invisible"
+                android:layout_margin="5dp"
+                />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_capture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="캡처"/>
-
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_aquarium_capture"
+                android:visibility="invisible"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -126,13 +131,13 @@
             android:layout_marginTop="100dp"
             >
 
-
             <TextView
                 android:id="@+id/FishingTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="낚시터"
                 android:textSize="34sp"
+                android:layout_marginTop="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -162,9 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="11"
-                android:background="#ffffff"
-                >
-
+                android:background="#ffffff">
 
             </FrameLayout>
 
@@ -176,7 +179,6 @@
                 android:gravity="center"
                 android:background="#ffffff"
                 >
-
                 <android.widget.Button
                     android:id="@+id/btn_showMainFrameLayout"
                     android:layout_width="0dp"
@@ -213,11 +215,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/icon_dogam_default"
                     />
-
             </LinearLayout>
         </LinearLayout>
-
-
     </FrameLayout>
-
 </FrameLayout>
