@@ -4,39 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:orientation="vertical"
+    android:scaleX="1"
 
-    >
+    android:scaleY="1"
+    tools:context=".MainActivity">
 
 
     <FrameLayout
         android:id="@+id/mainFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <android.opengl.GLSurfaceView
             android:id="@+id/glSsurfaceview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.opengl.GLSurfaceView>
+            android:layout_height="match_parent"
+
+            ></android.opengl.GLSurfaceView>
+
+        <ImageView
+            android:id="@+id/aquarium_background"
+            android:layout_width="500dp"
+            android:layout_height="1000dp"
+            android:alpha="0.5"
+            android:src="@drawable/sea"
+            android:visibility="invisible" />
+
+
+
         <ImageView
             android:id="@+id/iv_gal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/gal"
             android:layout_gravity="bottom|center_horizontal"
-            android:visibility="invisible"
-            />
+            android:src="@drawable/gal"
+            android:visibility="invisible" />
+
         <Button
             android:id="@+id/btn_showMenuFrameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:layout_gravity="right"
-            android:text="메뉴"
-            />
+            android:text="메뉴" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,8 +62,7 @@
                 android:layout_margin="50dp"
                 android:text="시작"
                 android:textSize="30sp"
-                android:visibility="invisible"
-                ></Button>
+                android:visibility="invisible"></Button>
         </LinearLayout>
 
         <SeekBar
@@ -59,71 +70,70 @@
             android:layout_width="196dp"
             android:layout_height="285dp"
             android:layout_gravity="bottom|right"
-            android:min="-50"
             android:max="50"
+            android:min="-50"
             android:visibility="invisible"></SeekBar>
 
         <TextView
             android:id="@+id/timerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="@color/white"></TextView>
+            android:textColor="@color/white"
+            android:textSize="30sp"></TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="1dp"
             android:layout_marginTop="30dp"
-            >
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="1dp">
 
             <Button
                 android:id="@+id/btn_AddFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="물고기 추가"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_removeFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="물고기 제거"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_add_interior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="꾸미기 추가"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_delete_interior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="꾸미기 제거"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_capture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="캡처"/>
+                android:text="캡처" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
 
-            android:layout_marginTop="100dp"
-            >
+            android:layout_marginTop="100dp">
 
 
             <TextView
@@ -142,19 +152,17 @@
     </FrameLayout>
 
 
-
     <FrameLayout
         android:id="@+id/subFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
         android:clickable="false"
-        >
+        android:visibility="invisible">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/frameLayout_menu"
@@ -169,29 +177,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:gravity="center"
-                >
+                android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/btn_showMainFrameLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="낚시터" />
+
                 <Button
                     android:id="@+id/btn_showInformationFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="정보" />
+
                 <Button
                     android:id="@+id/btn_showInventoryFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="인벤토리" />
+
                 <Button
                     android:id="@+id/btn_showQuestFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="퀘스트" />
+
                 <Button
                     android:id="@+id/btn_showDogamFragment"
                     android:layout_width="wrap_content"
