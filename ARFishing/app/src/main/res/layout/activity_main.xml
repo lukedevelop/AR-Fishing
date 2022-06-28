@@ -178,9 +178,20 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 
+                />
+            <TextView
+                android:id="@+id/alert_insikplease"
+                android:layout_width="400dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/alertimg_insikplease"
 
                 />
-
 
         </LinearLayout>
     </FrameLayout>
