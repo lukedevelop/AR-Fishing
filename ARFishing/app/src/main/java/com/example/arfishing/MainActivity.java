@@ -167,6 +167,7 @@ public class MainActivity extends FragmentActivity {
     AlertDialog delete_fish_dialog;
     AlertDialog interior_dialog;
 
+    Button btn_interior_confirm;
     Button btn_add_interior;
     Button btn_delete_interior;
     Fragment dogam_frgment;
@@ -410,7 +411,7 @@ public class MainActivity extends FragmentActivity {
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
         btn_add_interior = (Button) findViewById(R.id.btn_add_interior);
         btn_delete_interior = (Button) findViewById(R.id.btn_delete_interior);
-
+        btn_interior_confirm = (Button)findViewById(R.id.btn_interior_confirm);
         aquarium_background = (ImageView) findViewById(R.id.aquarium_background);
 
 
@@ -555,6 +556,7 @@ public class MainActivity extends FragmentActivity {
                         interior_start = true;
                         interior_view_main = new ImageView(getApplicationContext());
                         interior_view_main = aquarium.add_Interior(add_interior_arr[id]);
+                        btn_interior_confirm.setVisibility(View.VISIBLE);
                     }
                 });
                 interior_dialog = builder.create();
@@ -583,13 +585,18 @@ public class MainActivity extends FragmentActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (interior_start) {
-                    interior_view_main.setX(event.getX());
-                    interior_view_main.setY(event.getY());
+                    interior_view_main.setX(event.getX() -200);
+                    interior_view_main.setY(event.getY()+ -300);
                     interior_arr.add(interior_view_main);
-                    interior_start = false;
-
                 }
                 return false;
+            }
+        });
+
+        btn_interior_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                interior_start = false;
             }
         });
 
