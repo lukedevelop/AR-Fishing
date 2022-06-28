@@ -203,6 +203,7 @@ public class MainActivity extends FragmentActivity {
         baitImgLayout = (LinearLayout) findViewById(R.id.baitImgLayout);
         baitName = (TextView) findViewById(R.id.baitName);
 
+
         alert_insikplease = (TextView) findViewById(R.id.alert_insikplease);
 
 
@@ -407,6 +408,8 @@ public class MainActivity extends FragmentActivity {
         btn_add_interior = (Button) findViewById(R.id.btn_add_interior);
         btn_delete_interior = (Button) findViewById(R.id.btn_delete_interior);
 
+        aquarium_background = (ImageView) findViewById(R.id.aquarium_background);
+
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -503,6 +506,10 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
+                if(fish_delete_cheak.size() != 0){
+
+
+
                 delete_fish_arr = new String[fish_delete_cheak.size()];
                 fish_delete_cheak.toArray(delete_fish_arr);
 
@@ -518,6 +525,9 @@ public class MainActivity extends FragmentActivity {
                 });
                 delete_fish_dialog = builder.create();
                 delete_fish_dialog.show();
+             } else {
+                    Toast.makeText(getApplicationContext(), "물고기를 추가해주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -1015,6 +1025,7 @@ public class MainActivity extends FragmentActivity {
 
                                     //TODO 물고기 체크
                                     public void run() {
+                                        aquarium.cheak1 = true;
                                         aquarium_background.setVisibility(View.VISIBLE);
                                         fish_add_cheak = new ArrayList<String>();
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_aquarium);
@@ -1068,6 +1079,7 @@ public class MainActivity extends FragmentActivity {
                                         soundPool.play(sound_spongebob, (float)0.25,(float)0.25, 0,0,1);
 
                                         aquarium_background.setVisibility(View.INVISIBLE);
+
 
                                         aquarium.go_fishing();
 
