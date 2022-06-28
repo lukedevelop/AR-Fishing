@@ -4,26 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:orientation="vertical"
-    >
+
+    tools:context=".MainActivity">
 
     <FrameLayout
         android:id="@+id/mainFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <android.opengl.GLSurfaceView
             android:id="@+id/glSsurfaceview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.opengl.GLSurfaceView>
+            android:layout_height="match_parent"
+
+            ></android.opengl.GLSurfaceView>
+
+        <ImageView
+            android:id="@+id/aquarium_background"
+            android:layout_width="500dp"
+            android:layout_height="1000dp"
+            android:alpha="0.5"
+            android:src="@drawable/sea"
+            android:visibility="invisible" />
+
+
+
         <ImageView
             android:id="@+id/iv_gal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/gal"
             android:layout_gravity="bottom|center_horizontal"
+<<<<<<< HEAD
             android:visibility="invisible"
             />
 
@@ -44,6 +56,7 @@
             android:background="@drawable/btn_showmenuframelayout"
             />
 
+
         <Button
             android:id="@+id/castingBtn"
             android:layout_gravity="bottom"
@@ -57,6 +70,7 @@
             android:textStyle="bold"
             android:background="@drawable/circle_button"></Button>
 
+
         <SeekBar
             android:id="@+id/castingSeekbar"
             android:layout_width="204dp"
@@ -64,9 +78,11 @@
             android:layout_gravity="bottom|right"
             android:max="50"
             android:min="-50"
+
             android:progressDrawable="@drawable/seekbar_design"
             android:splitTrack="false"
             android:thumb="@drawable/seekbar_img"></SeekBar>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,8 +115,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="1dp"
             android:layout_marginTop="30dp"
             >
             <android.widget.Button
@@ -115,6 +129,7 @@
                 android:textColor="#24ffffff"
                 />
 
+
             <android.widget.Button
                 android:id="@+id/btn_AddFish"
                 android:layout_width="80dp"
@@ -123,21 +138,26 @@
                 android:background="@drawable/btn_aquarium_addfish"
                 android:visibility="invisible"/>
 
+
             <android.widget.Button
                 android:id="@+id/btn_removeFish"
+
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/btn_aquarium_removefish"
                 android:visibility="invisible"/>
 
+
             <android.widget.Button
                 android:id="@+id/btn_add_interior"
+
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/btn_aquarium_interioradd"
                 android:visibility="invisible"/>
+
 
             <android.widget.Button
                 android:id="@+id/btn_delete_interior"
@@ -148,24 +168,27 @@
                 android:visibility="invisible"
                 />
 
+
             <android.widget.Button
                 android:id="@+id/btn_capture"
+
                 android:layout_width="80dp"
                 android:layout_height="40dp"
+
 
                 android:background="@drawable/btn_aquarium_capture"
                 android:visibility="invisible"
                 />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
 
-            android:layout_marginTop="100dp"
-            >
+            android:layout_marginTop="100dp">
 
             <TextView
                 android:id="@+id/FishingTv"
@@ -197,19 +220,17 @@
     </FrameLayout>
 
 
-
     <FrameLayout
         android:id="@+id/subFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
         android:clickable="false"
-        >
+        android:visibility="invisible">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/frameLayout_menu"
@@ -229,27 +250,34 @@
                 android:background="#ffffff"
                 >
                 <android.widget.Button
+
                     android:id="@+id/btn_showMainFrameLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+
                     android:layout_weight="1"
                     android:background="@drawable/icon_fishing_default"
                     />
                 <android.widget.Button
+
                     android:id="@+id/btn_showInformationFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+
                     android:layout_weight="1"
                     android:background="@drawable/icon_information_selected"
                     />
                 <android.widget.Button
+
                     android:id="@+id/btn_showInventoryFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+
                     android:layout_weight="1"
                     android:background="@drawable/icon_inventory_default"
                     />
                 <android.widget.Button
+
                     android:id="@+id/btn_showQuestFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -258,6 +286,7 @@
 
                     />
                 <android.widget.Button
+
                     android:id="@+id/btn_showDogamFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

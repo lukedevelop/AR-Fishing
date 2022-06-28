@@ -145,7 +145,7 @@ public class MainActivity extends FragmentActivity {
     String [] add_interior_arr;
    // String [] delete_interior_arr;
     ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물고기 뼈",
-            "금붕어", "해파리", "니모", "돌", "삼식이", "스폰지밥", "거북이"));
+            "금붕어", "해파리", "니모", "돌", "삼식", "스폰지밥", "거북이"));
     ArrayList<String> interior_name = new ArrayList<String>(Arrays.asList("조개"));
     ArrayList<Integer> main_dogam = new ArrayList<Integer>();
     ArrayList<String> fish_add_cheak;
@@ -168,7 +168,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_add_interior;
     Button btn_delete_interior;
     Fragment dogam_frgment;
-    ImageView interior_view_main;
+    ImageView interior_view_main, aquarium_background;
 
     boolean interior_start = false;
 
@@ -405,6 +405,8 @@ public class MainActivity extends FragmentActivity {
         btn_removeFish = (Button) findViewById(R.id.btn_removeFish);
         btn_add_interior = (Button) findViewById(R.id.btn_add_interior);
         btn_delete_interior = (Button) findViewById(R.id.btn_delete_interior);
+
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         aquarium = new Aquarium(this);
@@ -811,9 +813,11 @@ public class MainActivity extends FragmentActivity {
                 waterMatrix = floatMatrix.clone();
 
 
+
                 Matrix.translateM(waterMatrix, 0, 0, 0f, 6f);
                 Matrix.scaleM(waterMatrix, 0, 0.0013f, 0.0013f, 0.0013f);
                 Matrix.rotateM(waterMatrix, 0, -20, 1, 0, 0);
+
 
 
                 mRenderer.water.setModelMatrix(waterMatrix);
@@ -1007,6 +1011,7 @@ public class MainActivity extends FragmentActivity {
 
                                     //TODO 물고기 체크
                                     public void run() {
+                                        aquarium_background.setVisibility(View.VISIBLE);
                                         fish_add_cheak = new ArrayList<String>();
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_aquarium);
                                         if(alert_insikplease.getVisibility() != View.GONE) {
