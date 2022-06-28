@@ -160,6 +160,15 @@ public class Inventory_bait_Fragment extends Fragment {
                     Toast.makeText(mainActivity, item.baitName+"을(를) 장비하였습니다.", Toast.LENGTH_SHORT).show();
                     mainActivity.setBait = item.baitName;
 
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mainActivity.baitImg.setImageResource(choiceImg(position+1));
+                            System.out.println(position+1);
+                            mainActivity.baitName.setText(item.baitName);
+                            mainActivity.mainFrameLayout.requestLayout();
+                        }
+                    });
                 }
             });
 

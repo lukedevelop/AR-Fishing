@@ -70,6 +70,41 @@
             android:background="@drawable/circle_button"></Button>
 
 
+        <LinearLayout
+            android:id="@+id/baitImgLayout"
+            android:background="@drawable/round_border_imgview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            android:orientation="vertical">
+            <LinearLayout
+                android:paddingTop="10dp"
+                android:paddingHorizontal="10dp"
+                android:layout_width="70dp"
+                android:layout_height="60dp">
+                <ImageView
+                    android:id="@+id/baitImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bait_dduckrice"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/baitName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="떡밥"
+                android:paddingBottom="5dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"></TextView>
+
+
+        </LinearLayout>
+
+
         <SeekBar
             android:id="@+id/castingSeekbar"
             android:layout_width="204dp"
@@ -87,7 +122,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="190dp"
+            android:layout_marginRight="20dp">
             <ImageView
                 android:id="@+id/timerImg"
                 android:layout_width="0dp"
