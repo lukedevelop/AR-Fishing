@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,10 +18,10 @@ public class Aquarium {
 
     boolean cheak_new_fish = false;
     boolean ready = true;
+    boolean cheak1 = false;
 
     Random rand = new Random();
 
-    MainRenderer mRenderer;
     MainActivity mActivity;
     ObjRenderer mObj;
 
@@ -42,112 +43,112 @@ public class Aquarium {
 
     public void normalMov () {
 
+        if(cheak1) {
 
 
-        int a = rand.nextInt(30);
+            int a = rand.nextInt(30);
 
-        Log.d("랜덤 숫자 확인 웅", "" + a);
+            Log.d("랜덤 숫자 확인 웅", "" + a);
 
-
-
-        if(a < 10){
-            speed = 0.002f;
-            rotate_val = 10;
-        } else if (a < 20) {
-            speed = 0.003f;
-            rotate_val = -10;
-        } else if (a < 25) {
-            speed = 0.004f;
-            rotate_val = 30;
-        } else if (a < 30) {
-            speed = 0.005f;
-            rotate_val = -30;
-        }
-
-        cheak_new_fish = true;
-
-
-        for (int i = 0; i < model_arr.size(); i++) {
-            switch (rotate_name.get(i)){
-                case "베스" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "부시리" :
-                    Matrix.translateM(model_arr.get(i), 0, speed ,0, 0);
-                    break;
-                case "물고기 뼈" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "금붕어" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "해파리" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "니모" :
-                    Matrix.translateM(model_arr.get(i), 0,  speed, 0, 0);
-                    break;
-                case "돌" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "삼식" :
-                    Matrix.translateM(model_arr.get(i), 0,  speed, 0, 0);
-                    break;
-                case "스폰지밥" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-                case "거북이" :
-                    Matrix.translateM(model_arr.get(i), 0,  0, 0, speed);
-                    break;
-
-            }
-        }
-
-        for (ObjRenderer fish:mActivity.mRenderer.fish_arr) {
-            fish.setModelMatrix(model_arr.get(cnt2));
-            cnt2++;
-            Log.d("포즈로 물고기 움직이기 여" , "위치 재설정");
-
-        }
-        cnt2 = 0;
-
-
-        if(rotate_name.size() >  a) {
-
-            switch (rotate_name.get(a)){
-                case "베스" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "부시리" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 100, 100);
-                    break;
-                case "물고기 뼈" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "금붕어" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "해파리" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "니모" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "돌" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "삼식" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 100, 0, 30f);
-                    break;
-                case "스폰지밥" :
-                    Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
-                case "거북이" :
-                   Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
-                    break;
+            if (a < 10) {
+                speed = 0.002f;
+                rotate_val = 10;
+            } else if (a < 20) {
+                speed = 0.003f;
+                rotate_val = -10;
+            } else if (a < 25) {
+                speed = 0.004f;
+                rotate_val = 30;
+            } else if (a < 30) {
+                speed = 0.005f;
+                rotate_val = -30;
             }
 
+            cheak_new_fish = true;
 
+
+            for (int i = 0; i < model_arr.size(); i++) {
+                switch (rotate_name.get(i)) {
+                    case "베스":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "부시리":
+                        Matrix.translateM(model_arr.get(i), 0, speed, 0, 0);
+                        break;
+                    case "물고기 뼈":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "금붕어":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "해파리":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "니모":
+                        Matrix.translateM(model_arr.get(i), 0, speed, 0, 0);
+                        break;
+                    case "돌":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "삼식":
+                        Matrix.translateM(model_arr.get(i), 0, speed, 0, 0);
+                        break;
+                    case "스폰지밥":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+                    case "거북이":
+                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        break;
+
+                }
+            }
+
+            for (ObjRenderer fish : mActivity.mRenderer.fish_arr) {
+                fish.setModelMatrix(model_arr.get(cnt2));
+                cnt2++;
+                Log.d("포즈로 물고기 움직이기 여", "위치 재설정");
+
+            }
+            cnt2 = 0;
+
+
+            if (rotate_name.size() > a && model_arr.size() != 0) {
+
+                switch (rotate_name.get(a)) {
+                    case "베스":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "부시리":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 100, 100);
+                        break;
+                    case "물고기 뼈":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "금붕어":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "해파리":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "니모":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "돌":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "삼식":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 100, 0, 30f);
+                        break;
+                    case "스폰지밥":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                    case "거북이":
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        break;
+                }
+
+
+            }
         }
 
     }
@@ -210,6 +211,7 @@ public class Aquarium {
                 mActivity.mRenderer.fish_arr.add(mObj);
                 model_arr.add(modelMatrix);
         }
+
     }
 
     public void deleteFish(int delete_num){
@@ -251,7 +253,7 @@ public class Aquarium {
     }
 
     public void go_fishing (){
-
+        cheak1 = false;
         mActivity.btn_aquarium_open.setVisibility(View.INVISIBLE);
         mActivity.btn_add_interior.setVisibility(View.INVISIBLE);
         mActivity.btn_delete_interior.setVisibility(View.INVISIBLE);
@@ -259,12 +261,15 @@ public class Aquarium {
         mActivity.btn_removeFish.setVisibility(View.INVISIBLE);
         mActivity.btn_capture.setVisibility(View.INVISIBLE);
 
+        if(model_arr.size() != 0) {
+            model_arr.clear();
+            mActivity.mRenderer.fish_arr.clear();
+            rotate_name.clear();
+            mActivity.fish_delete_cheak.clear();
+        }
+
         for (ImageView iv :mActivity.interior_arr) {
             iv.setVisibility(View.GONE);
-
-
-            model_arr.clear();
-            mRenderer.fish_arr.clear();
             ready = false;
         }
     }

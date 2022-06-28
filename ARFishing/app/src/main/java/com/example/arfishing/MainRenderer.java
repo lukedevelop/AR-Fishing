@@ -8,11 +8,13 @@ import android.util.Log;
 import com.google.ar.core.Session;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class MainRenderer implements GLSurfaceView.Renderer {
+
 
     interface RenderCallBack{
         void preRender();
@@ -26,21 +28,16 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     CameraPreView mCamera;
 
 
-    //추가된 부분-------------------
-//    float[] mMVPMatrix = new float[16];
-//    float [] mViewMatrix = new float[16];
-//    float [] mProjectionMatrix = new float[16];
-//    float [] modelMatrix;
-    //-----------------------------------
-
     ObjRenderer fishingRod, point, fish, water, water2;
 
     boolean drawRod, drawPoint, drawFish, drawWater;
-
     // 현석
     ArrayList<ObjRenderer> fish_arr;
 
+
+
     MainRenderer(RenderCallBack myCallBack, Context context){
+
         this.myCallBack = myCallBack;
         this.context = context;
         mCamera = new CameraPreView();
@@ -49,6 +46,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         water = new ObjRenderer(context, "Water.obj", "Water.png");
         water2 = new ObjRenderer(context, "Water.obj", "Water.png");
         fish_arr = new ArrayList<ObjRenderer>();
+
     }
 
     @Override
@@ -100,14 +98,15 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         }
 
         // 현석
-        for (ObjRenderer fish  : fish_arr) {
-            if(!fish.isInit){
-                fish.init();
 
-            }
-            fish.draw();
+            for (ObjRenderer fishs : fish_arr) {
+
+                if (!fishs.isInit ) {
+                    fishs.init();
+
+                }
+                fishs.draw();
         }
-
     }
 
     void onDisplayChanged(){
