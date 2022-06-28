@@ -22,11 +22,12 @@
 
         <ImageView
             android:id="@+id/aquarium_background"
-            android:layout_width="1100dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
             android:src="@drawable/sea"
-            android:visibility="visible" />
+            android:scaleType = "fitXY"
+            android:visibility="invisible" />
 
 
         <ImageView
@@ -39,8 +40,10 @@
         <ImageView
             android:id="@+id/sandImg"
             android:layout_width="match_parent"
-            android:layout_height="195dp"
-            android:layout_gravity="bottom"></ImageView>
+            android:layout_height="200dp"
+            android:scaleType = "fitXY"
+            android:layout_gravity="bottom"
+            ></ImageView>
 
 
         <Button

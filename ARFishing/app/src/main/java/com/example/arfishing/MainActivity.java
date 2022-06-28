@@ -283,9 +283,12 @@ public class MainActivity extends FragmentActivity {
 
 //                DBDAO dbDAO = new DBDAO(MainActivity.this);
 //                dbDAO.updateMemberDB("nickName","송찬욱",1,1,0);
-                if(area.equals("")){
+                if(aquarium_background.getVisibility() == View.VISIBLE){
+                    changeGameMode("수조");
+                } else if (area.equals("")) {
                     changeGameMode("입장");
-                } else{
+
+                } else {
                     changeGameMode("낚시");
                 }
 
@@ -1447,13 +1450,13 @@ public class MainActivity extends FragmentActivity {
         Bitmap returnBitmap = Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
         Bitmap bitmap = returnBitmap.copy(Bitmap.Config.ARGB_8888,true);
         Canvas canvas = new Canvas(bitmap);
-        Drawable drawable = btn_capture.getBackground();
-
+        Drawable drawable = aquarium_background.getDrawable();
+        drawable.setAlpha(120);
         canvas.save();
-        canvas.translate(btn_capture.getX(),btn_capture.getY());
+        canvas.translate(aquarium_background.getX(),aquarium_background.getY());
         drawable.draw(canvas);
         canvas.restore();
-
+        aquarium_background.setAlpha(1.0F);
 
         return bitmap;
     }
