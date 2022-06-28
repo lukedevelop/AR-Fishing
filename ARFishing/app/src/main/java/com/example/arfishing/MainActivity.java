@@ -148,7 +148,7 @@ public class MainActivity extends FragmentActivity {
    // String [] delete_interior_arr;
     ArrayList<String> fish_name = new ArrayList<String>(Arrays.asList("베스", "부시리", "물고기 뼈",
             "금붕어", "해파리", "니모", "돌", "삼식", "스폰지밥", "거북이"));
-    ArrayList<String> interior_name = new ArrayList<String>(Arrays.asList("조개"));
+    ArrayList<String> interior_name = new ArrayList<String>(Arrays.asList("조개", "해초", "초록산호", "분홍산호", "돌","물레방아", "인어공주"));
     ArrayList<Integer> main_dogam = new ArrayList<Integer>();
     ArrayList<String> fish_add_cheak;
     ArrayList<String> fish_delete_cheak = new ArrayList<String>();
@@ -540,6 +540,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).cheak_inventory();
                 add_interior_arr = new String[cheak.size()];
+
                 if(add_interior_arr.length != 0){
                 for (int i = 0; i < cheak.size() ; i++) {
                     if(cheak.get(i) != 0){
@@ -553,7 +554,7 @@ public class MainActivity extends FragmentActivity {
                     public void onClick(DialogInterface dialogInterface, int id) {
                         interior_start = true;
                         interior_view_main = new ImageView(getApplicationContext());
-                        interior_view_main = aquarium.add_Interior(add_interior_arr[0]);
+                        interior_view_main = aquarium.add_Interior(add_interior_arr[id]);
                     }
                 });
                 interior_dialog = builder.create();

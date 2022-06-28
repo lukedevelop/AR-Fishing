@@ -235,18 +235,49 @@ public class Aquarium {
 
         ImageView interior_view = new ImageView(mActivity);
 
-        switch (interior_name){
-            case "조개" :
-                interior_view.setImageResource(R.drawable.interior_zogae);
-                break;
-        }
-
         FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-         param.width = 300;  //이미지 너비
-         param.height = 300; // 이미지 높이
-       //  param.setMargins(0,0,0,0); 이미지 마진(왼쪽, 위, 오른쪽, 아래)
+
+        switch (interior_name){
+            case "조개" :
+                interior_view.setImageResource(R.drawable.interior_zogae);
+                param.width = 300;  //이미지 너비
+                param.height = 300; // 이미지 높이
+                break;
+            case "해초" :
+                interior_view.setImageResource(R.drawable.interior_watergreen);
+                param.width = 300;  //이미지 너비
+                param.height = 700; // 이미지 높이
+                break;
+            case "초록산호" :
+                interior_view.setImageResource(R.drawable.interior_san1);
+                param.width = 500;  //이미지 너비
+                param.height = 500; // 이미지 높이
+                break;
+            case "분홍산호" :
+                interior_view.setImageResource(R.drawable.interior_san2);
+                param.width = 500;  //이미지 너비
+                param.height = 500; // 이미지 높이
+                break;
+            case "돌" :
+                interior_view.setImageResource(R.drawable.interior_rock);
+                param.width = 1000;  //이미지 너비
+                param.height = 1000; // 이미지 높이
+                break;
+            case "물레방아" :
+                interior_view.setImageResource(R.drawable.interior_mulre);
+                param.width = 700;  //이미지 너비
+                param.height = 700; // 이미지 높이
+                break;
+            case "인어공주" :
+                interior_view.setImageResource(R.drawable.interior_mermaid);
+                param.width = 1000;  //이미지 너비
+                param.height = 1000; // 이미지 높이
+                break;
+        }
+
+
         mActivity.mainFrameLayout.addView(interior_view, param);
 
         return interior_view;
