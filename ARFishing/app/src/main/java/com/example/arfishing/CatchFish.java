@@ -39,6 +39,7 @@ public class CatchFish extends Thread{
     Button dlgShutBtn;
 
     CatchFish(MainActivity activity){
+
         mainActivity = activity;
 
         this.area = mainActivity.area;
@@ -64,8 +65,8 @@ public class CatchFish extends Thread{
         dlgShutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainActivity.soundPool.stop(mainActivity.sound_spongebob);
                 dlg.dismiss();
-                mainActivity.soundPool.stop(mainActivity.sound_aquarium);
             }
         });
 
@@ -100,7 +101,6 @@ public class CatchFish extends Thread{
             }
         });
 
-        mainActivity.soundPool.play(mainActivity.sound_casting, 1,1,1,2,0);
 
         int ranNum = (int) (Math.random()*100)+1;
         if(ranNum <= 20){
@@ -129,7 +129,6 @@ public class CatchFish extends Thread{
             int time = 5;
             @Override
             public void run() {
-                mainActivity.soundPool.play(mainActivity.sound_ril, 1,1,1,100,0);
                 mainActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -152,7 +151,6 @@ public class CatchFish extends Thread{
                     }
                     time--;
                 }
-                mainActivity.soundPool.stop(mainActivity.sound_ril);
 
                 //시간이 다 지나면 타이머 스탑, 고기도 놓침
                 intime1 = false;
@@ -202,6 +200,7 @@ public class CatchFish extends Thread{
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mainActivity.soundPool.play(mainActivity.sound_padack, (float)0.12,(float)0.12, 0,0,1);
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기가 잡혔습니다. 양동이 이미지를 촬영해주세요!", Toast.LENGTH_SHORT).show();
                     mainActivity.castingBtn.setText("촬영");
                 }
@@ -234,7 +233,6 @@ public class CatchFish extends Thread{
                             break;
                     }
 
-                    mainActivity.soundPool.play(mainActivity.sound_padack, 1,1,1,10,0);
                     intime2 = true;
 
                     while (intime2 && time >= 0) {
@@ -283,7 +281,6 @@ public class CatchFish extends Thread{
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mainActivity.soundPool.play(mainActivity.sound_aquarium, 1,1,1,10,0);
 
                                     Toast.makeText(mainActivity.getApplicationContext(), fishName+"을(를) 잡았습니다!", Toast.LENGTH_SHORT).show();
 
@@ -306,6 +303,7 @@ public class CatchFish extends Thread{
                                     new DBDAO(mainActivity).update_quest_now_DB(0);
                                     new DBDAO(mainActivity).update_quest_complete_DB();
 
+                                    mainActivity.soundPool.play(mainActivity.sound_spongebob, (float)0.25,(float)0.25, 0,0,1);
 
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);

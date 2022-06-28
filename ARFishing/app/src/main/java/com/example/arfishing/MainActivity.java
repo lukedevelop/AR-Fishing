@@ -212,13 +212,7 @@ public class MainActivity extends FragmentActivity {
 
         ggiLook();
         iv_gal = (ImageView) findViewById(R.id.iv_gal);
-        iv_gal.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                playSound();
-                return false;
-            }
-        });
+
 
         mainFrameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
         subFrameLayout = (FrameLayout) findViewById(R.id.subFrameLayout);
@@ -376,7 +370,7 @@ public class MainActivity extends FragmentActivity {
                         captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/ad" + ".jpeg")));
 
-                        Toast.makeText(MainActivity.this, "캡쳐 완료 - ARfishingCapture)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "캡쳐 완료 - ARfishingCapture", Toast.LENGTH_SHORT).show();
                         fos.flush();
                         fos.close();
 
@@ -547,7 +541,6 @@ public class MainActivity extends FragmentActivity {
                         interior_start = true;
                         interior_view_main = new ImageView(getApplicationContext());
                         interior_view_main = aquarium.add_Interior(add_interior_arr[0]);
-                  //      Toast.makeText(getApplicationContext(), add[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
                 interior_dialog = builder.create();
@@ -648,6 +641,8 @@ public class MainActivity extends FragmentActivity {
                     //todo 지은) 만약에 프로그래스가 일정 범위 안에 안들어오면 캐스팅 실패 >> 미끼 1개 차감 >>> 시간 남으면 하기 >>> 하고싶지 않아졌다.
                     //todo 찬욱) 낚시 장소에 맞는 미끼가 없으면 캐스팅이 안되어야 함
 
+                    soundPool.play(sound_casting, (float)0.15,(float)0.15, 0,0,1);
+
                     casting = true;
 
                     mRenderer.drawPoint = true;
@@ -666,6 +661,8 @@ public class MainActivity extends FragmentActivity {
 
                     btnClickCnt = 0;
                 } else if (castingBtn.getText().toString().equals("잡기")) {
+                    if(btnClickCnt == 0) {
+                    }
                     btnClickCnt++;
                 }
             }
@@ -1064,11 +1061,16 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+//                                        soundPool.play(sound_ril, (float)0.03,(float)0.03, 0,3,1);
+//                                        soundPool.play(sound_gang, (float)0.4,(float)0.4, 0,3,1);
+//                                        soundPool.play(sound_casting, (float)0.15,(float)0.15, 0,3,1);
+//                                        soundPool.play(sound_padack, (float)0.12,(float)0.12, 0,3,1);
+                                        soundPool.play(sound_spongebob, (float)0.25,(float)0.25, 0,0,1);
+
                                         aquarium_background.setVisibility(View.INVISIBLE);
 
                                         aquarium.go_fishing();
-                                        soundPool.stop(sound_gang);
-                                        soundPool.play(sound_sea, 1, 1, 0,3,1);
+
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_see);
                                         if(alert_insikplease.getVisibility() != View.GONE) {
                                             alert_insikplease.setVisibility(View.GONE);
@@ -1114,8 +1116,7 @@ public class MainActivity extends FragmentActivity {
                                     public void run() {
                                         aquarium_background.setVisibility(View.INVISIBLE);
                                         aquarium.go_fishing();
-                                        soundPool.stop(sound_sea);
-                                        soundPool.play(sound_gang, 1, 1, 0,3,1);
+
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_gang);
                                         if(alert_insikplease.getVisibility() != View.GONE) {
                                             alert_insikplease.setVisibility(View.GONE);
@@ -1232,7 +1233,6 @@ public class MainActivity extends FragmentActivity {
                 tv_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
                         changeGameMode("상점");
 
@@ -1253,7 +1253,6 @@ public class MainActivity extends FragmentActivity {
                 tv_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                         customDialog.dismiss();
 
 
@@ -1507,7 +1506,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     void playSound() {
-        soundPool.play(sound_ril, (float)0.1,(float)0.1, 0,3,1);
+        soundPool.play(sound_ril, (float)0.01,(float)0.01, 0,3,1);
 //        soundPool.stop(sound_galmaegi);
     }
 }

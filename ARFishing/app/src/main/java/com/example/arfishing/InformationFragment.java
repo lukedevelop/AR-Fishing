@@ -65,7 +65,6 @@ public class InformationFragment extends Fragment {
         DBDAO dbDAO = new DBDAO(mainActivity);
         InformationDTO informationDTO = dbDAO.selectMemberDB();
 //        Log.d("야호",informationDTO.nickName+"");
-        Toast.makeText(mainActivity, informationDTO.nickName,Toast.LENGTH_SHORT).show();
         tv_nickName_information.setText(informationDTO.nickName);
         tv_catchFish_information.setText(informationDTO.catchFish+"");
         tv_hasFish_information.setText(informationDTO.hasFish+"");

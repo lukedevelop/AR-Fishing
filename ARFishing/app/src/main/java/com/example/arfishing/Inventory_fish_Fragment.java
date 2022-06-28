@@ -151,13 +151,7 @@ public class Inventory_fish_Fragment extends Fragment {
             baitItemView.btn_baitPurchase.setVisibility(View.INVISIBLE);
 
 
-            baitItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    Toast.makeText(mainActivity, item.baitName, Toast.LENGTH_SHORT).show();
-                }
-            });
 
             return baitItemView;
 
