@@ -52,7 +52,7 @@ public class CatchFish_GPS {
                 citylist = geocoder.getFromLocation(latitude2, longitude2, 10);
                 if (citylist != null) {
                     city = citylist.get(0).toString().split(" ");
-                    add = city[1] + " " + city[2] + " " +city[3] + " " + city[4];
+                    add = city[1] + " " + city[2] + " " +city[3] + " " + city[4].split("\"")[0];
                 }
             } catch (IOException e) {
                 e.printStackTrace();
