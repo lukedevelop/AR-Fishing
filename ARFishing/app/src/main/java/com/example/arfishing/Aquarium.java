@@ -46,6 +46,8 @@ public class Aquarium {
         if(cheak1) {
 
 
+
+
             int a = rand.nextInt(30);
 
             Log.d("랜덤 숫자 확인 웅", "" + a);
@@ -70,7 +72,7 @@ public class Aquarium {
             for (int i = 0; i < model_arr.size(); i++) {
                 switch (rotate_name.get(i)) {
                     case "베스":
-                        Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
+                        Matrix.translateM(model_arr.get(i), 0, 0, -speed, 0);
                         break;
                     case "부시리":
                         Matrix.translateM(model_arr.get(i), 0, speed, 0, 0);
@@ -91,7 +93,7 @@ public class Aquarium {
                         Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
                         break;
                     case "삼식":
-                        Matrix.translateM(model_arr.get(i), 0, speed, 0, 0);
+                        Matrix.translateM(model_arr.get(i), 0, -speed, 0, 0);
                         break;
                     case "스폰지밥":
                         Matrix.translateM(model_arr.get(i), 0, 0, 0, speed);
@@ -116,7 +118,7 @@ public class Aquarium {
 
                 switch (rotate_name.get(a)) {
                     case "베스":
-                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 0, 100f);
                         break;
                     case "부시리":
                         Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 100, 100);
@@ -137,7 +139,7 @@ public class Aquarium {
                         Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
                         break;
                     case "삼식":
-                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 100, 0, 30f);
+                        Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 0, 100f);
                         break;
                     case "스폰지밥":
                         Matrix.rotateM(model_arr.get(a), 0, rotate_val, 0, 50f, 0);
@@ -162,49 +164,47 @@ public class Aquarium {
 
             switch (add_name){
                 case "베스" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_bass.obj", "fish_bass.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "bass_aquarium.obj", "fish_bass.jpeg");
                     rotate_name.add("베스");
-                 //   Matrix.scaleM(modelMatrix, 0, 0.001f, 0.001f, 0.001f);
                     break;
                 case "부시리" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_boosiri.obj", "fish_boosiri.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "boosiri_aquarium.obj", "fish_boosiri.jpeg");
                     rotate_name.add("부시리");
-                //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
                 case "물고기 뼈" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_fishbones.obj", "fish_fishbones.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "fishbones_aquarium.obj", "fish_fishbones.jpeg");
                     rotate_name.add("물고기 뼈");
-                //    Matrix.scaleM(modelMatrix, 0, 0.01f, 0.01f, 0.01f);
                     break;
                 case "금붕어" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_goldfish.obj", "fish_goldfish.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "goldfish_aquarium.obj", "fish_goldfish.jpeg");
                     rotate_name.add("금붕어");
                     break;
                 case "해파리" :
-                    mObj  = new ObjRenderer(mActivity, "Jelly_Fish2.obj", "fish_jellyfish.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "jellyfish_aquarium.obj", "fish_jellyfish.jpeg");
                     rotate_name.add("해파리");
                     break;
                 case "니모" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_nimo.obj", "fish_nimo.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "nimo_aquarium.obj", "fish_nimo.jpeg");
                     rotate_name.add("니모");
                     break;
                 case "돌" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_rock.obj", "fish_rock.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "rock_aquarium.obj", "fish_rock.jpeg");
                     rotate_name.add("돌");
                     break;
                 case "삼식" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_samsik.obj", "fish_samsik.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "samsik_aquarium.obj", "fish_samsik.jpeg");
                     rotate_name.add("삼식");
                     break;
                 case "스폰지밥" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_spongebob.obj", "fish_spongebob.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "spongebob_aquarium.obj", "fish_spongebob.jpeg");
                     rotate_name.add("스폰지밥");
                     break;
                 case "거북이" :
-                    mObj  = new ObjRenderer(mActivity, "AnyConv.com__fish_turtle.obj", "fish_turtle.jpeg");
+                    mObj  = new ObjRenderer(mActivity, "turtle_aquarium.obj", "fish_turtle.jpeg");
                     rotate_name.add("거북이");
                     break;
             }
+
                 mActivity.pose.toMatrix(modelMatrix, 0);
                 mObj.setModelMatrix(modelMatrix);
 

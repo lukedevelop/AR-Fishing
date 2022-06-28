@@ -202,4 +202,5 @@ public class Inventory_bait_Fragment extends Fragment {
     }
 
 
+
 }

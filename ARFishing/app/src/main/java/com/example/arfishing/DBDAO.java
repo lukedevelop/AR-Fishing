@@ -339,16 +339,16 @@ public class DBDAO {
         return dogam;
     }
 
-    ArrayList<Integer> cheak_inventory(){
-        ArrayList<Integer> cheak_inventory_count = new ArrayList<Integer>();
+    ArrayList<String> cheak_inventory(){
+        ArrayList<String> cheak_inventory_name = new ArrayList<String>();
 
         db = myDB.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select interior_amount from inventory_interior", null);
+        Cursor cursor = db.rawQuery("select interior_name from inventory_interior where interior_amount > 0", null);
         while (cursor.moveToNext()){
-            cheak_inventory_count.add(cursor.getInt(0));
+            cheak_inventory_name.add(cursor.getString(0));
         }
         db.close();
-        return cheak_inventory_count;
+        return cheak_inventory_name;
     }
 
 

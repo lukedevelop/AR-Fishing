@@ -3,6 +3,7 @@ package com.example.arfishing;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.util.Log;
 
 import com.google.ar.core.Session;
@@ -24,6 +25,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     RenderCallBack myCallBack;
     boolean viewportChange = false;
     Context context;
+    Aquarium aquarium;
 
     CameraPreView mCamera;
 
@@ -46,6 +48,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         water = new ObjRenderer(context, "Water.obj", "Water.png");
         water2 = new ObjRenderer(context, "Water.obj", "Water.png");
         fish_arr = new ArrayList<ObjRenderer>();
+
 
     }
 
@@ -99,14 +102,22 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         // 현석
 
-            for (ObjRenderer fishs : fish_arr) {
+        for (int i = 0; i < fish_arr.size() ; i++) {
+            if (!fish_arr.get(i).isInit ) {
+                fish_arr.get(i).init();
+                Matrix.scaleM(((MainActivity) context).aquarium.model_arr.get(i) ,0, 0.3f, 0.3f, 0.3f);
+            }
+            fish_arr.get(i).draw();
+        }
+
+          /*  for (ObjRenderer fishs : fish_arr) {
 
                 if (!fishs.isInit ) {
                     fishs.init();
 
                 }
                 fishs.draw();
-        }
+        }*/
     }
 
     void onDisplayChanged(){

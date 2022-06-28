@@ -490,7 +490,9 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
                         aquarium.insertFish(add_fish_arr[id]);
-                        fish_delete_cheak.add(add_fish_arr[id]);
+                        if(fish_delete_cheak.size() < 10) {
+                            fish_delete_cheak.add(add_fish_arr[id]);
+                        }
                         Toast.makeText(getApplicationContext(), add_fish_arr[id] + "를 추가했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -512,11 +514,8 @@ public class MainActivity extends FragmentActivity {
 
                 if(fish_delete_cheak.size() != 0){
 
-
-
                 delete_fish_arr = new String[fish_delete_cheak.size()];
                 fish_delete_cheak.toArray(delete_fish_arr);
-
                 builder.setItems(delete_fish_arr, new DialogInterface.OnClickListener() {
 
                     @Override
@@ -524,9 +523,11 @@ public class MainActivity extends FragmentActivity {
 
                         aquarium.deleteFish(id);
                         fish_delete_cheak.remove(id);
+
                         Toast.makeText(getApplicationContext(), delete_fish_arr[id] + "를 제거했습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
+                fish_delete_cheak.toArray(delete_fish_arr);
                 delete_fish_dialog = builder.create();
                 delete_fish_dialog.show();
              } else {
@@ -539,15 +540,10 @@ public class MainActivity extends FragmentActivity {
         btn_add_interior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).cheak_inventory();
-                add_interior_arr = new String[cheak.size()];
+                ArrayList <String> interior_cheak = new DBDAO(getApplicationContext()).cheak_inventory();
 
-                if(add_interior_arr.length != 0){
-                for (int i = 0; i < cheak.size() ; i++) {
-                    if(cheak.get(i) != 0){
-                        add_interior_arr [i] = interior_name.get(i);
-                    }
-                }
+                add_interior_arr = new String[interior_cheak.size()];
+                interior_cheak.toArray(add_interior_arr);
 
                 builder.setItems( add_interior_arr, new DialogInterface.OnClickListener() {
 
@@ -561,11 +557,7 @@ public class MainActivity extends FragmentActivity {
                 });
                 interior_dialog = builder.create();
                 interior_dialog.show();
-                } else {
-                    Toast.makeText(getApplicationContext(),"꾸미기 아이템을 구매해주세요" ,Toast.LENGTH_SHORT).show();
                 }
-
-            }
         });
 
         btn_delete_interior.setOnClickListener(new View.OnClickListener() {
