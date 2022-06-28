@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -1413,7 +1415,19 @@ public class MainActivity extends FragmentActivity {
             return null;
         }
 
-        return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
+
+        Bitmap returnBitmap = Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = returnBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Canvas canvas = new Canvas(bitmap);
+        Drawable drawable = btn_capture.getBackground();
+
+        canvas.save();
+        canvas.translate(btn_capture.getX(),btn_capture.getY());
+        drawable.draw(canvas);
+        canvas.restore();
+
+
+        return bitmap;
     }
 
 
