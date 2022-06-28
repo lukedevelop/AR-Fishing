@@ -205,6 +205,8 @@ public class MainActivity extends FragmentActivity {
 
         alert_insikplease = (TextView) findViewById(R.id.alert_insikplease);
 
+
+        aquarium_background = (ImageView) findViewById(R.id.aquarium_background);
         // 찬욱--
         // ------------연결 시작
 
@@ -1062,6 +1064,8 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        aquarium_background.setVisibility(View.INVISIBLE);
+
                                         aquarium.go_fishing();
                                         soundPool.stop(sound_gang);
                                         soundPool.play(sound_sea, 1, 1, 0,3,1);
@@ -1108,6 +1112,7 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        aquarium_background.setVisibility(View.INVISIBLE);
                                         aquarium.go_fishing();
                                         soundPool.stop(sound_sea);
                                         soundPool.play(sound_gang, 1, 1, 0,3,1);

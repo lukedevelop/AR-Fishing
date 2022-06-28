@@ -163,8 +163,8 @@ public class Inventory_bait_Fragment extends Fragment {
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mainActivity.baitImg.setImageResource(choiceImg(position+1));
-                            System.out.println(position+1);
+                            mainActivity.baitImg.setImageResource(item.baitId);
+                            System.out.println(item.baitId);
                             mainActivity.baitName.setText(item.baitName);
                             mainActivity.mainFrameLayout.requestLayout();
                         }
