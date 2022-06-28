@@ -101,7 +101,7 @@ public class MainActivity extends FragmentActivity {
     Frame frame;
     Pose pose;
 
-    TextView alert_insikplease;
+//    TextView alert_insikplease;
 
     // 송찬욱--
     FrameLayout mainFrameLayout;
@@ -204,7 +204,7 @@ public class MainActivity extends FragmentActivity {
         baitName = (TextView) findViewById(R.id.baitName);
 
 
-        alert_insikplease = (TextView) findViewById(R.id.alert_insikplease);
+//        alert_insikplease = (TextView) findViewById(R.id.alert_insikplease);
 
 
         aquarium_background = (ImageView) findViewById(R.id.aquarium_background);
@@ -1032,9 +1032,9 @@ public class MainActivity extends FragmentActivity {
                                         aquarium_background.setVisibility(View.VISIBLE);
                                         fish_add_cheak = new ArrayList<String>();
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_aquarium);
-                                        if(alert_insikplease.getVisibility() != View.GONE) {
-                                            alert_insikplease.setVisibility(View.GONE);
-                                        }
+//                                        if(alert_insikplease.getVisibility() != View.GONE) {
+//                                            alert_insikplease.setVisibility(View.GONE);
+//                                        }
                                      //   cheak_insert_fish.clear();
                                         ArrayList <Integer> cheak = new DBDAO(getApplicationContext()).update_dogam_fish_DB();
                                         for (int i = 0; i < cheak.size() ; i++) {
@@ -1087,9 +1087,9 @@ public class MainActivity extends FragmentActivity {
                                         aquarium.go_fishing();
 
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_see);
-                                        if(alert_insikplease.getVisibility() != View.GONE) {
-                                            alert_insikplease.setVisibility(View.GONE);
-                                        }
+//                                        if(alert_insikplease.getVisibility() != View.GONE) {
+//                                            alert_insikplease.setVisibility(View.GONE);
+//                                        }
                                         sandImg.setImageResource(R.drawable.beach);
                                         mainFrameLayout.requestLayout();
 
@@ -1133,9 +1133,9 @@ public class MainActivity extends FragmentActivity {
                                         aquarium.go_fishing();
 
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_gang);
-                                        if(alert_insikplease.getVisibility() != View.GONE) {
-                                            alert_insikplease.setVisibility(View.GONE);
-                                        }
+//                                        if(alert_insikplease.getVisibility() != View.GONE) {
+//                                            alert_insikplease.setVisibility(View.GONE);
+//                                        }
 
                                         sandImg.setImageResource(R.drawable.grass);
                                         mainFrameLayout.requestLayout();
