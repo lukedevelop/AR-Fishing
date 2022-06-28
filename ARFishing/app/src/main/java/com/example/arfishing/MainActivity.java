@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,8 +90,9 @@ public class MainActivity extends FragmentActivity {
 
     Button castingBtn;
     SeekBar castingSeekbar;
-    TextView timerTextView;
-    ImageView sandImg, timerImg;
+    TextView timerTextView, baitName;
+    ImageView sandImg, timerImg, baitImg;
+    LinearLayout baitImgLayout;
     int btnClickCnt;
     Frame frame;
     Pose pose;
@@ -192,6 +194,9 @@ public class MainActivity extends FragmentActivity {
         timerTextView = (TextView) findViewById(R.id.timerTextView);
         sandImg = (ImageView) findViewById(R.id.sandImg);
         timerImg = (ImageView) findViewById(R.id.timerImg);
+        baitImg = (ImageView) findViewById(R.id.baitImg);
+        baitImgLayout = (LinearLayout) findViewById(R.id.baitImgLayout);
+        baitName = (TextView) findViewById(R.id.baitName);
 
 
         // 찬욱--
@@ -1254,6 +1259,7 @@ public class MainActivity extends FragmentActivity {
                     castingBtn.setVisibility(View.INVISIBLE);
                     castingSeekbar.setVisibility(View.INVISIBLE);
                     sandImg.setVisibility(View.INVISIBLE);
+                    baitImgLayout.setVisibility(View.INVISIBLE);
                     mainFrameLayout.requestLayout();
                 }
             });
@@ -1266,6 +1272,7 @@ public class MainActivity extends FragmentActivity {
                 public void run() {
                     castingBtn.setVisibility(View.VISIBLE);
                     sandImg.setVisibility(View.VISIBLE);
+                    baitImgLayout.setVisibility(View.VISIBLE);
                     mainFrameLayout.requestLayout();
                 }
             });
