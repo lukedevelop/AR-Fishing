@@ -343,7 +343,7 @@ public class ShopFragment extends Fragment {
             BaitItem item = items.get(position);
 
             // 구매
-            if (nowState.equals("구매")) {
+            if (nowState.equals("구매") ) {
                 baitItemView.setBaitName(item.baitName);
                 baitItemView.setBaitExplain(item.baitExplain);
                 baitItemView.setBaitPrice(item.baitPrice);
@@ -352,9 +352,10 @@ public class ShopFragment extends Fragment {
 
                 baitItemView.btn_baitPurchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_selected);
 
-                if(item.hasBaitAmount > 0) {
+                if(item.hasBaitAmount > 0 && type.equals("interior")) {
+                    baitItemView.tv_hasBaitAmount.setVisibility(View.INVISIBLE);
                     baitItemView.btn_baitPurchase.setEnabled(false);
-                    baitItemView.btn_baitPurchase.setText("이미 보유");
+                    baitItemView.btn_baitPurchase.setBackgroundResource(R.drawable.btn_shop_interior_imiboyou);
                 } else {
                     baitItemView.btn_baitPurchase.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -418,7 +419,11 @@ public class ShopFragment extends Fragment {
 
                 dialog_shop_purchase_explain.setText(itemName+" 몇 "+nowType+"를 구매하시겠습니까?");
 
-                seekBar_shop_purchase.setMax(purchaseAmount);
+                if(type.equals("interior")) {
+                    seekBar_shop_purchase.setVisibility(View.INVISIBLE);
+                    dialog_shop_purchase_amount.setVisibility(View.INVISIBLE);
+                }
+
 
                 seekBar_shop_purchase.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
@@ -441,7 +446,13 @@ public class ShopFragment extends Fragment {
                 dialog_shop_purchase_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int amount = seekBar_shop_purchase.getProgress();
+                        int amount = 0;
+                        if(type.equals("interior")) {
+                            amount = 1;
+                        } else {
+                            amount = seekBar_shop_purchase.getProgress();
+                        }
+
                         // 머니 업데이트
                         set_shop_money_db(
                                 get_shop_money_db() - ( amount * itemPrice )
@@ -458,7 +469,6 @@ public class ShopFragment extends Fragment {
                             showListInterior();
                         }
                         purchaseDialog.dismiss();
-                        showListInterior();
                     }
                 });
 

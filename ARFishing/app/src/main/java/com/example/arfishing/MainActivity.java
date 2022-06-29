@@ -469,6 +469,7 @@ public class MainActivity extends FragmentActivity {
                     btn_add_interior.setVisibility(View.INVISIBLE);
                     btn_delete_interior.setVisibility(View.INVISIBLE);
                     btn_capture.setVisibility(View.INVISIBLE);
+                    btn_interior_confirm.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -589,6 +590,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 interior_start = false;
+                btn_interior_confirm.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -1105,7 +1107,7 @@ public class MainActivity extends FragmentActivity {
                                         btn_add_interior.setVisibility(View.INVISIBLE);
                                         btn_delete_interior.setVisibility(View.INVISIBLE);
                                         btn_capture.setVisibility(View.INVISIBLE);
-
+                                        btn_interior_confirm.setVisibility(View.INVISIBLE);
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
                                     }
@@ -1461,6 +1463,14 @@ public class MainActivity extends FragmentActivity {
         canvas.translate(aquarium_background.getX(),aquarium_background.getY());
         drawable.draw(canvas);
         canvas.restore();
+
+        for(ImageView imageView : interior_arr) {
+            Drawable dr = imageView.getDrawable();
+            canvas.save();
+            canvas.translate(imageView.getScaleX(),imageView.getScaleY());
+            dr.draw(canvas);
+            canvas.restore();
+        }
         aquarium_background.setAlpha(1.0F);
 
         return bitmap;
