@@ -374,7 +374,7 @@ public class MainActivity extends FragmentActivity {
                         FileOutputStream fos = new FileOutputStream(name);
 
                         captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/ad" + ".jpeg")));
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" +name)));
 
                         Toast.makeText(MainActivity.this, "캡쳐 완료 - ARfishingCapture", Toast.LENGTH_SHORT).show();
                         fos.flush();
@@ -555,6 +555,10 @@ public class MainActivity extends FragmentActivity {
                         interior_view_main = new ImageView(getApplicationContext());
                         interior_view_main = aquarium.add_Interior(add_interior_arr[id]);
                         btn_interior_confirm.setVisibility(View.VISIBLE);
+                        btn_AddFish.setVisibility(View.INVISIBLE);
+                        btn_removeFish.setVisibility(View.INVISIBLE);
+                        btn_add_interior.setVisibility(View.INVISIBLE);
+                        btn_delete_interior.setVisibility(View.INVISIBLE);
                     }
                 });
                 interior_dialog = builder.create();
@@ -584,6 +588,7 @@ public class MainActivity extends FragmentActivity {
                     interior_view_main.setX(event.getX());
                     interior_view_main.setY(event.getY());
 
+
                 }
                 return false;
             }
@@ -595,6 +600,11 @@ public class MainActivity extends FragmentActivity {
                 interior_start = false;
                 interior_arr.add(interior_view_main);
                 btn_interior_confirm.setVisibility(View.INVISIBLE);
+
+                btn_AddFish.setVisibility(View.VISIBLE);
+                btn_removeFish.setVisibility(View.VISIBLE);
+                btn_add_interior.setVisibility(View.VISIBLE);
+                btn_delete_interior.setVisibility(View.VISIBLE);
             }
         });
 
@@ -1112,6 +1122,10 @@ public class MainActivity extends FragmentActivity {
                                         btn_delete_interior.setVisibility(View.INVISIBLE);
                                         btn_capture.setVisibility(View.INVISIBLE);
                                         btn_interior_confirm.setVisibility(View.INVISIBLE);
+                                        for (ImageView iv :interior_arr) {
+                                            iv.setVisibility(View.GONE);
+                                        }
+                                        interior_arr.clear();
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
                                     }
@@ -1150,6 +1164,10 @@ public class MainActivity extends FragmentActivity {
 
                                         sandImg.setImageResource(R.drawable.grass);
                                         mainFrameLayout.requestLayout();
+                                        for (ImageView iv :interior_arr) {
+                                            iv.setVisibility(View.GONE);
+                                        }
+                                        interior_arr.clear();
 
                                         Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
                                         changeGameMode("낚시");
@@ -1475,7 +1493,7 @@ public class MainActivity extends FragmentActivity {
 
 //            canvas.translate(imageView.getX(),imageView.getY());
 //            dr.setBounds(0,0,dr.getIntrinsicWidth()+50,dr.getIntrinsicHeight(+50));
-            dr.setBounds(0,0,400,400);
+            dr.setBounds(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
             dr.draw(canvas);
             runOnUiThread(new Runnable() {
                 @Override
