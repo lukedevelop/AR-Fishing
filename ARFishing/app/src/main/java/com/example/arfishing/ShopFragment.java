@@ -417,7 +417,12 @@ public class ShopFragment extends Fragment {
                 TextView dialog_shop_purchase_ok = (TextView) purchaseDialog.findViewById(R.id.dialog_shop_purchase_ok);
                 TextView dialog_shop_purchase_cancel = (TextView) purchaseDialog.findViewById(R.id.dialog_shop_purchase_cancel);
 
-                dialog_shop_purchase_explain.setText(itemName+" 몇 "+nowType+"를 구매하시겠습니까?");
+                if(type.equals("interior")){
+                    dialog_shop_purchase_explain.setText(itemName+"를 구매하시겠습니까?");
+                }else{
+                    seekBar_shop_purchase.setMax(purchaseAmount);
+                    dialog_shop_purchase_explain.setText(itemName+" 몇 "+nowType+"를 구매하시겠습니까?");
+                }
 
                 if(type.equals("interior")) {
                     seekBar_shop_purchase.setVisibility(View.INVISIBLE);
@@ -446,6 +451,7 @@ public class ShopFragment extends Fragment {
                 dialog_shop_purchase_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         int amount = 0;
                         if(type.equals("interior")) {
                             amount = 1;
@@ -453,22 +459,28 @@ public class ShopFragment extends Fragment {
                             amount = seekBar_shop_purchase.getProgress();
                         }
 
-                        // 머니 업데이트
-                        set_shop_money_db(
-                                get_shop_money_db() - ( amount * itemPrice )
+                        if(get_shop_money_db() >= (amount * itemPrice)){
+                            // 머니 업데이트
+                            set_shop_money_db(
+                                    get_shop_money_db() - ( amount * itemPrice )
 
-                        );
-                        // 갯수 업데이트
-                        set_purchase_item_amount(type,itemName, amount);
+                            );
+                            // 갯수 업데이트
+                            set_purchase_item_amount(type,itemName, amount);
 
-                        // 구매 후 텍스트 업데이트
-                        update_shop_money_db();
-                        if(type.equals("bait")) {
-                            showListBait();
-                        } else {
-                            showListInterior();
+                            // 구매 후 텍스트 업데이트
+                            update_shop_money_db();
+                            if(type.equals("bait")) {
+                                showListBait();
+                            } else {
+                                showListInterior();
+                            }
+                            purchaseDialog.dismiss();
+                        } else{
+                            Toast.makeText(mainActivity, "보유 머니가 부족합니다.", Toast.LENGTH_SHORT).show();
                         }
-                        purchaseDialog.dismiss();
+
+
                     }
                 });
 
