@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
@@ -567,7 +568,9 @@ public class MainActivity extends FragmentActivity {
 
                 for (ImageView iv :interior_arr) {
                     iv.setVisibility(View.GONE);
+
                 }
+                interior_arr.clear();
             }
         });
 
@@ -578,9 +581,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (interior_start) {
-                    interior_view_main.setX(event.getX() -200);
-                    interior_view_main.setY(event.getY()+ -300);
-                    interior_arr.add(interior_view_main);
+                    interior_view_main.setX(event.getX());
+                    interior_view_main.setY(event.getY());
+
                 }
                 return false;
             }
@@ -590,6 +593,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 interior_start = false;
+                interior_arr.add(interior_view_main);
                 btn_interior_confirm.setVisibility(View.INVISIBLE);
             }
         });
@@ -1463,13 +1467,25 @@ public class MainActivity extends FragmentActivity {
         canvas.translate(aquarium_background.getX(),aquarium_background.getY());
         drawable.draw(canvas);
         canvas.restore();
-
         for(ImageView imageView : interior_arr) {
-            Drawable dr = imageView.getDrawable();
             canvas.save();
-            canvas.translate(imageView.getScaleX(),imageView.getScaleY());
+            canvas.translate(imageView.getTranslationX(),imageView.getTranslationY());
+
+            Drawable dr = imageView.getDrawable();
+
+//            canvas.translate(imageView.getX(),imageView.getY());
+//            dr.setBounds(0,0,dr.getIntrinsicWidth()+50,dr.getIntrinsicHeight(+50));
+            dr.setBounds(0,0,400,400);
             dr.draw(canvas);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.requestLayout();
+                }
+            });
+
             canvas.restore();
+
         }
         aquarium_background.setAlpha(1.0F);
 

@@ -236,8 +236,9 @@ public class Aquarium {
         ImageView interior_view = new ImageView(mActivity);
 
         FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT);
+                mActivity.mainFrameLayout.getLayoutParams().width,
+                mActivity.mainFrameLayout.getLayoutParams().height
+        );
 
         switch (interior_name){
             case "조개" :
