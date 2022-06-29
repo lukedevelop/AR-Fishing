@@ -153,7 +153,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            >
+
 
             <android.widget.Button
                 android:id="@+id/btn_aquarium_open"
@@ -207,13 +210,22 @@
 
             <android.widget.Button
                 android:id="@+id/btn_capture"
-
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-
-
                 android:background="@drawable/btn_aquarium_capture"
                 android:visibility="invisible" />
+
+            <android.widget.Button
+                android:id="@+id/btn_interior_confirm"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="확인"
+                android:visibility="invisible" />
+
+
+
+
+
 
         </LinearLayout>
 

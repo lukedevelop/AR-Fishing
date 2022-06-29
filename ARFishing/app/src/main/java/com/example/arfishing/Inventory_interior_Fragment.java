@@ -101,7 +101,7 @@ public class Inventory_interior_Fragment extends Fragment {
                         inventoryDTO.item_explain,
                         inventoryDTO.item_price,
                         inventoryDTO.item_amount,
-                        R.drawable.interior_zogae));
+                        choiceInteriorImg(inventoryDTO.item_id)));
             }
 
         }
@@ -162,6 +162,34 @@ public class Inventory_interior_Fragment extends Fragment {
 
     }
 
+    int choiceInteriorImg(int id) {
+        int num = R.drawable.bait_gunsaewoo;
+        switch(id) {
+            case 1:
+                num = R.drawable.interior_zogae;
+                break;
+            case 2:
+                num = R.drawable.interior_watergreen;
+                break;
+            case 3:
+                num = R.drawable.interior_san1;
+                break;
+            case 4:
+                num = R.drawable.interior_san2;
+                break;
+            case 5:
+                num = R.drawable.interior_rock;
+                break;
+            case 6:
+                num = R.drawable.interior_mulre;
+                break;
+            case 7:
+                num = R.drawable.interior_mermaid;
+                break;
+        }
+
+        return num;
+    }
 
 
 }
