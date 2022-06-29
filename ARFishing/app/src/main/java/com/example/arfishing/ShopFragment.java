@@ -352,19 +352,23 @@ public class ShopFragment extends Fragment {
 
                 baitItemView.btn_baitPurchase.setBackgroundResource(R.drawable.btn_shop_top_purchase_selected);
 
-                baitItemView.btn_baitPurchase.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                if(item.hasBaitAmount > 0) {
+                    baitItemView.btn_baitPurchase.setEnabled(false);
+                    baitItemView.btn_baitPurchase.setText("이미 보유");
+                } else {
+                    baitItemView.btn_baitPurchase.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        show_purchase_shop_Dialog(
-                                item.baitName,
-                                get_possible_purchase_amount(item.baitPrice),
-                                item.baitPrice
-                        );
+                            show_purchase_shop_Dialog(
+                                    item.baitName,
+                                    get_possible_purchase_amount(item.baitPrice),
+                                    item.baitPrice
+                            );
 
-                    }
-                });
-
+                        }
+                    });
+                }
             // 판매
             } else {
                 baitItemView.setBaitName(item.baitName);
@@ -454,6 +458,7 @@ public class ShopFragment extends Fragment {
                             showListInterior();
                         }
                         purchaseDialog.dismiss();
+                        showListInterior();
                     }
                 });
 

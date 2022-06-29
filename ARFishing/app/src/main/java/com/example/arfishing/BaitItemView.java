@@ -55,11 +55,11 @@ public class BaitItemView extends LinearLayout {
     }
 
     public void setBaitPrice(int baitPrice) {
-        tv_baitPrice.setText(baitPrice+"");
+       tv_baitPrice.setText( "가격: "+baitPrice+"");
     }
 
     public void setHasBaitAmount(int hasBaitAmount) {
-        tv_hasBaitAmount.setText(hasBaitAmount+"");
+        tv_hasBaitAmount.setText( "보유: "+hasBaitAmount+"");
     }
 
     public void setBaitImg(int imgBait) {
