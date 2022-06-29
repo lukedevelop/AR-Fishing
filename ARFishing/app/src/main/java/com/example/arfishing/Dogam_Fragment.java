@@ -124,8 +124,7 @@ public class Dogam_Fragment extends Fragment {
                             break;
                         case R.drawable.img_nimo:
                             dogam_name2.setText("니모");
-                            dogam_explain2.setText(" 당신은 아버지가 애타게 찾고 있는 호기심이 가득한 작고 귀여운 아기물고기를 잡으셨군요 \n" +
-                                    "블루탱과 굉장히 친하다");
+                            dogam_explain2.setText(" 당신은 아버지가 애타게 찾고 있는 호기심이 가득한 작고 귀여운 아기물고기를 잡으셨군요");
                             break;
                         case R.drawable.img_rock:
                             dogam_name2.setText("돌");

@@ -1122,6 +1122,10 @@ public class MainActivity extends FragmentActivity {
                                         btn_delete_interior.setVisibility(View.INVISIBLE);
                                         btn_capture.setVisibility(View.INVISIBLE);
                                         btn_interior_confirm.setVisibility(View.INVISIBLE);
+                                        for (ImageView iv :interior_arr) {
+                                            iv.setVisibility(View.GONE);
+                                        }
+                                        interior_arr.clear();
                                         Toast.makeText(MainActivity.this, "동해 바다에 입장하였습니다.", Toast.LENGTH_SHORT).show();
                                         changeGameMode("낚시");
                                     }
@@ -1160,6 +1164,10 @@ public class MainActivity extends FragmentActivity {
 
                                         sandImg.setImageResource(R.drawable.grass);
                                         mainFrameLayout.requestLayout();
+                                        for (ImageView iv :interior_arr) {
+                                            iv.setVisibility(View.GONE);
+                                        }
+                                        interior_arr.clear();
 
                                         Toast.makeText(MainActivity.this, "낙동강 에 입장하였습니다.", Toast.LENGTH_LONG).show();
                                         changeGameMode("낚시");
