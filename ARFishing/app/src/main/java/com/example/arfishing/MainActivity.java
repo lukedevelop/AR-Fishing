@@ -1029,6 +1029,8 @@ public class MainActivity extends FragmentActivity {
                                     //TODO 물고기 체크
                                     public void run() {
                                         aquarium.cheak1 = true;
+                                        soundPool.play(sound_aquarium, (float)0.25,(float)0.25, 0,100,1);
+
                                         aquarium_background.setVisibility(View.VISIBLE);
                                         fish_add_cheak = new ArrayList<String>();
                                         fishingtv.setBackgroundResource(R.drawable.alertimg_aquarium);
@@ -1079,9 +1081,11 @@ public class MainActivity extends FragmentActivity {
 //                                        soundPool.play(sound_gang, (float)0.4,(float)0.4, 0,3,1);
 //                                        soundPool.play(sound_casting, (float)0.15,(float)0.15, 0,3,1);
 //                                        soundPool.play(sound_padack, (float)0.12,(float)0.12, 0,3,1);
-                                        soundPool.play(sound_spongebob, (float)0.25,(float)0.25, 0,0,1);
 
-                                        aquarium_background.setVisibility(View.INVISIBLE);
+                                        soundPool.play(sound_sea, (float)0.25,(float)0.25, 0,50,1);
+
+
+                                                aquarium_background.setVisibility(View.INVISIBLE);
 
 
                                         aquarium.go_fishing();
@@ -1129,6 +1133,7 @@ public class MainActivity extends FragmentActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        soundPool.play(sound_gang, (float)0.8,(float)0.8, 0,50,1);
                                         aquarium_background.setVisibility(View.INVISIBLE);
                                         aquarium.go_fishing();
 
@@ -1501,11 +1506,11 @@ public class MainActivity extends FragmentActivity {
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .build();
             soundPool = new SoundPool.Builder()
-                    .setMaxStreams(6)
+                    .setMaxStreams(1)
                     .setAudioAttributes(audioAttributes)
                     .build();
         } else {
-            soundPool = new SoundPool(6, AudioManager.STREAM_MUSIC, 0 );
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0 );
 
         }
 

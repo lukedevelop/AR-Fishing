@@ -99,6 +99,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         // 현석
 
+        try {
             for (ObjRenderer fishs : fish_arr) {
 
                 if (!fishs.isInit ) {
@@ -106,8 +107,13 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
                 }
                 fishs.draw();
+            }
+        } catch (Exception e) {
+
         }
+
     }
+
 
     void onDisplayChanged(){
         viewportChange = true;

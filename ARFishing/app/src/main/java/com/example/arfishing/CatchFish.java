@@ -65,7 +65,12 @@ public class CatchFish extends Thread{
         dlgShutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.soundPool.stop(mainActivity.sound_spongebob);
+                if(mainActivity.area.equals("강")) {
+                    mainActivity.soundPool.play(mainActivity.sound_gang, (float)0.8,(float)0.8, 0,50,1);
+                } else {
+                    mainActivity.soundPool.play(mainActivity.sound_sea, (float)0.25,(float)0.25, 0,10,1);
+                }
+
                 dlg.dismiss();
             }
         });
@@ -200,7 +205,7 @@ public class CatchFish extends Thread{
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mainActivity.soundPool.play(mainActivity.sound_padack, (float)0.12,(float)0.12, 0,0,1);
+                    mainActivity.soundPool.play(mainActivity.sound_padack, (float)0.12,(float)0.12, 0,10,1);
                     Toast.makeText(mainActivity.getApplicationContext(), "물고기가 잡혔습니다. 양동이 이미지를 촬영해주세요!", Toast.LENGTH_SHORT).show();
                     mainActivity.castingBtn.setText("촬영");
                 }
@@ -303,7 +308,7 @@ public class CatchFish extends Thread{
                                     new DBDAO(mainActivity).update_quest_now_DB(0);
                                     new DBDAO(mainActivity).update_quest_complete_DB();
 
-                                    mainActivity.soundPool.play(mainActivity.sound_spongebob, (float)0.25,(float)0.25, 0,0,1);
+                                    mainActivity.soundPool.play(mainActivity.sound_aquarium, (float)0.25,(float)0.25, 0,10,1);
 
                                     dlgTv1.setText(fishName+"을(를) 잡았습니다!");
                                     dlgTv2.setText(fishName);
