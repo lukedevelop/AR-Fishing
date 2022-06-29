@@ -109,7 +109,7 @@ public class CatchFish extends Thread{
 
         int ranNum = (int) (Math.random()*100)+1;
         if(ranNum <= 20){
-            fishName = area.equals("강") ? "베스" : "부시리";
+            fishName = area.equals("강") ? "부시리" : "베스";
         } else if(ranNum <= 40){
             fishName = area.equals("강") ? "금붕어" : "해파리";
         } else if(ranNum <= 60){
