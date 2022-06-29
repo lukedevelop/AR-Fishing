@@ -243,38 +243,38 @@ public class Aquarium {
         switch (interior_name){
             case "조개" :
                 interior_view.setImageResource(R.drawable.interior_zogae);
-                param.width = 300;  //이미지 너비
-                param.height = 300; // 이미지 높이
+                param.width = 150;  //이미지 너비
+                param.height = 149; // 이미지 높이
                 break;
             case "해초" :
                 interior_view.setImageResource(R.drawable.interior_watergreen);
                 param.width = 300;  //이미지 너비
-                param.height = 700; // 이미지 높이
+                param.height = 347; // 이미지 높이
                 break;
             case "초록산호" :
                 interior_view.setImageResource(R.drawable.interior_san1);
-                param.width = 500;  //이미지 너비
-                param.height = 500; // 이미지 높이
+                param.width = 350;  //이미지 너비
+                param.height = 259; // 이미지 높이
                 break;
             case "분홍산호" :
                 interior_view.setImageResource(R.drawable.interior_san2);
-                param.width = 500;  //이미지 너비
-                param.height = 500; // 이미지 높이
+                param.width = 360;  //이미지 너비
+                param.height = 360; // 이미지 높이
                 break;
             case "돌" :
                 interior_view.setImageResource(R.drawable.interior_rock);
-                param.width = 1000;  //이미지 너비
-                param.height = 1000; // 이미지 높이
+                param.width = 801;  //이미지 너비
+                param.height = 311; // 이미지 높이
                 break;
             case "물레방아" :
                 interior_view.setImageResource(R.drawable.interior_mulre);
-                param.width = 700;  //이미지 너비
-                param.height = 700; // 이미지 높이
+                param.width = 600;  //이미지 너비
+                param.height = 843; // 이미지 높이
                 break;
             case "인어공주" :
                 interior_view.setImageResource(R.drawable.interior_mermaid);
-                param.width = 1000;  //이미지 너비
-                param.height = 1000; // 이미지 높이
+                param.width = 600;  //이미지 너비
+                param.height =545; // 이미지 높이
                 break;
         }
 
