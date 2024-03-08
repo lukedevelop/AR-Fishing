@@ -1,5 +1,5 @@
-![image](https://github.com/lukedevelop/AR-FishingProject/assets/102365004/aafab72f-4efc-44b2-8d5b-646e18cef7dd)# AR-Fishing (AR 증강현실 낚시)
-<img width="800" alt="스크린샷 2024-03-08 163115" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/ba17c16b-c288-4082-8946-157327c350df">
+# AR-Fishing (AR 증강현실 낚시)
+<img width="700" alt="스크린샷 2024-03-08 163115" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/ba17c16b-c288-4082-8946-157327c350df">
 
 
 ## Introduce
@@ -24,8 +24,8 @@
 ## 2. 상점, 퀘스트
 - 낚시를 위해 판매및 구매가 가능하며 필요한 미끼, 자기만의 수조 꾸미기 위한 물품 구매 
 - 특정 컨테츠를 통해 흥미도를 높히기 위한 퀘스트
-<img width="700" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/bb5cbe8a-3a73-4953-ab76-301336ee0b21">
-<img width="700" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/b9a8886f-c18c-4837-a528-78257481eeb3">
+<img width="500" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/bb5cbe8a-3a73-4953-ab76-301336ee0b21"><img width="500" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/b9a8886f-c18c-4837-a528-78257481eeb3">
+
 
 ## 3. 사용자가 잡은 물고기 도감 및 수조 꾸미기
 - 사용자가 잡은 물고기를 도감을 통해 볼수있는 기능
