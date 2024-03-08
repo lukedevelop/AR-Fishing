@@ -15,11 +15,11 @@
 
 ## 주요 기능
 
-### 1. 스터디룸 예약 
-
-- 실시간으로 예약 가능한 스터디룸을 확인하여 예약과 결제
-<img width="800" alt="스크린샷 2023-01-06 오후 11 39 08" src="https://user-images.githubusercontent.com/98009770/211033925-2fbf5299-d84e-431a-9db6-ff2dfba4456d.png">
-<img width="800" alt="스크린샷 2023-01-06 오후 11 46 17" src="https://user-images.githubusercontent.com/98009770/211035296-f9c8c799-c108-4cf2-838a-85be27828d12.png">
+### 1.  게임 시작 및 맵 이동
+- 특정 사진 인식으로 여러 종류의 낚시터 이동
+- 물고기 캐스팅
+<img width="800" alt="스크린샷 2024-03-08 163737" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/ada5c60f-383f-4213-9cac-9866a023ae57">
+<img width="800" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/f76c25c8-4b82-492e-bd56-cf13aa9d038f">
 
 ## 2. 스터디 모집
 - 스터디 기간, 인원, 지역에 따라 스터디를 모집하거나 신청
