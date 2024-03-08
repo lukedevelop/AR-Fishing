@@ -1,5 +1,6 @@
 # AR-Fishing (AR 증강현실 낚시)
-![스크린샷 2024-03-08 163115](https://github.com/lukedevelop/AR-FishingProject/assets/102365004/ba17c16b-c288-4082-8946-157327c350df)
+<img width="800" alt="스크린샷 2024-03-08 163115" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/ba17c16b-c288-4082-8946-157327c350df">
+
 
 ## Introduce
 -  코로나 영향으로 인해 무기력한 나날을 낚시 AR로 즐길 수 있는 게임
