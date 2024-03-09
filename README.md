@@ -30,7 +30,7 @@
 ## 3. 사용자가 잡은 물고기 도감 및 수조 꾸미기
 - 사용자가 잡은 물고기를 도감을 통해 볼수있는 기능
 - 판매하지 않고 인벤토리에 있는 물고기를 수조에 넣어 나만의 수조 꾸미기
-- 수조 꾸미기 내에 화면 캡쳐 기
+- 수조 꾸미기 내에 화면 캡쳐 기능
 
 <img width="700" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/4d008a7d-6a65-4d30-adac-8009af2557cc">
 <img width="700" alt="image" src="https://github.com/lukedevelop/AR-FishingProject/assets/102365004/e9c968be-dbc3-4955-acaa-23ab7e18bbb7">
